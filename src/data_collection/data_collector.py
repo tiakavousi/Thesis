@@ -15,8 +15,6 @@ GITHUB_API_URL = CONFIG['github']['base_url']
 # Number of pull requests to fetch (most commented)
 COUNT = CONFIG['github']['pull_requests']['top_n']
 
-
-
 def fetch_data(url):
     """Fetches data from the given GitHub API URL"""
     response = requests.get(url, headers=HEADERS)
@@ -52,7 +50,6 @@ def fetch_paginated_data(url):
                     break
         url = next_url
     return results
-
 
 def get_most_commented_prs(repo, count=COUNT):
     """

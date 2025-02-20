@@ -117,9 +117,8 @@ def collect_repo_data(repo):
                 'closed_at': pr.get('closed_at')  # This is our cutoff
             })
 
-            # Parse the PR's closure time (if available)
-            pr_closed_at_str = pr.get("closed_at")
-            pr_closed_at = parser.isoparse(pr_closed_at_str) if pr_closed_at_str else None
+            # Convert PR closure time to a datetime object
+            pr_closed_at = parser.isoparser(pr.get("closed_at")) if pr.get("closed_at") else None
 
             # Process Comments: Only include those up to the PR's closure time
             comments = get_pr_comments(repo, pr_number)
@@ -152,7 +151,7 @@ def collect_repo_data(repo):
                     'state': review.get('state', 'N/A'),
                     'body': review.get('body', '')
                 })
-    
+    # Save collected data to CSV files
     if pr_data:
         save_to_csv(repo, CONFIG['github']['file_names']['pull_requests'], pr_data[0].keys(), pr_data)
     if comment_data:

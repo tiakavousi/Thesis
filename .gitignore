@@ -18,6 +18,8 @@ datasets/
 
 # Docs related to thesis
 docs/related_work/
+docs/thesis_samples/
+docs/report/shared
 
 *.log
 *.parquet

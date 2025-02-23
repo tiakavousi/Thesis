@@ -117,15 +117,15 @@ def collect_repo_data(repo):
                 'closed_at': pr.get('closed_at')  # This is our cutoff
             })
 
-            # Convert PR closure time to a datetime object
-            pr_closed_at = parser.isoparser(pr.get("closed_at")) if pr.get("closed_at") else None
+            # # Convert PR closure time to a datetime object
+            # pr_closed_at = parser.isoparser(pr.get("closed_at")) if pr.get("closed_at") else None
 
             # Process Comments: Only include those up to the PR's closure time
             comments = get_pr_comments(repo, pr_number)
             for comment in comments:
                 comment_time = parser.isoparse(comment['created_at'])
-                if pr_closed_at and comment_time > pr_closed_at:
-                    continue  # Skip comments added after the PR was closed/merged
+                # if pr_closed_at and comment_time > pr_closed_at:
+                #     continue  # Skip comments added after the PR was closed/merged
                 comment_data.append({
                     'id': comment['id'],
                     'pr_number': pr_number,
@@ -140,9 +140,9 @@ def collect_repo_data(repo):
                 # Some reviews might not have a submission time; skip those if so.
                 if not review.get('submitted_at'):
                     continue
-                review_time = parser.isoparse(review['submitted_at'])
-                if pr_closed_at and review_time > pr_closed_at:
-                    continue  # Skip reviews submitted after the PR was closed/merged
+                # review_time = parser.isoparse(review['submitted_at'])
+                # if pr_closed_at and review_time > pr_closed_at:
+                #     continue  # Skip reviews submitted after the PR was closed/merged
                 review_data.append({
                     'id': review['id'],
                     'pr_number': pr_number,

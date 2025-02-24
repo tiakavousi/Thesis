@@ -17,10 +17,11 @@ data/
 datasets/
 
 # Docs related to thesis
-docs/Related Papers/
+docs/Figures/
 docs/Samples/
-docs/Figures
-docs/Shared on OneDrive
+docs/Shared on OneDrive/
+docs/Related Papers
+docs/report/
 
 
 *.log
@@ -39,4 +40,5 @@ docs/Shared on OneDrive
 .DS_Store
 
 # Project specific
-github_data_collection.log
+github_data_collection.logdocs/Related Papers/
+

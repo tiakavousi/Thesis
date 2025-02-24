@@ -17,9 +17,12 @@ data/
 datasets/
 
 # Docs related to thesis
-docs/related_work/
-docs/thesis_samples/
-docs/report/shared
+docs/Figures/
+docs/Samples/
+docs/Shared on OneDrive/
+docs/Related Papers
+docs/report/
+
 
 *.log
 *.parquet
@@ -37,4 +40,5 @@ docs/report/shared
 .DS_Store
 
 # Project specific
-github_data_collection.log
+github_data_collection.logdocs/Related Papers/
+

@@ -17,9 +17,11 @@ data/
 datasets/
 
 # Docs related to thesis
-docs/related_work/
-docs/thesis_samples/
-docs/report/shared
+docs/Related Papers/
+docs/Samples/
+docs/Figures
+docs/Shared on OneDrive
+
 
 *.log
 *.parquet

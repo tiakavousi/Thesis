@@ -80,7 +80,7 @@ This will save CSV files in the data/raw/<repository>/ subdirectories.
 
 ## Data Processing & Cleaning
 ```
-python -m src.data_processing.clean_data
+python -m src.data_processing.clean_raw_data
 ```
 The cleaned data will be saved in data/processed/ as configured.
 

@@ -2,7 +2,6 @@ import os
 import requests
 import csv
 from src.config import CONFIG
-from dateutil import parser
 
 # GitHub API Headers for authentication and request handling
 HEADERS = {

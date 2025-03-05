@@ -13,7 +13,7 @@ CONFIG = {
             "deluge-torrent/deluge", #6
             "buildaworldnet/IrrlichtBAW", #7
             "linuxmint/cinnamon-desktop", #8
-             "linuxmint/cinnamon", #8
+            "linuxmint/cinnamon", #8
             "qBittorrent/qBittorrent", #9
             "CivMC/Civ", #10
         ],
@@ -27,9 +27,7 @@ CONFIG = {
             "review_comments": "review_comments.csv",
             "summary_data": "summary.csv"
         },
-        "raw_dir": "data/raw_v_02",
-        # "raw_dir": "data/raw",
-
+        "raw_dir": "data/raw",
         "processed_dir": "data/processed",
     }
 }

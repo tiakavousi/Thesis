@@ -1,3 +1,16 @@
-pandas
 emoji
 requests
+transformers
+datasets
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+tqdm
+jupyter
+notebook
+openpyxl
+torch
+transformers
+scikit-learn

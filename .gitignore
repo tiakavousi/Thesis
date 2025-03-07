@@ -15,6 +15,7 @@ build/
 # Data and logs
 data/
 datasets/
+models/
 
 # Docs related to thesis
 docs/Figures/

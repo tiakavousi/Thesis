@@ -3,6 +3,7 @@ import requests
 import csv
 from src.config import CONFIG
 
+
 # GitHub API Headers for authentication and request handling
 HEADERS = {
     "Authorization": f"token {CONFIG['github']['token']}",

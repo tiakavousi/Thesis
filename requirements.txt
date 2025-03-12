@@ -14,3 +14,4 @@ openpyxl
 torch
 transformers
 scikit-learn
+ipywidgets

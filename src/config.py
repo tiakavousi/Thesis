@@ -1,9 +1,11 @@
 import os
+import torch
 
 CONFIG = {
     "github": {
-        "token": os.getenv("GITHUB_TOKEN"),  # Personal access token
+        "token": os.getenv("GITHUB_TOKEN"),
         "base_url": "https://api.github.com",
+        "raw_dir": "data/raw",
         "repositories": [
             "kubernetes/kubernetes", #1
             "redis/redis", #2
@@ -27,7 +29,42 @@ CONFIG = {
             "review_comments": "review_comments.csv",
             "summary_data": "summary.csv"
         },
-        "raw_dir": "data/raw",
-        "processed_dir": "data/processed",
+    },
+    
+    # Common model training parameters
+    "training": {
+        "batch_size": 16,
+        "max_length": 128,
+        "learning_rate": 2e-5,
+        "epochs": 3,
+        "early_stopping_patience": 2,
+        "device": "cuda" if torch.cuda.is_available() else "cpu",
+    },
+    
+    # Model-specific configurations
+    "models": {
+        "distilbert": {
+            "pretrained_model_name": "distilbert-base-uncased",
+            "model_save_path": "./models/distilbert_finetuned"
+        },
+        "codebert": {
+            "pretrained_model_name": "microsoft/codebert-base",
+            "model_save_path": "./models/codebert_finetuned"
+        },
+        "deberta": {
+            "pretrained_model_name": "microsoft/deberta-base",
+            "model_save_path": "./models/deberta_finetuned"
+        }
+    },
+    
+    # Dataset configuration
+    "dataset": {
+        "train_ratio": 0.75,
+        "val_ratio": 0.15,
+        "test_ratio": 0.10,
+        "random_seed": 42,
+        "dataset_path": "datasets/preprocessed/code-review-dataset-balanced.csv",
+        "class_names": ["Positive", "Negative"],
+        "num_labels": 2,
     }
 }

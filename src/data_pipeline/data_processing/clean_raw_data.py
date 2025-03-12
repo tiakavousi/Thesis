@@ -70,21 +70,12 @@ def remove_mentions(text):
 # Function to clean data for each repository
 def clean_repo_data(repo):
     print(f"Cleaning data for {repo}...")
-
-    try:
-        repo_org, repo_name = repo.split("/")
-    except ValueError:
-        print(f"Repository format error: {repo}. Expected format 'org/repo'.")
-        return
+    repo_org, repo_name = repo.split("/")
 
     repo_path = os.path.join(RAW_DIR, repo_org, repo_name)
     pr_file = os.path.join(repo_path, PULL_REQUESTS_FILE)
     comments_file = os.path.join(repo_path, COMMENTS_FILE)
     reviews_file = os.path.join(repo_path, REVIEWS_FILE)
-
-    if not (os.path.exists(pr_file) and os.path.exists(comments_file) and os.path.exists(reviews_file)):
-        print(f"Skipping {repo}: Missing one or more required files.")
-        return
 
     prs = pd.read_csv(pr_file)
     comments = pd.read_csv(comments_file)

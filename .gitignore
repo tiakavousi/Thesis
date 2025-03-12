@@ -16,6 +16,7 @@ build/
 data/
 datasets/
 models/
+notebooks/saved_model
 
 # Docs related to thesis
 docs/Figures/
@@ -23,6 +24,7 @@ docs/Samples/
 docs/Shared on OneDrive/
 docs/Related Papers
 docs/report/
+
 
 
 *.log

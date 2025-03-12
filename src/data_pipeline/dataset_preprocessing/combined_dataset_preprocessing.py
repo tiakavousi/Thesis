@@ -35,7 +35,7 @@ def clean_text(text):
 
 def main():    
     # 1) Load the dataset from Excel
-    raw_dataset_path = CONFIG["dataset"]["raw_toxiCR_dataset"]
+    raw_dataset_path = CONFIG["dataset"]["raw_combined_dataset"]
     print(f"Loading dataset from: {raw_dataset_path}")
     df = pd.read_excel(raw_dataset_path)
     
@@ -49,21 +49,28 @@ def main():
     # Remove rows that might have become empty after cleaning
     df = df[df["message"].str.strip() != ""]
     
-    # 4) Find the minimum class count (for downsampling)
-    class_counts = df["is_toxic"].value_counts()
-    min_count = class_counts.min()
+    # 4) Ensure 'sentiment' column contains only valid values (-1, 0)
+    df = df[df["sentiment"].isin([-1, 0])]
     
-    if min_count == 0:
-        raise ValueError("At least one class has 0 rows. Cannot downsample to 0.")
+    # 5) Find the minimum class count (for downsampling)
+    class_counts = df["sentiment"].value_counts()
+    min_count = class_counts[-1]  # Downsample to the count of negative sentiment (-1)
+
+
+    # 6) Shuffle the dataset before downsampling to ensure randomness and avoiding any order bias.
+    df = df.sample(frac=1, random_state=CONFIG["dataset"]["random_seed"]).reset_index(drop=True)
     
-    # 5) Downsample each class to the min_count
+   # 7) Downsample each class to the min_count
     balanced_df = (
-        df.groupby("is_toxic")
-          .apply(lambda x: x.sample(n=min_count, random_state=CONFIG["dataset"]["random_seed"]))
-          .reset_index(drop=True)
+        df.groupby("sentiment")
+        .apply(lambda x: x.sample(n=min_count, random_state=CONFIG["dataset"]["random_seed"]))
+        .reset_index(drop=True)
     )
     
-    # 6) Save the balanced dataset to a CSV file
+    # 8) Shuffle the dataset
+    balanced_df = balanced_df.sample(frac=1, random_state=CONFIG["dataset"]["random_seed"]).reset_index(drop=True)
+    
+    # 9) Save the balanced dataset to a CSV file
     output_path = CONFIG["dataset"]["dataset_path"]
     balanced_df.to_csv(output_path, index=False)
     print(f"Balanced dataset saved to: {output_path}")

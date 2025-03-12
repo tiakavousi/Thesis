@@ -63,7 +63,10 @@ CONFIG = {
         "val_ratio": 0.15,
         "test_ratio": 0.10,
         "random_seed": 42,
-        "dataset_path": "datasets/preprocessed/code-review-dataset-balanced.csv",
+        "raw_combined_dataset": "datasets/combined_dataset.xlsx",
+        "raw_toxiCR_dataset": "datasets/code-review-dataset-full.xlsx",
+        # "dataset_path": "datasets/preprocessed/code-review-dataset-balanced.csv",
+        "dataset_path": "datasets/preprocessed/combined_dataset-balanced.csv",
         "class_names": ["Positive", "Negative"],
         "num_labels": 2,
     }

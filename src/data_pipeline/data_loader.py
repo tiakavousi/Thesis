@@ -51,10 +51,13 @@ class DataModule:
     
         # Clean data
         df = df.dropna(subset=["message"])
+        df = df.drop_duplicates(subset=["message"])
+
         
         # Get data
         texts = df["message"].astype(str).tolist()
-        labels = df["is_toxic"].astype(int).tolist()
+        # Transform labels: -1 -> 0, 0 -> 1
+        labels = [(l + 1) for l in df["sentiment"].astype(int).tolist()]
         
         # Log info
         logger.info(f"Dataset loaded with {len(texts)} samples.")

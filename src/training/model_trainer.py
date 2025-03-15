@@ -46,6 +46,11 @@ class ModelTrainer:
         early_stopping_patience = CONFIG["training"]["early_stopping_patience"]
         
         print(f"[INFO] Training started for {epochs} epochs.")
+         # 🔍 Debugging Step: Check if batches are loading correctly
+        for i, batch in enumerate(train_loader):
+            print(f"Batch {i} - Input Shape: {batch['input_ids'].shape}, Labels Shape: {batch['labels'].shape}")
+            if i == 5:  # Check first 5 batches, then break
+                break
         
         # Calculate total steps for scheduler
         total_steps = len(train_loader) * epochs
@@ -161,6 +166,44 @@ class ModelTrainer:
 
         avg_epoch_loss = total_loss / len(train_loader)
         return avg_epoch_loss
+
+    # def _train_epoch(self, train_loader, scheduler):
+    #     self.model.train()
+    #     total_loss = 0
+
+    #     for batch_idx, batch in enumerate(train_loader):
+    #         input_ids = batch["input_ids"].to(self.device)
+    #         attention_mask = batch["attention_mask"].to(self.device)
+    #         labels = batch["labels"].to(self.device)
+
+    #         # Debugging Step: Print shapes of inputs
+    #         print(f"[DEBUG] Batch {batch_idx} - Input IDs shape: {input_ids.shape}")
+    #         print(f"[DEBUG] Batch {batch_idx} - Attention Mask shape: {attention_mask.shape}")
+    #         print(f"[DEBUG] Batch {batch_idx} - Labels shape: {labels.shape}")
+
+
+    #         # Ensure labels are LongTensor
+    #         labels = labels.to(torch.long)
+
+    #         print(f"[DEBUG] Batch {batch_idx} - Labels dtype: {labels.dtype}, Shape: {labels.shape}")
+            
+    #         self.optimizer.zero_grad()
+
+    #         outputs = self.model(
+    #             input_ids=input_ids,
+    #             attention_mask=attention_mask,
+    #             labels=labels  # 🔥 The error happens here
+    #         )
+
+    #         loss = outputs.loss
+    #         loss.backward()
+    #         self.optimizer.step()
+    #         scheduler.step()
+
+    #         total_loss += loss.item()
+
+    #     return total_loss / len(train_loader)
+
     
     def evaluate(self, loader: DataLoader) -> Tuple[float, Dict[str, float]]:
         """Evaluate the model on validation or test data with improved progress tracking."""

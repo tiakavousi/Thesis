@@ -67,7 +67,7 @@ CONFIG = {
         "raw_toxiCR_dataset": "datasets/code-review-dataset-full.xlsx",
         # "dataset_path": "datasets/preprocessed/code-review-dataset-balanced.csv",
         "dataset_path": "datasets/preprocessed/combined_dataset-balanced.csv",
-        "class_names": ["Positive", "Negative"],
+        "class_names": ["Negative", "Positive"], #Class 0 (transformed from -1) maps to "Negative"  and Class 1 (transformed from 0) maps to "Positive"
         "num_labels": 2,
     }
 }

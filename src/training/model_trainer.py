@@ -1,21 +1,18 @@
 import torch
-import torch.nn as nn
 from torch.utils.data import DataLoader
 from transformers import AdamW, get_linear_schedule_with_warmup
-from tqdm.notebook import tqdm  # Use tqdm.notebook for Jupyter
+from tqdm.notebook import tqdm
 import logging
 from sklearn.metrics import accuracy_score, f1_score
-from typing import Dict, Tuple, List
+from typing import Dict, Tuple
 from src.config import CONFIG 
 import os
-import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 logger = logging.getLogger(__name__)
 
 class ModelTrainer:
-    def __init__(self, model, model_type="distilbert"):
+    def __init__(self, model, model_type):
         self.model = model
         self.model_type = model_type
         self.device = CONFIG["training"]["device"]

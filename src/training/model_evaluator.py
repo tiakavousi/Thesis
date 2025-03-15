@@ -13,9 +13,6 @@ import os
 from datetime import datetime
 from matplotlib.backends.backend_pdf import PdfPages
 from IPython.display import display, HTML
-import io
-import base64
-from typing import Dict, List, Tuple, Optional, Union
 
 logger = logging.getLogger(__name__)
 

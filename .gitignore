@@ -15,8 +15,8 @@ build/
 # Data and logs
 data/
 datasets/
-models/
-notebooks/saved_model
+notebooks/
+saved_models/
 
 # Docs related to thesis
 docs/Figures/

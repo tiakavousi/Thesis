@@ -45,15 +45,15 @@ CONFIG = {
     "models": {
         "distilbert": {
             "pretrained_model_name": "distilbert-base-uncased",
-            "model_save_path": "./models/distilbert_finetuned"
+            "model_save_path": "./saved_models/distilbert_finetuned"
         },
         "codebert": {
             "pretrained_model_name": "microsoft/codebert-base",
-            "model_save_path": "./models/codebert_finetuned"
+            "model_save_path": "./saved_models/codebert_finetuned"
         },
         "deberta": {
             "pretrained_model_name": "microsoft/deberta-base",
-            "model_save_path": "./models/deberta_finetuned"
+            "model_save_path": "./saved_models/deberta_finetuned"
         }
     },
     
@@ -65,9 +65,8 @@ CONFIG = {
         "random_seed": 42,
         "raw_combined_dataset": "datasets/combined_dataset.xlsx",
         "raw_toxiCR_dataset": "datasets/code-review-dataset-full.xlsx",
-        # "dataset_path": "datasets/preprocessed/code-review-dataset-balanced.csv",
         "dataset_path": "datasets/preprocessed/combined_dataset-balanced.csv",
-        "class_names": ["Negative", "Positive"], #Class 0 (transformed from -1) maps to "Negative"  and Class 1 (transformed from 0) maps to "Positive"
+        "class_names": ["Negative", "Positive"],
         "num_labels": 2,
     }
 }

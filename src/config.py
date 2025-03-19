@@ -29,15 +29,28 @@ CONFIG = {
             "review_comments": "review_comments.csv",
             "summary_data": "summary.csv"
         },
+       "processed_dir":"data/processed"
     },
     
     # Common model training parameters
     "training": {
-        "batch_size": 16,
-        "max_length": 128,
-        "learning_rate": 2e-5,
-        "epochs": 3,
-        "early_stopping_patience": 2,
+        # "batch_size": 16, #VERSION 1
+        # "max_length": 128, #VERSION 1
+        # "learning_rate": 2e-5, #VERSION 1
+        # "epochs": 3,
+        "batch_size": 32,  #VERSION 2
+        "max_length": 256, #VERSION 2
+        "learning_rate": 1e-5, #VERSION 2
+        "lr_scheduler": {
+            "type": "linear",
+            "warmup_ratio": 0.1
+        },
+        "epochs": 5, #VERSION 2
+        "gradient_accumulation_steps": 2, #VERSION 2
+        "weight_decay": 0.01,  # L2 regularization #VERSION 2
+        "dropout": 0.1,  # For additional regularization    #VERSION 2
+        "early_stopping_patience": 2, 
+        "early_stopping_metric": "val_f1",
         "device": "cuda" if torch.cuda.is_available() else "cpu",
     },
     
@@ -53,7 +66,8 @@ CONFIG = {
         },
         "deberta": {
             "pretrained_model_name": "microsoft/deberta-base",
-            "model_save_path": "./saved_models/deberta_finetuned"
+            "model_save_path": "./saved_models/deberta_finetuned",
+            "layer_freezing": 2
         }
     },
     

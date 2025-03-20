@@ -39,11 +39,14 @@ CONFIG = {
         # "learning_rate": 2e-5, #VERSION 1
         # "epochs": 3,
         "batch_size": 32,  #VERSION 2
-        "max_length": 256, #VERSION 2
+        "max_length": 128, #VERSION 2
         "learning_rate": 1e-5, #VERSION 2
         "lr_scheduler": {
             "type": "linear",
-            "warmup_ratio": 0.1
+            "warmup_ratio": 0.1,
+            "factor": 0.5,
+            "patience": 1,
+            "min_lr": 5e-6
         },
         "epochs": 5, #VERSION 2
         "gradient_accumulation_steps": 2, #VERSION 2

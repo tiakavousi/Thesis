@@ -34,12 +34,19 @@ class DeBERTaFineTuner:
         self.tokenizer = DebertaTokenizerFast.from_pretrained(model_name)
         print("[INFO] Tokenizer loaded successfully.")
         
-        # Initialize model
+        # Initialize model with dropout if specified
+        dropout = CONFIG["training"].get("dropout", 0.1)
         self.model = DebertaForSequenceClassification.from_pretrained(
             model_name, 
-            num_labels=num_labels
+            num_labels=num_labels,
+            hidden_dropout_prob=dropout,
+            attention_probs_dropout_prob=dropout
         )
-        print(f"[INFO] Model {model_name} initialized with {num_labels} labels.")
+        print(f"[INFO] Model {model_name} initialized with {num_labels} labels and dropout {dropout}.")
+        
+        # Apply layer freezing if specified
+        if "layer_freezing" in CONFIG["models"]["deberta"]:
+            self._freeze_layers(CONFIG["models"]["deberta"]["layer_freezing"])
         
         # Move model to appropriate device
         self.model.to(self.device)
@@ -54,7 +61,26 @@ class DeBERTaFineTuner:
         print("[INFO] ModelTrainer initialized.")
 
         logger.info(f"Initialized DeBERTaFineTuner with model '{model_name}'")
-    
+
+    def _freeze_layers(self, num_layers):
+        """Freeze the embeddings and first num_layers of the DeBERTa model."""
+        # Freeze embeddings
+        for param in self.model.deberta.embeddings.parameters():
+            param.requires_grad = False
+        
+        # Freeze the first N encoder layers
+        for i in range(num_layers):
+            for param in self.model.deberta.encoder.layer[i].parameters():
+                param.requires_grad = False
+        
+        # Count trainable parameters
+        trainable_params = sum(p.numel() for p in self.model.parameters() if p.requires_grad)
+        total_params = sum(p.numel() for p in self.model.parameters())
+        
+        print(f"[INFO] Froze embeddings and first {num_layers} transformer layers")
+        print(f"[INFO] Trainable parameters: {trainable_params:,} ({trainable_params/total_params:.1%} of total)")
+        logger.info(f"Froze embeddings and first {num_layers} layers. Trainable: {trainable_params:,} params ({trainable_params/total_params:.1%})")
+        
     def run(self):
         """
         Run the fine-tuning process.

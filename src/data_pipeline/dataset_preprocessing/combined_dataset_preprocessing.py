@@ -22,7 +22,7 @@ def clean_text(text):
     # Remove HTML tags
     text = re.sub(r'<.*?>', '', text)
     
-    # Convert emojis to text (e.g., 😊 -> :smiling_face_with_smiling_eyes:)
+    # Convert emojis to text
     text = emoji.demojize(text)
     
     # Normalize multiple whitespace into one space

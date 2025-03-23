@@ -9,8 +9,6 @@ from src.config import CONFIG
 import os
 import matplotlib.pyplot as plt
 
-logger = logging.getLogger(__name__)
-
 class ModelTrainer:
     def __init__(self, model, model_type):
         self.model = model
@@ -20,7 +18,6 @@ class ModelTrainer:
         self.optimizer = AdamW(
             self.model.parameters(), 
             lr=CONFIG["training"]["learning_rate"],
-            weight_decay=CONFIG["training"].get("weight_decay", 0.0)  
         )
         self.best_val_f1 = 0
         self.patience_counter = 0
@@ -43,58 +40,27 @@ class ModelTrainer:
         # Get training parameters from CONFIG
         epochs = CONFIG["training"]["epochs"]
         early_stopping_patience = CONFIG["training"]["early_stopping_patience"]
-        
         print(f"[INFO] Training started for {epochs} epochs.")
-         # 🔍 Debugging Step: Check if batches are loading correctly
-        for i, batch in enumerate(train_loader):
-            print(f"Batch {i} - Input Shape: {batch['input_ids'].shape}, Labels Shape: {batch['labels'].shape}")
-            if i == 5:  # Check first 5 batches, then break
-                break
         
         # Calculate total steps for scheduler
         total_steps = len(train_loader) * epochs
-        
-        # Get scheduler parameters
-        lr_config = CONFIG["training"].get("lr_scheduler", {})
-        warmup_ratio = lr_config.get("warmup_ratio", 0.0)
-        warmup_steps = int(total_steps * warmup_ratio)
-        # Create the linear scheduler with warmup
+    
         scheduler = get_linear_schedule_with_warmup(
             self.optimizer, 
-            num_warmup_steps=warmup_steps,
+            # num_warmup_steps=warmup_steps,
+            num_warmup_steps=0,
             num_training_steps=total_steps
         )
-        
-        # Add learning rate reduction on plateau
-        factor = lr_config.get("factor", 0.5)
-        patience = lr_config.get("patience", 1)
-        min_lr = lr_config.get("min_lr", 5e-6)
-        
-        # Create a ReduceLROnPlateau scheduler
-        lr_reducer = torch.optim.lr_scheduler.ReduceLROnPlateau(
-            self.optimizer,
-            mode='min',
-            factor=factor,
-            patience=patience,
-            verbose=True,
-            min_lr=min_lr
-        )
-
         
         # Create a progress bar for epochs
         epoch_progress = tqdm(range(epochs), desc="Epochs", position=0)
         
         for epoch in epoch_progress:
-            logger.info(f"Epoch {epoch + 1}/{epochs}")
-            
             # Training phase
             train_loss = self._train_epoch(train_loader, scheduler)
             
             # Validation phase
             val_loss, val_metrics = self.evaluate(val_loader)
-            
-            # Apply learning rate reduction based on validation loss
-            lr_reducer.step(val_loss)
             
             # Update history
             self.history['train_loss'].append(train_loss)
@@ -120,7 +86,6 @@ class ModelTrainer:
                 self.patience_counter += 1
                 if self.patience_counter >= early_stopping_patience:
                     print(f"⚠️ Early stopping triggered after {epoch+1} epochs.")
-                    logger.info(f"Early stopping triggered after {epoch+1} epochs")
                     break
 
         print("✅ Training complete!")
@@ -154,12 +119,9 @@ class ModelTrainer:
         
         # Track batch-level metrics for this epoch
         batch_losses = []
-        # Get gradient accumulation steps
-        accumulation_steps = CONFIG["training"].get("gradient_accumulation_steps", 1)
-        # Only zero out gradients at the beginning
-        self.optimizer.zero_grad()
         
-        for i, batch in enumerate(progress_bar):            
+        for i, batch in enumerate(progress_bar):  
+            self.optimizer.zero_grad()          
             input_ids = batch["input_ids"].to(self.device)
             attention_mask = batch["attention_mask"].to(self.device)
             labels = batch["labels"].to(self.device)
@@ -171,26 +133,19 @@ class ModelTrainer:
             )
             
             loss = outputs.loss
-            batch_loss = loss.item() * accumulation_steps
+            # batch_loss = loss.item() * accumulation_steps
+            batch_loss = loss.item()
             total_loss += batch_loss
             batch_losses.append(batch_loss)
-            
-            loss.backward()
-
-            if (i + 1) % accumulation_steps == 0 or (i + 1 == len(train_loader)):
-                # Clip gradients
-                torch.nn.utils.clip_grad_norm_(self.model.parameters(), 1.0)
-                
-                # Update parameters
-                self.optimizer.step()
-                scheduler.step()
-                
-                # Zero the gradients
-                self.optimizer.zero_grad()
             
             # Calculate moving average for smoother progress updates
             moving_avg_loss = sum(batch_losses[-min(len(batch_losses), 10):]) / min(len(batch_losses), 10)
             
+            loss.backward()
+            torch.nn.utils.clip_grad_norm_(self.model.parameters(), 1.0)
+            self.optimizer.step()
+            scheduler.step()
+
             # Update progress bar with current and moving average loss
             progress_bar.set_postfix({
                 "loss": f"{batch_loss:.4f}",
@@ -292,7 +247,6 @@ class ModelTrainer:
         }
         
         torch.save(checkpoint, f"{checkpoint_path}/{filename}")
-        logger.info(f"Checkpoint saved to {checkpoint_path}/{filename}")
 
     def load_checkpoint(self, checkpoint_path: str):
         """Load a model from checkpoint."""
@@ -306,5 +260,4 @@ class ModelTrainer:
             self.history = checkpoint["history"]
         
         print(f"[INFO] Model checkpoint loaded from {checkpoint_path}")
-        logger.info(f"Loaded model checkpoint from {checkpoint_path}")
         return self.model

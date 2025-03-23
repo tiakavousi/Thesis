@@ -1,8 +1,4 @@
-import os
 import logging
-import torch
-from pathlib import Path
-from typing import Dict, Any
 from transformers import (
     DistilBertForSequenceClassification, 
     DistilBertTokenizerFast
@@ -25,8 +21,7 @@ class DistilBERTFineTuner:
         """
         self.device = CONFIG["training"]["device"]
         model_name = CONFIG["models"]["distilbert"]["pretrained_model_name"]
-        num_labels =2
-        # num_labels = CONFIG["dataset"]["num_labels"]
+        num_labels = CONFIG["dataset"]["num_labels"]
         self.class_names = CONFIG["dataset"]["class_names"]
 
         print(f"[INFO] Initializing DistilBERT fine-tuner with model: {model_name}")

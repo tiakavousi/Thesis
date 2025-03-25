@@ -16,4 +16,5 @@ transformers
 scikit-learn
 ipywidgets
 beautifulsoup4
+reportlab
 

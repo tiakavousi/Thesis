@@ -10,40 +10,46 @@ This project is a modular Python-based pipeline that collects, processes, and an
 
 - **Data Processing & Cleaning:**  
   - Cleans the raw CSV comments and reviews data
+  - Filters bot-generated messages, commands, and irrelevant noise
 
 - **Sentiment Analysis:**  
-  - Utilizes a BERT-based sentiment classifier to label the tone of comments/reviews.
+  - Fine-tunes multiple transformer models (DistilBERT, CodeBERT, DeBERTa)
+  - Applies best-performing model to classify comment/review sentiment as Positive or Negative
 
 - **Statistical Analysis:**  
-  - Performs statistical analysis on both raw and processed data.
+  - Aggregates sentiment data per PR (e.g., negative ratio)
+  - Performs binary logistic regression to test effect of sentiment on PR success
+  - Includes support for data balancing, standardization, odds ratio interpretation, and visualization (ROC, confusion matrix, etc.)
+
+- **Sanity Checking:**  
+  - Manually verifies model predictions on selected comments/reviews
+  - Compares model output with human annotations to check accuracy
 
 ## Project Structure
 ```
 github_sentiment/
 ├── data/
-│   ├── raw/                # Original GitHub data dumps
-│   └── processed/          # Final cleaned and processed data
-├── docs/                   # Documentation files and other related works
-├── experiments/            # Experimental scripts
-├── models/                 # Saved or serialized models
-├── notebooks/              # Jupyter notebooks for exploration and visualization
-├── src/                    # Source code organized into packages
-│   ├── __init__.py
-│   ├── config.py           # Configuration settings (e.g., API tokens, file paths)
-│   ├── data_collection/    # Module for collecting data from GitHub
-│   │   ├── __init__.py
-│   │   └── github_collector.py
-│   ├── data_processing/    # Module for processing and cleaning data
-│   │   ├── __init__.py
-│   │   └── clean_data.py
-│   ├── modeling/           # Module for building and training the BERT sentiment classifier
-│   │   ├── __init__.py
-│   │   └── sentiment_classifier.py
-│   └── analysis/           # Module for statistical analysis and evaluation
-│       ├── __init__.py
-│       └── statistical_analysis.py
-├── requirements.txt        # Python package dependencies
-└── README.md               # Project overview and instructions
+│   ├── raw/                     # Original GitHub data dumps
+│   ├── processed/               # Cleaned and sentiment-labeled files
+│   ├── classified/              # Sentiment classification results per repo
+│   ├── features/                # Feature engineered datasets for modeling
+│   └── manual_classification/   # Sanity-check files and human-labeled data
+├── docs/                        # Documentation and research notes
+├── experiments/                
+│   ├── data_collection/         # API rate check, CSV counters
+│   ├── sentiment_classification/
+│   ├── statistical_analysis/    # Feature aggregation and model runner
+│   └── visualizations/          # ROC, confusion, and coefficient plots
+├── models/                      # Saved transformer models
+├── notebooks/                   # Jupyter notebooks for EDA and testing
+├── src/
+│   ├── config.py                # Configuration (paths, model settings)
+│   ├── data_collection/         # GitHub API interaction
+│   ├── data_processing/         # Cleaning logic and filters
+│   ├── modeling/                # Sentiment training, evaluation
+│   └── analysis/                # Logistic regression & metrics
+├── requirements.txt
+└── README.md
 ```
 
 ## Configuration
@@ -52,14 +58,16 @@ The project configuration (e.g., API tokens, file paths, repository names) is ma
 ## Prerequisites
 - Python 3.7 or later
 - A GitHub personal access token with sufficient permissions to access repository data
-========================================
+
+---
 # Installation
 
 ## Create and activate a virtual environment:
-``` 
+```
 python -m venv venv
 source venv/bin/activate
 ```
+
 ## Install dependencies:
 ```
 pip install -r requirements.txt
@@ -69,46 +77,72 @@ pip install -r requirements.txt
 ```
 export GITHUB_TOKEN=your_personal_access_token
 ```
-========================================
+
+---
 # How to Run
-## Data Collection
+
+## 1. Data Collection
 ```
 python -m src.data_collection.github_collector
-
 ```
-This will save CSV files in the data/raw/<repository>/ subdirectories.
+Saves CSVs in `data/raw/<repo>/`
 
-## Data Processing & Cleaning
+## 2. Data Cleaning & Bot Filtering
 ```
 python -m src.data_processing.clean_raw_data
 ```
-The cleaned data will be saved in data/processed/ as configured.
+Saves cleaned files to `data/processed/`
 
-## Sentiment Analysis
-Train or evaluate the BERT-based sentiment classifier:
+## 3. Sentiment Classification
 ```
 python -m src.modeling.sentiment_classifier --train
-# or for evaluation
 python -m src.modeling.sentiment_classifier --evaluate
 ```
-Trained models are stored in the models/ directory.
+Saves results to `models/` and `data/classified/`
 
-## Statistical Analysis
+## 4. Sentiment Feature Aggregation
 ```
-python -m src.analysis.statistical_analysis
+python experiments/statistical_analysis/sentiment_aggregator.py
 ```
-========================================
+Generates per-repo PR-level features (e.g., negativity ratios)
+
+## 5. Merge All Feature Files
+```
+python experiments/statistical_analysis/merge_features.py
+```
+Creates `data/features/all_repo_features.csv`
+
+## 6. Logistic Regression Analysis
+```
+python experiments/statistical_analysis/run_logistic_model.py
+```
+Runs logistic model using standardized features and optional dataset balancing.
+
+## 7. Visualization & Evaluation
+```
+python experiments/statistical_analysis/visualize_model.py
+```
+Generates ROC curve, confusion matrix, coefficient plot, and probability distribution.
+
+## 8. Manual Sentiment Sanity Check (Optional)
+To verify model accuracy on real PR comments:
+- Prepare a sample CSV: `data/manual_classification/<repo>/sampled_comments.csv`
+- Add manual sentiment labels → `labeled_comments.csv`
+- Evaluate with: `evaluate_labels.py`
+
+---
 # Deactivation
-When finished, you can deactivate your virtual environment:
 ```
 deactivate
 ```
-========================================
-# Additional Notes
-- **Documentation**: Additional project documentation, design notes and related papers can be found in the docs/ folder.
-- **Notebooks & Experiments**: For exploratory data analysis and additional experiments, check out the notebooks in the notebooks/ and scripts in the experiments/ folders.
 
-========================================
+---
+# Additional Notes
+- **Documentation**: Found in `docs/`
+- **Notebooks**: Exploratory and model analysis in `notebooks/`
+- **Manual Checks**: Sanity check and quality control in `manual_classification/`
+
+---
 ## Summary of Collected Data
 
 | Repository                         | Pull Requests | Comments | Reviews |
@@ -124,6 +158,5 @@ deactivate
 | qBittorrent/qBittorrent            | 100           | 5015     | 5809    |
 | CivMC/Civ                          | 100           | 157      | 215     |
 |------------------------------------|---------------|----------|---------|  
-|Totall                              | 1000          | 25009    | 45386   |
-
+| **Total**                          | **1000**      | **25009**| **45386**|
 

@@ -66,6 +66,9 @@ class DataModule:
 
         logger.info(f"Dataset loaded with {len(texts)} samples.")
         return texts, labels
+    
+    def get_class_weights(self):
+        return self.class_weights
 
 
     def create_dataloaders(self, texts, labels):

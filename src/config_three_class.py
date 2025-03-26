@@ -2,10 +2,10 @@ import torch
 
 CONFIG_3CLASS = {
     "training": {
-        "batch_size": 16,
+        "batch_size": 32,
         "max_length": 128,
-        "learning_rate": 2e-5,
-        "epochs": 3,
+        "learning_rate": 1e-5,
+        "epochs": 5,
         "early_stopping_patience": 2,
         "early_stopping_metric": "val_f1",
         "device": "cuda" if torch.cuda.is_available() else "cpu",
@@ -13,7 +13,7 @@ CONFIG_3CLASS = {
     "models": {
         "deberta": {
             "pretrained_model_name": "microsoft/deberta-base",
-            "model_save_path": "saved_models/deberta_3class"
+            "model_save_path": "/Users/tayebekavousi/Desktop/github_sa/saved_models/deberta_3class"
         }
     },
     "dataset": {
@@ -27,6 +27,6 @@ CONFIG_3CLASS = {
         "num_labels": 3,
     },
     "evaluation": {
-        "report_save_path": "saved_models/evaluation_results/deberta_3class_evaluation_report.pdf"
+        "report_save_path": "/Users/tayebekavousi/Desktop/github_sa/saved_models/deberta_3class/evaluation_results/evaluation_result_v02"
     }
 }

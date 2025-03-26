@@ -18,3 +18,4 @@ ipywidgets
 beautifulsoup4
 reportlab
 statsmodels
+wordcloud

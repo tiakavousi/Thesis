@@ -14,7 +14,6 @@ build/
 
 # Data and logs
 data/
-datasets/
 notebooks/
 saved_models/
 

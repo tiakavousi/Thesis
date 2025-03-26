@@ -3,8 +3,11 @@ import torch
 from torch.utils.data import DataLoader, Dataset
 from sklearn.model_selection import train_test_split
 import logging
-from pathlib import Path
-from src.config import CONFIG
+from sklearn.utils.class_weight import compute_class_weight
+import numpy as np
+
+from src.config_three_class import CONFIG_3CLASS as CONFIG  
+
 
 
 logger = logging.getLogger(__name__)
@@ -48,20 +51,22 @@ class DataModule:
         
     def load_dataset(self):
         df = pd.read_csv(CONFIG["dataset"]["dataset_path"])
-    
-        # Clean data
         df = df.dropna(subset=["message"])
         df = df.drop_duplicates(subset=["message"])
 
-        
-        # Get data
         texts = df["message"].astype(str).tolist()
-        # Transform labels: -1 -> 0, 0 -> 1
-        labels = [(l + 1) for l in df["sentiment"].astype(int).tolist()]
-        
-        # Log info
+        labels = [(l + 1) for l in df["sentiment"].astype(int).tolist()]  # -1 → 0, 0 → 1, 1 → 2
+
+        # ✅ Compute class weights
+        self.class_weights = compute_class_weight(
+            class_weight="balanced",
+            classes=np.array([0, 1, 2]),
+            y=labels
+        )
+
         logger.info(f"Dataset loaded with {len(texts)} samples.")
         return texts, labels
+
 
     def create_dataloaders(self, texts, labels):
         # Get split ratios

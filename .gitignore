@@ -14,7 +14,6 @@ build/
 
 # Data and logs
 data/
-notebooks/
 saved_models/
 
 # Docs related to thesis

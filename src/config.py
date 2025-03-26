@@ -66,13 +66,13 @@ CONFIG = {
         "val_ratio": 0.15,
         "test_ratio": 0.10,
         "random_seed": 42,
+        "raw_DeepSentimentSE_dataset": "datasets/raw/combined_DeepSentimentSECrossPlatform.csv",
         "raw_combined_dataset": "datasets/combined_dataset.xlsx",
         "raw_toxiCR_dataset": "datasets/code-review-dataset-full.xlsx",
         "dataset_path": "datasets/preprocessed/combined_dataset-balanced.csv",
         "class_names": ["Negative", "Positive"],
         "num_labels": 2,
     },
-    # Add these keys under CONFIG in config.py
     "sentiment_classification": {
         "input_files": {
             "comments": "data/raw/comments_clean.csv",

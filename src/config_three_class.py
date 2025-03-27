@@ -15,7 +15,15 @@ CONFIG_3CLASS = {
         "deberta": {
             "pretrained_model_name": "microsoft/deberta-base",
             "model_save_path": "/Users/afshinpaydar/Desktop/temp/Thesis/saved_models/deberta_3class_v02"
-        }
+        },
+         "codebert": {
+            "pretrained_model_name": "microsoft/codebert-base",
+            "model_save_path": "/Users/afshinpaydar/Desktop/temp/Thesis/saved_models/codebert_3class"
+        },
+         "distilbert": {
+            "pretrained_model_name": "distilbert-base-uncased",
+            "model_save_path": "/Users/afshinpaydar/Desktop/temp/Thesis/saved_models/distilbert_3class"
+        },
     },
     "dataset": {
         "train_ratio": 0.75,
@@ -28,6 +36,6 @@ CONFIG_3CLASS = {
         "num_labels": 3,
     },
     "evaluation": {
-        "report_save_path": "/Users/afshinpaydar/Desktop/temp/Thesis/saved_models/deberta_3class/evaluation_results/evaluation_result_v02"
+        "report_save_path": "/Users/afshinpaydar/Desktop/temp/Thesis/saved_models/codebert_3class/evaluation_result_codebert"
     }
 }

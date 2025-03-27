@@ -90,8 +90,12 @@ class ModelTrainer:
             if val_metrics['f1'] > self.best_val_f1:
                 self.best_val_f1 = val_metrics['f1']
                 self.patience_counter = 0
-                self._save_checkpoint(
-                    f"model_best_f1_{val_metrics['f1']:.4f}.pt")
+                # self._save_checkpoint(
+                #     f"model_best_f1_{val_metrics['f1']:.4f}.pt")
+                f1_str = f"{val_metrics['f1']:.4f}"
+                epoch_str = f"{epoch+1}"
+                filename = f"checkpoint_{self.model_type}_f1-{f1_str}_epoch-{epoch_str}.pt"
+                self._save_checkpoint(filename)
                 print("📈 New best model saved!")
             else:
                 self.patience_counter += 1

@@ -1,4 +1,8 @@
 import torch
+from pathlib import Path
+
+# Dynamically resolve the project root
+PROJECT_ROOT = Path(__file__).resolve().parents[1]  # github_sa/
 
 CONFIG_3CLASS = {
     "training": {
@@ -14,15 +18,15 @@ CONFIG_3CLASS = {
     "models": {
         "deberta": {
             "pretrained_model_name": "microsoft/deberta-base",
-            "model_save_path": "saved_models/deberta_3class_v02"
+            "model_save_path": str(PROJECT_ROOT / "saved_models" / "deberta_3class_v02")
         },
-         "codebert": {
+        "codebert": {
             "pretrained_model_name": "microsoft/codebert-base",
-            "model_save_path": "saved_models/codebert_3class"
+            "model_save_path": str(PROJECT_ROOT / "saved_models" / "codebert_3class")
         },
-         "distilbert": {
+        "distilbert": {
             "pretrained_model_name": "distilbert-base-uncased",
-            "model_save_path": "saved_models/distilbert_3class"
+            "model_save_path": str(PROJECT_ROOT / "saved_models" / "distilbert_3class")
         },
     },
     "dataset": {
@@ -30,12 +34,12 @@ CONFIG_3CLASS = {
         "val_ratio": 0.15,
         "test_ratio": 0.10,
         "random_seed": 42,
-        "raw_combined_dataset": "datasets/raw/combined_DeepSentimentSECrossPlatform.csv",
-        "dataset_path": "datasets/preprocessed/combined_DeepSentimentSECrossPlatform.csv",
+        "raw_combined_dataset": str(PROJECT_ROOT / "datasets" / "raw" / "combined_DeepSentimentSECrossPlatform.csv"),
+        "dataset_path": str(PROJECT_ROOT / "datasets" / "preprocessed" / "combined_DeepSentimentSECrossPlatform.csv"),
         "class_names": ["Negative", "Neutral", "Positive"],
         "num_labels": 3,
     },
     "evaluation": {
-        "report_save_path": "saved_models/codebert_3class/evaluation_result_codebert"
+        "report_save_path": str(PROJECT_ROOT / "saved_models" / "codebert_3class" / "evaluation_result_codebert")
     }
 }

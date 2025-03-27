@@ -30,7 +30,6 @@ docs/report/
 *.log
 *.parquet
 
-
 # Environment variables
 .env
 .env.*

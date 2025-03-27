@@ -1,7 +1,8 @@
 import torch
 from torch.utils.data import DataLoader
 from transformers import AdamW, get_linear_schedule_with_warmup
-from tqdm.notebook import tqdm
+# from tqdm.notebook import tqdm
+from tqdm import tqdm
 from sklearn.metrics import accuracy_score, f1_score
 from torch.nn import CrossEntropyLoss
 from typing import Dict, Tuple
@@ -18,7 +19,8 @@ class ModelTrainer:
 
         # Initialize class-weighted loss function
         if class_weights is not None:
-            weights = torch.tensor(class_weights, dtype=torch.float).to(self.device)
+            weights = torch.tensor(
+                class_weights, dtype=torch.float).to(self.device)
             self.loss_fn = CrossEntropyLoss(weight=weights)
             print(f"[INFO] Using class weights: {weights.cpu().numpy()}")
         else:
@@ -39,10 +41,14 @@ class ModelTrainer:
         }
 
         print(f"[INFO] Model initialized on device: {self.device}")
-        print(f"[INFO] Optimizer: AdamW with learning rate {CONFIG['training']['learning_rate']}")
+        print(
+            f"[INFO] Optimizer: AdamW with learning rate {CONFIG['training']['learning_rate']}")
 
     def train(self, train_loader: DataLoader, val_loader: DataLoader):
         self.model.to(self.device)
+        print(
+            f"[INFO] Model running on: {next(self.model.parameters()).device}")
+
         epochs = CONFIG["training"]["epochs"]
         early_stopping_patience = CONFIG["training"]["early_stopping_patience"]
         print(f"[INFO] Training started for {epochs} epochs.")
@@ -54,7 +60,13 @@ class ModelTrainer:
             num_training_steps=total_steps
         )
 
-        epoch_progress = tqdm(range(epochs), desc="Epochs", position=0)
+        # epoch_progress = tqdm(range(epochs), desc="Epochs", position=0)
+        epoch_progress = tqdm(
+            range(epochs),
+            desc="Epochs",
+            dynamic_ncols=True,
+            mininterval=1.0  # throttle updates to prevent flooding
+        )
 
         for epoch in epoch_progress:
             train_loss = self._train_epoch(train_loader, scheduler)
@@ -69,18 +81,21 @@ class ModelTrainer:
                 f"Epoch {epoch+1}/{epochs} - Loss: {train_loss:.4f} - Val Loss: {val_loss:.4f} - Val Acc: {val_metrics['accuracy']:.4f} - Val F1: {val_metrics['f1']:.4f}"
             )
 
-            self._display_epoch_summary(epoch+1, epochs, train_loss, val_loss, val_metrics)
+            self._display_epoch_summary(
+                epoch+1, epochs, train_loss, val_loss, val_metrics)
 
             # Early stopping
             if val_metrics['f1'] > self.best_val_f1:
                 self.best_val_f1 = val_metrics['f1']
                 self.patience_counter = 0
-                self._save_checkpoint(f"model_best_f1_{val_metrics['f1']:.4f}.pt")
+                self._save_checkpoint(
+                    f"model_best_f1_{val_metrics['f1']:.4f}.pt")
                 print("📈 New best model saved!")
             else:
                 self.patience_counter += 1
                 if self.patience_counter >= early_stopping_patience:
-                    print(f"⚠️ Early stopping triggered after {epoch+1} epochs.")
+                    print(
+                        f"⚠️ Early stopping triggered after {epoch+1} epochs.")
                     break
 
         print("✅ Training complete!")
@@ -92,7 +107,16 @@ class ModelTrainer:
         total_loss = 0
         batch_losses = []
 
-        progress_bar = tqdm(train_loader, desc="Training Batches", leave=False, position=1)
+        # progress_bar = tqdm(
+        #     train_loader, desc="Training Batches", leave=False, position=1)
+        progress_bar = tqdm(
+            train_loader,
+            desc="Training Batches",
+            leave=False,
+            position=1,
+            dynamic_ncols=True,
+            mininterval=2.0  # 🧼 throttle updates to once per second
+        )
 
         for i, batch in enumerate(progress_bar):
             self.optimizer.zero_grad()
@@ -110,7 +134,8 @@ class ModelTrainer:
             total_loss += batch_loss
             batch_losses.append(batch_loss)
 
-            moving_avg_loss = sum(batch_losses[-min(len(batch_losses), 10):]) / min(len(batch_losses), 10)
+            moving_avg_loss = sum(
+                batch_losses[-min(len(batch_losses), 10):]) / min(len(batch_losses), 10)
 
             loss.backward()
             torch.nn.utils.clip_grad_norm_(self.model.parameters(), 1.0)
@@ -165,7 +190,8 @@ class ModelTrainer:
         print(f"⏱️  Epoch: {epoch}/{total_epochs}")
         print(f"{'='*80}")
         print(f"📊 Training   | Loss: {train_loss:.4f}")
-        print(f"📊 Validation | Loss: {val_loss:.4f} | Accuracy: {val_metrics['accuracy']:.4f} | F1 Score: {val_metrics['f1']:.4f}")
+        print(
+            f"📊 Validation | Loss: {val_loss:.4f} | Accuracy: {val_metrics['accuracy']:.4f} | F1 Score: {val_metrics['f1']:.4f}")
         print(f"{'='*80}\n")
 
     def _plot_training_history(self):
@@ -181,8 +207,10 @@ class ModelTrainer:
         plt.grid(True)
 
         plt.subplot(2, 1, 2)
-        plt.plot(self.history['val_accuracy'], label='Validation Accuracy', marker='o')
-        plt.plot(self.history['val_f1'], label='Validation F1 Score', marker='o')
+        plt.plot(self.history['val_accuracy'],
+                 label='Validation Accuracy', marker='o')
+        plt.plot(self.history['val_f1'],
+                 label='Validation F1 Score', marker='o')
         plt.title('Validation Metrics')
         plt.xlabel('Epoch')
         plt.ylabel('Score')
@@ -193,7 +221,8 @@ class ModelTrainer:
         plt.show()
 
     def _save_checkpoint(self, filename: str):
-        checkpoint_path = os.path.dirname(CONFIG["models"][self.model_type]["model_save_path"])
+        checkpoint_path = os.path.dirname(
+            CONFIG["models"][self.model_type]["model_save_path"])
         os.makedirs(checkpoint_path, exist_ok=True)
 
         checkpoint = {

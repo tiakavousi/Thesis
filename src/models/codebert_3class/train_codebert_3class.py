@@ -1,5 +1,6 @@
 from src.models.codebert_3class.codebert_finetuner_3class import CodeBERTFineTuner3Class
 
+
 def main():
     """
     Main function to run CodeBERT fine-tuning process for 3-class sentiment classification.
@@ -18,6 +19,7 @@ def main():
     print(f"Fine-tuning completed with metrics: {metrics}")
 
     return fine_tuner
+
 
 if __name__ == "__main__":
     main()

@@ -1,6 +1,8 @@
 import torch
 from torch.utils.data import DataLoader
-from transformers import AdamW, get_linear_schedule_with_warmup
+from transformers import get_linear_schedule_with_warmup
+from transformers.optimization import AdamW
+
 # from tqdm.notebook import tqdm
 from tqdm import tqdm
 from sklearn.metrics import accuracy_score, f1_score

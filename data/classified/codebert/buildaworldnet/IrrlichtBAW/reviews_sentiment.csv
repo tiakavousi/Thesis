@@ -1,0 +1,8 @@
+id,pr_number,user,submitted_at,state,body,codebert_sentiment_label,codebert_confidence
+375284886,424,devshgraphicsprogramming,2020-03-16T14:44:05Z,COMMENTED,why does github ask me for review comments?,0,0.8355664014816284
+377250028,424,devshgraphicsprogramming,2020-03-18T21:31:21Z,COMMENTED,github being stupid again,-1,0.9853324294090271
+344968292,410,devshgraphicsprogramming,2020-01-19T00:00:29Z,COMMENTED,github is annoying,-1,0.9853298664093018
+403952502,474,devshgraphicsprogramming,2020-04-30T23:53:08Z,COMMENTED,"wtf guthub, why?",-1,0.9884340167045593
+99158583,39,devshgraphicsprogramming,2018-02-25T22:20:11Z,COMMENTED,does the original passworded zip file irrlicht archive loader work with new aes?,0,0.9947165846824646
+351746991,416,devshgraphicsprogramming,2020-01-31T20:05:37Z,COMMENTED,"this commit is huge, i can't view all the changes easily!",-1,0.9832562208175659
+221013386,250,devshgraphicsprogramming,2019-04-01T09:44:44Z,CHANGES_REQUESTED,handlesrgb should be gone and assumed always true,0,0.9896811842918396

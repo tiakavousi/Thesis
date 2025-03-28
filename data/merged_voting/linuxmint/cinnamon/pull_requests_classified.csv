@@ -1,0 +1,101 @@
+id,number,title,state,merged_at,distilbert_sentiment_label,codebert_sentiment_label,deberta_sentiment_label,distilbert_confidence,codebert_confidence,deberta_confidence,majority_label,final_decision,decision_reason
+55577329,4996,[3.2] Vertical panels,closed,2016-08-17T03:12:03Z,0,0,0,0.969225287437439,0.991585373878479,0.9907168745994568,0,accept,unanimous_agreement
+223873324,7944,New panel layout,closed,2018-11-03T11:38:13Z,0,0,0,0.9694902300834656,0.9783895015716552,0.983547866344452,0,accept,unanimous_agreement
+4263836,1737,Resubmission: Multi-Workspace Alt-Tab,closed,,0,0,0,0.9879211187362672,0.9874512553215028,0.9922073483467102,0,accept,unanimous_agreement
+3851504,1636,cinnamon-control-center module integration.,closed,2013-02-01T09:46:48Z,0,0,0,0.9864150881767272,0.9944287538528442,0.9931634664535522,0,accept,unanimous_agreement
+5534359,1966,[2.2] [Settings][Calendar] Use a more intuitive way of settings date formats,closed,,0,0,0,0.9830126166343688,0.9913763403892516,0.9929710030555724,0,accept,unanimous_agreement
+139566328,6878,Refactor the extension system and add commonjs compatible module importation,closed,2018-01-18T10:34:49Z,0,0,0,0.9887927174568176,0.991685390472412,0.9940699338912964,0,accept,unanimous_agreement
+151067623,6993,Network applet: Port to libnm,closed,,0,0,0,0.987902581691742,0.9931374788284302,0.993656575679779,0,accept,unanimous_agreement
+256796183,8428,[WIP] bumpmaps - rework and turn on,closed,,0,0,0,0.9813360571861268,0.9826743006706238,0.9947991371154784,0,accept,unanimous_agreement
+239019784,8150,cs_calendar.py Port the remaining date/time settings to python,closed,2019-11-22T20:46:29Z,0,0,0,0.9878928065299988,0.9936041235923768,0.98997962474823,0,accept,unanimous_agreement
+89385852,5798,[menu-applet] decodeUriComponent in app description,closed,2016-10-25T10:04:36Z,0,0,0,0.9897074699401855,0.9943138360977172,0.9937196969985962,0,accept,unanimous_agreement
+4178661,1717,"[Design] Enable multiple workspace rows (Real 2D workspace grid), add workspace-thumbnail zoom, and more",closed,,0,0,0,0.9838517308235168,0.9922693967819214,0.9905409216880798,0,accept,unanimous_agreement
+5269151,1888,Gnome 3.8 compatibility rollup,closed,,0,0,0,0.9797592759132384,0.9917933344841005,0.9853320717811584,0,accept,unanimous_agreement
+70944857,5324,Xlet settings overhaul,closed,2016-08-11T03:17:02Z,0,0,0,0.9861660003662108,0.9753555655479432,0.9891307353973388,0,accept,unanimous_agreement
+159331034,7149,Create new cinnamon-xlet-makepot utility for automattically extractin…,closed,2018-03-15T13:28:22Z,0,0,0,0.9873077273368835,0.9906911253929138,0.9938887357711792,0,accept,unanimous_agreement
+286398651,8617,Make the libnm library optional,closed,2019-11-22T10:13:49Z,0,0,0,0.9886478781700134,0.9910274147987366,0.9943217039108276,0,accept,unanimous_agreement
+167026675,7255,[WIP] Support for environment colors in themes,closed,,0,0,0,0.979738473892212,0.9890357851982116,0.9797191619873048,0,accept,unanimous_agreement
+324945140,8884,Make volume step in applet follow the volume media keys value set.,closed,,0,0,0,0.988398015499115,0.9929479360580444,0.9954185485839844,0,accept,unanimous_agreement
+1688545,847,Refactoring of Menu applet,closed,2012-07-20T14:09:53Z,0,0,0,0.9877262711524964,0.9897123575210572,0.9927504062652588,0,accept,unanimous_agreement
+88724859,5780,[menu-applet] rewritten keynavigation codeblock,closed,2016-10-26T09:28:53Z,0,0,0,0.9893671870231628,0.9936641454696656,0.9947267174720764,0,accept,unanimous_agreement
+139104643,6872,[WIP] Implement a front-end for the search providers,closed,,0,0,0,0.9865350127220154,0.9918272495269777,0.9946480393409728,0,accept,unanimous_agreement
+223870201,7943,[WIP] Add a window list with app grouping,closed,,0,0,0,0.986911416053772,0.9914462566375732,0.9952282905578612,0,accept,unanimous_agreement
+539032480,9771,[wip] menu applet: Make the menu resizeable.,closed,,0,0,0,0.9879260063171388,0.9926103949546814,0.9949862957000732,0,accept,unanimous_agreement
+21994877,3553,[WIP] Added flickr support for slideshow,closed,,0,0,0,0.9784998893737792,0.988188087940216,0.9819870591163636,0,accept,unanimous_agreement
+4048438,1679,[WIP]  Applet settings,closed,2013-03-07T11:28:59Z,0,0,0,0.9890945553779602,0.989001989364624,0.9946966171264648,0,accept,unanimous_agreement
+4780475,1814,More intuitive/visual hot corner configuration.,closed,2013-04-12T22:13:57Z,0,0,0,0.95485520362854,0.8669914603233337,0.9754462838172911,0,accept,unanimous_agreement
+1728219,877,Added panel right click menu,closed,,0,0,0,0.9776036739349364,0.9911702871322632,0.9822756052017212,0,accept,unanimous_agreement
+3635679,1598,[Alt-Tab] Show windows from all workspaces,closed,,0,0,0,0.9883202314376832,0.991107165813446,0.9908677339553832,0,accept,unanimous_agreement
+1444902904,11770,fix: Resizing Applet PopupMenus will go behind panel if panel is set to auto hide,closed,,0,0,0,0.9884836077690125,0.9808425903320312,0.984287977218628,0,accept,unanimous_agreement
+10286258,2662,[2.2] Add track name and album art to panel,closed,2014-04-09T10:26:29Z,0,0,0,0.9813241362571716,0.9922189712524414,0.9926393032073976,0,accept,unanimous_agreement
+4660635,1803,Cinnamon keybinding manager (using muffin),closed,2013-04-17T12:56:03Z,0,0,0,0.987026035785675,0.9899798631668092,0.992238461971283,0,accept,unanimous_agreement
+94012234,5974,[3.4] window-list: Rearrange popup menu items,closed,,0,0,0,0.987154483795166,0.9935111403465272,0.9948081374168396,0,accept,unanimous_agreement
+198782358,7685,[WIP] Allow custom widgets in xlet settings,closed,,0,0,0,0.9885388016700744,0.9924705028533936,0.9952589869499208,0,accept,unanimous_agreement
+241884997,8251,fix regression #8070 (menu search results),closed,,0,0,0,0.9883314967155457,0.9905300736427308,0.9905608296394348,0,accept,unanimous_agreement
+750114181,10372,Adapt Cinnamon to Mutter 3.36.9 rebase,closed,2022-06-09T00:34:10Z,0,0,0,0.9879533052444458,0.9927812218666076,0.991486132144928,0,accept,unanimous_agreement
+4643882,1800,[WIP] Breadcrumbs for cinnamon-settings,closed,,0,0,0,0.9263038635253906,0.9453179836273192,0.993356227874756,0,accept,unanimous_agreement
+117867329,6486,main.js: improve logging of GLib.Errors and objects ,closed,2017-05-04T14:25:58Z,0,0,0,0.9855722784996032,0.9872044324874878,0.9904080033302308,0,accept,unanimous_agreement
+176054357,7376,sound@cinnamon.org applet - Solves issue #7375,closed,2018-04-20T15:29:18Z,0,0,0,0.9311417937278748,0.9771506786346436,0.9863247275352478,0,accept,unanimous_agreement
+183105193,7486,Unified network change PRs with additional debian/ fix,closed,,0,0,0,0.986685276031494,0.9932073950767516,0.9927793145179749,0,accept,unanimous_agreement
+220902464,7916,Improve workspace switching performance,closed,,0,0,0,0.9666106700897216,0.9887583255767822,0.9854379892349244,0,accept,unanimous_agreement
+321490666,8873,option to restart without user extensions,closed,2019-10-28T10:37:07Z,0,0,0,0.9846492409706116,0.9856319427490234,0.9927091598510742,0,accept,unanimous_agreement
+1086799848,11228,"Add ""Notifications disabled"" icon clue to Inhibit Applet",closed,,0,0,0,0.9785675406455994,0.9926249384880066,0.9954444169998168,0,accept,unanimous_agreement
+1679553,843,Notifications applet to tie in to the Message tray.,closed,2012-07-17T12:52:08Z,0,0,0,0.9872565269470216,0.9915111660957336,0.9947298765182496,0,accept,unanimous_agreement
+38134838,4338,WIP · 2.8 · Automatically reload xlets when updating,closed,,0,0,0,0.9592307209968568,0.9811171889305116,0.9919845461845398,0,accept,unanimous_agreement
+91112825,5859,[menu-applet & panel-launchers] added new mouse cursors while draggin…,closed,2017-05-04T14:32:23Z,0,0,0,0.9835631847381592,0.989566683769226,0.994783580303192,0,accept,unanimous_agreement
+1980329,1003,"Refactor Panel, Layout, Expo and Scale to handle various panel configurations",closed,,0,0,0,0.9836764931678772,0.9908795356750488,0.9875446557998656,0,accept,unanimous_agreement
+3378400,1504,Panel rework with the aim of supporting more panel layouts,closed,,0,0,0,0.9729843735694884,0.9904746413230896,0.9895456433296204,0,accept,unanimous_agreement
+172741421,7325,Fix bad allocation of panels with borders,closed,2018-03-16T10:04:08Z,-1,-1,-1,0.9416727423667908,0.5005727410316467,0.8766977787017822,-1,accept,unanimous_agreement
+1350082877,11665,Make menu applet resizable with mouse,closed,,0,0,0,0.9874815940856934,0.9881384968757628,0.9938602447509766,0,accept,unanimous_agreement
+2275002,1086,"[1.6?] Refactor Panel, Layout, Expo and Scale to handle various panel configurations, second attempt",closed,2012-09-09T10:28:55Z,0,0,0,0.9837931990623474,0.9918859004974364,0.9886637330055236,0,accept,unanimous_agreement
+1745401,892,ALT-Tab enhancement: outline and live preview of selected window,closed,2012-07-17T10:38:51Z,0,0,0,0.9819591641426086,0.9875364899635316,0.9857973456382751,0,accept,unanimous_agreement
+347249917,8988,placesManager.js: Management and notifications improvements - Solves #5377,closed,2020-01-20T01:03:48Z,0,0,0,0.9813536405563354,0.9887110590934752,0.9364418983459472,0,accept,unanimous_agreement
+753559705,10377,Add missing Build-Depends,closed,,0,0,0,0.9741668105125428,0.9850432872772216,0.994086980819702,0,accept,unanimous_agreement
+2720517,1293,Added mouse button modifier to Cinnamon window settings (makes it easier to properly use Blender). Added option to add the menu icon to the title bar.,closed,,0,0,0,0.9780730605125428,0.9937171936035156,0.979111909866333,0,accept,unanimous_agreement
+4073643,1701,Use the notification system to bring attention to attention-seeking windows,closed,,0,0,0,0.9805182218551636,0.980817437171936,0.9897055625915528,0,accept,unanimous_agreement
+581392738,9957,Cinnamon-settings spices: allow installing 3rd party spice from zip file,closed,,0,0,0,0.9800405502319336,0.9940998554229736,0.9938482642173768,0,accept,unanimous_agreement
+795377011,10499,Add Child and Elder type of user groups,closed,,0,0,0,0.9836814403533936,0.9929229021072388,0.9939458966255188,0,accept,unanimous_agreement
+4182760,1719,Menu Overhaul [clean recommit],closed,,0,0,0,0.9845112562179564,0.9900583624839784,0.992230236530304,0,accept,unanimous_agreement
+1738868,886,Allow disabling notifications,closed,2012-07-19T13:17:55Z,0,0,0,0.9837353229522704,0.9585965871810912,0.9889463782310486,0,accept,unanimous_agreement
+2497218,1232,[1.8] Window list applet notification improvements,closed,,0,0,0,0.985162317752838,0.9928436875343324,0.9867767691612244,0,accept,unanimous_agreement
+3742760,1620,Start porting cinnamon to use gdbus,closed,,0,0,0,0.9889150261878968,0.9900270104408264,0.9943037033081056,0,accept,unanimous_agreement
+3952486,1655,Applets camelcase,closed,,0,0,0,0.9838986992836,0.9875059127807616,0.9930667877197266,0,accept,unanimous_agreement
+131166894,6708,ui/modalDialog: Show the version when time stamps are present,closed,,0,0,0,0.9869334697723388,0.9912091493606568,0.9934661984443665,0,accept,unanimous_agreement
+103606360,6226,[WIP] Improve the look of xlet settings,closed,,0,0,0,0.9799070358276368,0.9749505519866944,0.992394208908081,0,accept,unanimous_agreement
+229717377,8008,gwl: Simplify thumbnail layout,closed,,0,0,0,0.983960211277008,0.991290807723999,0.9935676455497742,0,accept,unanimous_agreement
+366249650,9133,"Add `Activate, then cycle` to grouped window list",closed,2020-04-20T17:21:10Z,0,0,0,0.9876598715782166,0.994056224822998,0.99445641040802,0,accept,unanimous_agreement
+479552416,9559,[FEAUTURE] [BETTER THEMING] add applet uuid formatted as style class name,closed,2020-10-02T14:46:15Z,0,0,0,0.9865591526031494,0.9876487851142884,0.9955775737762452,0,accept,unanimous_agreement
+1269478655,11548,cs_themes: Add a simplified UI,closed,2023-03-20T11:05:09Z,0,0,0,0.9854034185409546,0.9887475967407228,0.9939957857131958,0,accept,unanimous_agreement
+1575274596,11905,[network@cinnamon.org] - Try to fix #10225,closed,2023-12-24T15:07:04Z,0,0,0,0.9794235825538636,0.9887702465057372,0.99501234292984,0,accept,unanimous_agreement
+1349865220,11664,cinnamon-settings.py: Additional modules when Mint modules are absent,closed,2024-04-05T18:22:06Z,0,0,0,0.9834581613540648,0.994496524333954,0.9944745898246764,0,accept,unanimous_agreement
+28203352,3858,Sound applet,closed,2015-03-19T17:30:45Z,0,0,0,0.9820083379745485,0.9676975607872008,0.9861319065093994,0,accept,unanimous_agreement
+36549351,4229,signalManager.js: fix iteration of the object map,closed,,0,0,0,0.9882441759109496,0.9873281121253968,0.9942050576210022,0,accept,unanimous_agreement
+151036497,6992,cinnamon-settings: move everything to python 3,closed,2018-02-19T10:25:01Z,0,0,0,0.9846108555793762,0.9926175475120544,0.9946880340576172,0,accept,unanimous_agreement
+246014237,8314,Menu applet: Various improvements,closed,2019-03-11T11:33:27Z,0,0,0,0.9819451570510864,0.8931406140327454,0.9573051929473876,0,accept,unanimous_agreement
+1252471713,11530,workspace switcher: Add option to display windows icons,closed,,0,0,0,0.984899401664734,0.9930943250656128,0.9905157089233398,0,accept,unanimous_agreement
+4919445,1831,Further work on desklets (3),closed,2013-04-22T10:20:25Z,0,0,0,0.9806621074676514,0.9923283457756042,0.989728569984436,0,accept,unanimous_agreement
+2639432,1273,[1.6] Add autostart files for gnome-screensaver,closed,,0,0,0,0.9836726784706116,0.9937248826026917,0.9928343296051024,0,accept,unanimous_agreement
+28487133,3877,Bug fixes and improvements for multiple battery laptops,closed,,-1,0,0,0.6147578358650208,0.8940008282661438,0.8961684703826904,0,accept,majority_agreement
+90498452,5829,[Hot Corners] Added hover delay functionality.,closed,2016-10-26T09:35:16Z,0,0,0,0.9855093359947203,0.9906238913536072,0.9823793768882751,0,accept,unanimous_agreement
+136655069,6821,A Logo in System Info that goes on top of the System Info Text,closed,,0,0,0,0.9855782389640808,0.9891881346702576,0.9908289909362792,0,accept,unanimous_agreement
+130240388,6694,Make touchpad settings compatible with libinput,closed,2017-10-04T14:28:33Z,0,0,0,0.9828158020973206,0.9884724020957948,0.99337500333786,0,accept,unanimous_agreement
+162173450,7187,sound@cinnamon.org: Volume control up to 150% of nominal volume. ,closed,,0,0,0,0.9611403346061708,0.9859705567359924,0.9882807731628418,0,accept,unanimous_agreement
+166930423,7252,Don't clear notifications when an app becomes focused,closed,2018-03-14T13:48:05Z,0,0,0,0.954356014728546,0.871300995349884,0.9784114360809326,0,accept,unanimous_agreement
+177257785,7395,Menu applet: autoselect exact matches,closed,2018-10-16T12:25:57Z,0,0,0,0.9880571365356444,0.9889003038406372,0.9947571754455566,0,accept,unanimous_agreement
+233092655,8057,gwl: Improve thumbnail menu input and button label handling,closed,2018-11-27T15:10:45Z,0,0,0,0.9657824635505676,0.993083953857422,0.9815216064453124,0,accept,unanimous_agreement
+229629534,8004,IndicatorManager: Clean up,closed,2019-01-16T10:58:49Z,0,0,0,0.9772287607192992,0.9861739873886108,0.9921945333480836,0,accept,unanimous_agreement
+241485816,8230,Replace allocation signals with callbacks,closed,,0,0,0,0.9789583683013916,0.989559531211853,0.9936869740486144,0,accept,unanimous_agreement
+302762341,8746,Update Spices.py - Bypass all caches downloading json and zip files,closed,,0,0,0,0.9891167283058168,0.9929428100585938,0.9930055737495422,0,accept,unanimous_agreement
+579402729,9954,Add additional information to the sound@cinnamon.org applet tooltip,closed,2021-04-30T13:14:02Z,0,0,0,0.9835297465324402,0.9919795989990234,0.992424488067627,0,accept,unanimous_agreement
+614578723,10043,Stop using GTimeVal/g_get_current_time,closed,2021-10-29T15:22:12Z,0,0,0,0.9452483057975768,0.9910095930099488,0.9921615719795228,0,accept,unanimous_agreement
+1751474351,12100,Add theme config gui for configurable themes,closed,,0,0,0,0.9834604859352112,0.9902105331420898,0.9915474057197572,0,accept,unanimous_agreement
+5652526,2006,[Design] Lock desklets,closed,,0,0,0,0.9887233972549438,0.9907433390617372,0.989980399608612,0,accept,unanimous_agreement
+7369420,2320,[2.2] Add search web capabilities to menu applet,closed,,0,0,0,0.9813868403434752,0.9937048554420472,0.9939174056053162,0,accept,unanimous_agreement
+11120913,2779,"Use button press instead of release events to activate applet, desklet, panel popups",closed,2014-01-22T14:16:30Z,0,0,0,0.9866711497306824,0.9945066571235656,0.9903207421302797,0,accept,unanimous_agreement
+11020779,2765,window list applet: Add binding to adjust window opacity.,closed,,0,0,0,0.988526463508606,0.9910010695457458,0.9948137998580932,0,accept,unanimous_agreement
+1290608,673,Fixed power applet not updating ( issue #611 ),closed,,0,0,0,0.9808238744735718,0.9883314967155457,0.9612255692481996,0,accept,unanimous_agreement
+2413217,1173,make GSettingsSpinButton aware of ranges defined in the schema,closed,2013-01-30T15:09:48Z,0,0,0,0.9869569540023804,0.9913066029548644,0.994763195514679,0,accept,unanimous_agreement
+3964446,1664,Cleanup debian packaging,closed,2013-04-21T18:32:47Z,0,0,0,0.9836011528968812,0.954938530921936,0.9892719984054564,0,accept,unanimous_agreement
+3198874,1448,speed up menus applet with large num of apps,closed,,0,0,0,0.9803035259246826,0.9570581316947936,0.9876682162284852,0,accept,unanimous_agreement
+81255028,5556,sound applet: Add a menu that allows the user to switch between activ…,closed,2016-10-26T10:08:05Z,0,0,0,0.9843149781227112,0.9721632599830629,0.9944403767585754,0,accept,unanimous_agreement
+93439874,5942,[applet.js] Re added ability to display a separator on applets context menus.,closed,2016-11-22T11:37:15Z,0,0,0,0.9868972897529602,0.9921149611473083,0.9929672479629515,0,accept,unanimous_agreement

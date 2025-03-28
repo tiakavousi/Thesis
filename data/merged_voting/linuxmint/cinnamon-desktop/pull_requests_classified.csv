@@ -1,0 +1,101 @@
+id,number,title,state,merged_at,distilbert_sentiment_label,codebert_sentiment_label,deberta_sentiment_label,distilbert_confidence,codebert_confidence,deberta_confidence,majority_label,final_decision,decision_reason
+146648582,98,Meson,closed,2018-02-08T21:28:41Z,0,0,0,0.9789861440658568,0.9749607443809508,0.9802916049957277,0,accept,unanimous_agreement
+2207068296,248,Add iso-codes as build-depends,closed,2024-11-29T10:33:15Z,0,0,0,0.987950086593628,0.99120432138443,0.9953085780143738,0,accept,unanimous_agreement
+2255690420,250,Add keys to screensaver gsettings schema,closed,,0,0,0,0.9887296557426452,0.9935935139656068,0.9928861260414124,0,accept,unanimous_agreement
+139115765,96,Improve debian packaging,closed,,0,0,0,0.9773309230804444,0.9676700830459596,0.9871448874473572,0,accept,unanimous_agreement
+34716136,43,don't break/replace old c-d lib,closed,2015-05-11T09:42:15Z,0,0,0,0.9746493101119996,0.9083437323570251,0.9874908328056335,0,accept,unanimous_agreement
+36513438,49,replace the rubbish pnp.ids file,closed,,0,0,0,0.6813377737998962,0.6700635552406311,0.7817057371139526,0,accept,unanimous_agreement
+1626832975,237,Add Codespell workflow and fix some typo,closed,2024-02-16T15:40:48Z,0,0,0,0.9875022172927856,0.9887130260467528,0.9610835313796996,0,accept,unanimous_agreement
+614664611,193,Stop using deprecated GTimeVal/g_get_current_time,closed,,0,0,0,0.942384660243988,0.9917029738426208,0.9790631532669068,0,accept,unanimous_agreement
+8803133,3,add upstream fix,closed,2013-10-08T12:49:01Z,0,0,0,0.9876120686531068,0.9870311617851256,0.9943523406982422,0,accept,unanimous_agreement
+84959176,70,Fix gtkdocize: GTK_DOC_CHECK not called in ./configure.ac,closed,,0,0,0,0.9863574504852296,0.989177703857422,0.9921655654907228,0,accept,unanimous_agreement
+94413155,80,Port some PAM code from cinnamon-screensaver 3.0,closed,2016-11-23T12:23:45Z,0,0,0,0.9847297072410583,0.9925577640533448,0.9947316646575928,0,accept,unanimous_agreement
+843504681,204,Update for muffin changes,closed,2022-06-09T00:23:16Z,0,0,0,0.9879953265190125,0.9637736678123474,0.9848531484603882,0,accept,unanimous_agreement
+16840682,13,Merged debian's debian/patches,closed,2014-06-14T17:44:43Z,0,0,0,0.9884992241859436,0.9921579360961914,0.9911388754844666,0,accept,unanimous_agreement
+95277891,82,Update pam config for multi-distro compatibility,closed,2016-12-06T11:47:41Z,0,0,0,0.9891322255134584,0.9890841841697692,0.9919164776802064,0,accept,unanimous_agreement
+170023305,105,Add inhibit-lid-switch-enabled,closed,,0,0,0,0.9872604608535768,0.9929822683334352,0.9942569136619568,0,accept,unanimous_agreement
+181711540,111,Improve debian packaging + debhelper 11,closed,,0,0,0,0.9815986752510072,0.9858952164649964,0.9839121699333192,0,accept,unanimous_agreement
+601806551,185,GVC: avoid deprecated g_type_class_add_private,closed,2021-03-29T16:03:27Z,0,0,0,0.9750705361366272,0.9921311736106871,0.9933330416679382,0,accept,unanimous_agreement
+1587150708,236,Updated README,closed,,0,0,0,0.9864864349365234,0.9868201613426208,0.9816159009933472,0,accept,unanimous_agreement
+2165631161,245,wip: backport xrandr -> muffin changes,closed,,0,0,0,0.986598253250122,0.8825439214706421,0.994292974472046,0,accept,unanimous_agreement
+16035543,11,[2.4] Added notification schema in preparation for updates to notification daemon and tray.,closed,,0,0,0,0.9886868000030518,0.992704689502716,0.9897615313529968,0,accept,unanimous_agreement
+11402776,7,Fix wallpaper thread lockups and whitespace,closed,2014-01-11T23:02:32Z,0,0,0,0.9869474172592164,0.9698264598846436,0.9827552437782288,0,accept,unanimous_agreement
+40717067,53,Create keybinding for XF86AudioMicMute => mic-mute,closed,2015-09-17T16:04:15Z,0,0,0,0.9878115057945251,0.9917054176330566,0.993067979812622,0,accept,unanimous_agreement
+22849526,23,Add gtk-decoration-layout key,closed,2014-10-16T14:16:02Z,0,0,0,0.9841905236244202,0.9932414293289183,0.9947136044502258,0,accept,unanimous_agreement
+36568277,51,[2.8] Make cinnamon-desktop buildable with make,closed,2015-09-17T16:00:04Z,0,0,0,0.9798306226730348,0.9927585124969482,0.994002401828766,0,accept,unanimous_agreement
+78152708,67,Migrate away from gnome-common deprecated vars and macros,closed,2016-09-12T10:56:13Z,0,0,0,0.9788162708282472,0.990487277507782,0.9854807257652284,0,accept,unanimous_agreement
+93739492,79,Fix includes for libcvc,closed,2016-11-23T11:17:26Z,0,0,0,0.9874761700630188,0.9870274662971495,0.9901483654975892,0,accept,unanimous_agreement
+97102667,83,media-keys: Add Rotation lock support,closed,2016-12-10T11:52:21Z,0,0,0,0.9857916831970216,0.9927405714988708,0.992829978466034,0,accept,unanimous_agreement
+182451453,112,[Next] use newer debhelper and meson for integrated meson support,closed,,0,0,0,0.985760509967804,0.9923135638237,0.9945425987243652,0,accept,unanimous_agreement
+209384642,119,meson: conditionalize generation of gobject introspection data,closed,,0,0,0,0.988927721977234,0.9918339252471924,0.9937992691993712,0,accept,unanimous_agreement
+312225631,130,Fix unused GIR transfer notation on integer values,closed,2019-09-05T11:15:50Z,0,0,0,0.988110899925232,0.980344533920288,0.9937048554420472,0,accept,unanimous_agreement
+324945008,133,Added key required for keyboard media key volume step adjustment,closed,,0,0,0,0.9835471510887146,0.992548644542694,0.9918377995491028,0,accept,unanimous_agreement
+327180500,134,Add custom-screensaver-command to gsettings schema,closed,2020-01-13T20:06:37Z,0,0,0,0.9881163835525512,0.994204580783844,0.994238257408142,0,accept,unanimous_agreement
+351560082,141,gnome-wall-clock.c: Fix usage of LC_TIME,closed,,0,0,0,0.9872835874557496,0.992531955242157,0.9917823076248168,0,accept,unanimous_agreement
+525987739,174,Bump meson version to 0.50.0,closed,,0,0,0,0.9865285158157348,0.9937926530838012,0.9930031895637512,0,accept,unanimous_agreement
+556041384,178,gnome-rr.c: remove whitespaces and unused int 'i',closed,,0,0,0,0.9887294173240662,0.9927936792373656,0.9948614239692688,0,accept,unanimous_agreement
+689986580,196,[WIP] Thumbnail refactoring,closed,,0,0,0,0.9894089698791504,0.9521086812019348,0.9935543537139891,0,accept,unanimous_agreement
+965018076,207,libcvc/meson.build: fix building with alsa.,closed,2022-06-17T22:05:37Z,0,0,0,0.9872094392776488,0.991866409778595,0.9937719702720642,0,accept,unanimous_agreement
+1010939389,213,schemas: Add a new key for locate pointer,closed,,0,0,0,0.9874646663665771,0.9924861192703248,0.9955556988716124,0,accept,unanimous_agreement
+16026193,10,Add new key to hold minimum window capacity (wm.preferences),closed,2014-05-20T13:05:01Z,0,0,0,0.9884861707687378,0.9928185939788818,0.9948347806930542,0,accept,unanimous_agreement
+16020725,9,Added schema for storing notification settings.,closed,,0,0,0,0.98702871799469,0.9852790832519532,0.9893561005592346,0,accept,unanimous_agreement
+44869942,56,fix xml bg warning,closed,2015-09-17T16:02:45Z,0,0,0,0.9879334568977356,0.948432683944702,0.99052494764328,0,accept,unanimous_agreement
+9627959,4,remove a leftover from copying autogen.sh from nemo,closed,2013-11-03T15:12:03Z,0,0,0,0.9857072234153748,0.9886478781700134,0.993605613708496,0,accept,unanimous_agreement
+7844324,1,Remove auto-generated files,closed,2013-08-25T13:25:49Z,0,0,0,0.9759885668754578,0.9853954911231996,0.9935291409492492,0,accept,unanimous_agreement
+8527869,2,Update gnome-wall-clock.c,closed,2013-10-02T11:58:21Z,0,0,0,0.9827174544334412,0.9931556582450868,0.978218138217926,0,accept,unanimous_agreement
+11343683,6,Fix for linuxmint/Cinnamon#2803,closed,2014-01-09T01:02:14Z,0,0,0,0.9838777780532836,0.9878249168395996,0.989930272102356,0,accept,unanimous_agreement
+54853015,58,thumbnail: Fix a code path where the mutex is never unlocked,closed,2016-01-07T11:51:16Z,0,0,0,0.9878646731376648,0.9381096363067628,0.994113266468048,0,accept,unanimous_agreement
+54963774,59,[Experimental] backgrounds: Pull in some upstream changes for GnomeBG,closed,,0,0,0,0.9873100519180298,0.9897661805152892,0.9917518496513368,0,accept,unanimous_agreement
+21557668,20,schemas for custom fonts in screensaver pull,closed,2014-09-23T08:48:15Z,0,0,0,0.9887444972991944,0.9936042428016664,0.9937589168548584,0,accept,unanimous_agreement
+23515247,25,Fix some leaks and other stuff,closed,2014-10-30T10:16:22Z,0,0,0,0.9627199172973632,0.678404688835144,0.8762865662574768,0,accept,unanimous_agreement
+23719302,26,Stop build spam,closed,2015-01-13T10:21:48Z,0,0,-1,0.924968719482422,0.7203015089035034,0.6804285049438477,0,accept,majority_agreement
+23350899,24,Correct type and initialization for screen_signals,closed,2014-10-26T13:13:05Z,0,0,0,0.987133264541626,0.9880200028419496,0.9943694472312928,0,accept,unanimous_agreement
+23905938,27,changed checking for NULL a bit,closed,2014-11-05T13:57:17Z,0,0,0,0.9797634482383728,0.9655962586402892,0.9769516587257384,0,accept,unanimous_agreement
+21785323,22," Translate, fix croatian translation ",closed,2014-09-26T08:27:43Z,0,0,0,0.9776164293289183,0.9903213381767272,0.9874122142791748,0,accept,unanimous_agreement
+21773038,21,rename the change-enabled gsettings key to slideshow-paused,closed,2014-09-25T10:19:01Z,0,0,0,0.987026870250702,0.9929515719413756,0.9943022727966307,0,accept,unanimous_agreement
+24161808,28,Add first day of week to org.cinnamon.desktop.interface schema,closed,2015-05-03T14:21:45Z,0,0,0,0.9754997491836548,0.9916041493415833,0.9927543997764589,0,accept,unanimous_agreement
+24210231,29,"bumped some deps/build-deps, removed obsolete stuff",closed,2015-02-08T14:30:39Z,0,0,0,0.9780009984970092,0.9417076110839844,0.981255054473877,0,accept,unanimous_agreement
+31697201,37,Move window to monitor,closed,2015-05-03T14:07:32Z,0,0,0,0.98784339427948,0.9816871285438538,0.9885636568069458,0,accept,unanimous_agreement
+34704342,41,Remove cycle-* keybindings items (already removed in muffin),closed,2015-05-05T08:34:20Z,0,0,0,0.9890194535255432,0.9909141063690186,0.9952057003974916,0,accept,unanimous_agreement
+34711160,42,update debian/control,closed,2015-05-05T10:39:30Z,0,0,0,0.9875800013542176,0.984188973903656,0.9925454258918762,0,accept,unanimous_agreement
+30720513,36,Debian folder fixes and improvements,closed,2015-04-30T19:00:34Z,0,0,0,0.9863892197608948,0.968725323677063,0.8744157552719116,0,accept,unanimous_agreement
+35321166,45,one more try at fixing gir package dependencies,closed,,0,0,0,0.9838802218437196,0.953921377658844,0.9865376949310304,0,accept,unanimous_agreement
+34813114,44,Remove redundant screensaver gsettings key,closed,2015-05-11T09:27:40Z,0,0,0,0.9867686629295348,0.9787760376930236,0.9920571446418762,0,accept,unanimous_agreement
+36144633,47,Support keybindings to toggle horizontal/vertical maximized state,closed,,0,0,0,0.9877029061317444,0.9911962747573853,0.9878211617469788,0,accept,unanimous_agreement
+37009983,52,screensaver schemas: use a default value that exists,closed,2015-06-05T10:15:18Z,0,0,0,0.9889554381370544,0.9906060099601746,0.99382221698761,0,accept,unanimous_agreement
+68215246,62,Fix possible NULL pointer dereference,closed,2016-05-10T15:18:12Z,0,0,0,0.9820741415023804,0.9790833592414856,0.9908135533332824,0,accept,unanimous_agreement
+68215709,63,Fix usage of uninitialized values,closed,2016-05-10T15:19:10Z,0,0,0,0.984776496887207,0.971136510372162,0.9895808100700378,0,accept,unanimous_agreement
+71606824,66,avoid some compiler warnings,closed,2016-05-31T09:07:56Z,0,0,0,0.9660469889640808,0.9009800553321838,0.9839388728141784,0,accept,unanimous_agreement
+71604117,65,avoid some warning messages,closed,2016-05-31T09:07:44Z,0,0,0,0.9232621192932128,0.690994381904602,0.9675941467285156,0,accept,unanimous_agreement
+26139341,32,added missed entries in POTFILES.in,closed,2014-12-16T11:28:38Z,0,0,0,0.9736348390579224,0.9940502047538756,0.9930421113967896,0,accept,unanimous_agreement
+25861205,31,correct errors detected by scan-build,closed,2015-02-08T14:32:53Z,0,0,0,0.9840684533119202,0.9879190325737,0.981849730014801,0,accept,unanimous_agreement
+26413297,33,Add schemas for notification timeouts,closed,,0,0,0,0.9874419569969176,0.9912729859352112,0.9947032332420348,0,accept,unanimous_agreement
+19248517,16,Add schemas for custom screensaver clock,closed,2014-09-09T08:42:04Z,0,0,0,0.986447811126709,0.986822247505188,0.9921179413795472,0,accept,unanimous_agreement
+19707159,17,Save mtwebster from roj bug reports by moving zoom keys to their proper ...,closed,,0,0,0,0.9286383986473083,0.966219127178192,0.989953637123108,0,accept,unanimous_agreement
+20266046,19,Add new keys for the background slideshow,closed,2014-09-23T09:00:43Z,0,0,0,0.9841603636741638,0.989050030708313,0.9913598895072936,0,accept,unanimous_agreement
+27958227,35,Added screensaver gsettings,closed,2015-05-05T08:57:26Z,0,0,0,0.9859894514083862,0.9901534914970398,0.9893264770507812,0,accept,unanimous_agreement
+90163477,77,fix fsf address,closed,2016-10-24T14:08:32Z,0,0,0,0.9891769289970398,0.984003484249115,0.9919562339782716,0,accept,unanimous_agreement
+85293996,74,Make AX_ macros optional,closed,2016-09-15T13:49:21Z,0,0,0,0.9882215857505798,0.991832971572876,0.9937491416931152,0,accept,unanimous_agreement
+85043450,73,hack the path as the macro doesn't work,closed,2016-09-14T10:41:04Z,0,0,0,0.8511534929275513,0.8786418437957764,0.9658723473548888,0,accept,unanimous_agreement
+85041130,72,There is no need for this as there are no docs,closed,2016-09-14T10:37:04Z,0,0,0,0.976956307888031,0.9719507098197936,0.9917985200881958,0,accept,unanimous_agreement
+85040316,71,Delete COPYING-DOCS,closed,2016-09-13T12:45:06Z,0,0,0,0.9850361347198486,0.9820484519004822,0.9357473254203796,0,accept,unanimous_agreement
+118131090,89,Disable accountsservice background as it's ubuntu only,closed,,0,0,0,0.9883208870887756,0.993008017539978,0.9909452199935912,0,accept,unanimous_agreement
+118144398,90,Add detection for accountsservice background as it's ubuntu only,closed,2017-05-03T11:10:28Z,0,0,0,0.9892300963401794,0.993846356868744,0.9945953488349916,0,accept,unanimous_agreement
+116989515,88,remove aclocal from autogen,closed,2017-04-26T10:32:14Z,0,0,0,0.9809771180152892,0.9805617928504944,0.9943640232086182,0,accept,unanimous_agreement
+114553746,85,schemas: Add some new keys for High Contrast,closed,2017-04-06T10:32:34Z,0,0,0,0.9844071865081788,0.9904389381408693,0.9941262006759644,0,accept,unanimous_agreement
+114975903,86,gvc-mixer-control: fix double-free when setting headset,closed,2017-04-10T10:33:06Z,0,0,0,0.983338475227356,0.9885064363479614,0.9928863644599916,0,accept,unanimous_agreement
+114975927,87,gvc-mixer-control: fix reference being leaked,closed,2017-04-10T10:35:09Z,0,0,0,0.9890767335891724,0.991860806941986,0.9897003173828124,0,accept,unanimous_agreement
+122879855,92,Use logind for default,closed,2017-10-13T09:32:35Z,0,0,0,0.9880273342132568,0.983405590057373,0.9916548728942872,0,accept,unanimous_agreement
+97753146,84,remove pam leftovers,closed,2016-12-13T13:58:17Z,0,0,0,0.9814352989196776,0.9598240852355956,0.9926395416259766,0,accept,unanimous_agreement
+92768421,78,Update PAM for Fedora selinux,closed,2016-11-23T11:08:53Z,0,0,0,0.9878972768783568,0.9883974194526672,0.9881044030189514,0,accept,unanimous_agreement
+144820553,97,Trivial syntax fixes to support python3.,closed,2017-10-13T09:34:10Z,0,0,0,0.7625874280929565,0.958454132080078,0.9887741804122924,0,accept,unanimous_agreement
+155795019,100,Notifications: Add bottom position option,closed,2018-02-18T13:12:14Z,0,0,0,0.9861267805099488,0.9915367364883424,0.9929980039596558,0,accept,unanimous_agreement
+185691412,115,Add key binding setting for showing desklets,closed,2018-05-04T11:20:21Z,0,0,0,0.9873793125152588,0.9914763569831848,0.9950364232063292,0,accept,unanimous_agreement
+184490872,113,Fix pkgconfig version and fix spacing,closed,2018-05-06T14:36:41Z,0,0,0,0.9885681867599488,0.9929296374320984,0.9917126893997192,0,accept,unanimous_agreement
+187605021,116,Update style of meson build options,closed,2018-10-30T12:30:21Z,0,0,0,0.9872610569000244,0.9875035881996156,0.9923869371414183,0,accept,unanimous_agreement
+178214159,109,gnome-bg: proper fix for NULL gvariant unref,closed,2018-04-16T11:21:08Z,0,0,0,0.9868713617324828,0.982413649559021,0.9929763674736024,0,accept,unanimous_agreement
+174136196,106,gnome-bg: don't unref NULL gvariant,closed,2018-03-14T12:59:37Z,0,0,0,0.9736331701278688,0.9667208194732666,0.9936394095420836,0,accept,unanimous_agreement
+238932032,123,Update slovak translation,closed,2019-01-22T10:15:37Z,0,0,0,0.9636713862419128,0.990321934223175,0.9791839122772216,0,accept,unanimous_agreement
+251666853,126,Update for meson changes,closed,2019-02-09T10:51:38Z,0,0,0,0.98810613155365,0.9819677472114564,0.9804039597511292,0,accept,unanimous_agreement
+266033585,127,Remove legacy migration script from cinnamon 2.4,closed,2019-04-01T08:36:01Z,0,0,0,0.987122118473053,0.9941662549972534,0.9926203489303588,0,accept,unanimous_agreement
+266033645,128,Meson deprecations,closed,2019-06-14T11:42:02Z,0,0,0,0.964978814125061,0.9704904556274414,0.9847344160079956,0,accept,unanimous_agreement

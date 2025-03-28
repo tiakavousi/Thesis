@@ -18,15 +18,15 @@ CONFIG_3CLASS = {
     "models": {
         "deberta": {
             "pretrained_model_name": "microsoft/deberta-base",
-            "model_save_path": str(PROJECT_ROOT / "saved_models" / "deberta_3class_v02")
+            "model_save_path": str(PROJECT_ROOT / "saved_models" / "deberta_3class"/ "model_best_f1_0.8954.pt")
         },
         "codebert": {
             "pretrained_model_name": "microsoft/codebert-base",
-            "model_save_path": str(PROJECT_ROOT / "saved_models" / "codebert_3class")
+            "model_save_path": str(PROJECT_ROOT / "saved_models" / "codebert_3class" / "model_best_f1_0.8819.pt")
         },
         "distilbert": {
             "pretrained_model_name": "distilbert-base-uncased",
-            "model_save_path": str(PROJECT_ROOT / "saved_models" / "distilbert_3class")
+            "model_save_path": str(PROJECT_ROOT / "saved_models" / "distilbert_3class" / "model_best_f1_0.8832.pt")
         },
     },
     "dataset": {
@@ -41,5 +41,10 @@ CONFIG_3CLASS = {
     },
     "evaluation": {
         "report_save_path": str(PROJECT_ROOT / "saved_models" / "codebert_3class" / "evaluation_result_codebert")
+    },
+    "inference": {
+        "input_file": str(PROJECT_ROOT / "data" / "merged_for_voting" / "merged_voting_input.csv"),
+        "output_file": str(PROJECT_ROOT / "data" / "merged_for_voting" / "model_predictions.csv"),
+        "text_column": "body"
     }
 }

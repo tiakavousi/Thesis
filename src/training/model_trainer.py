@@ -1,7 +1,8 @@
 import torch
 from torch.utils.data import DataLoader
 from transformers import get_linear_schedule_with_warmup
-from transformers.optimization import AdamW
+# from transformers.optimization import AdamW
+from torch.optim import AdamW
 
 # from tqdm.notebook import tqdm
 from tqdm import tqdm

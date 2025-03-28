@@ -1,0 +1,101 @@
+repository,file_type,id,number,title,state,merged_at,distilbert_sentiment_label,codebert_sentiment_label,deberta_sentiment_label,distilbert_confidence,codebert_confidence,deberta_confidence,majority_label,final_decision,decision_reason,manual_label
+audacity/audacity,pull_requests,629891447,835,Basic telemetry for the Audacity,closed,,0,0,0,0.9834888577461244,0.9825990200042723,0.9896626472473145,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,699730100,1384,Deep Learning Tools,closed,,0,0,0,0.9310256242752076,0.9688901305198668,0.9560727477073668,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1277048375,4414,Bottom bar UI,closed,2023-04-03T17:48:42Z,0,0,0,0.9850751161575316,0.9334924817085266,0.9846349358558656,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,804387931,2295,VST3 support,closed,2022-02-14T19:22:49Z,0,0,0,0.9829005599021912,0.9890644550323486,0.9912216663360596,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1646702426,5791,DSP-based tempo detection,closed,2024-01-10T14:59:54Z,0,0,0,0.9834263324737548,0.9924739003181458,0.9914998412132264,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1476170405,5043,Time stretching 4 of 6 repair copy paste for stretched tracks,closed,2023-10-06T17:46:13Z,0,0,0,0.9866231083869934,0.975896954536438,0.9907028675079346,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1423361978,4881,Audio Clip stretching,closed,,0,0,0,0.9848926067352296,0.9357024431228638,0.99285089969635,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,986659085,3176,Non modal setting dialogs for stacked effects,closed,2022-08-15T11:12:59Z,0,0,0,0.9862481951713562,0.9640368223190308,0.9925232529640198,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1476170025,5041,Time stretching 2 of 6 make audio track stretching effective,closed,2023-09-01T10:56:01Z,0,0,0,0.9705954790115356,0.991950511932373,0.9941837191581726,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,681999250,1207,Track affordances,closed,2021-07-22T18:43:49Z,0,0,0,0.9820968508720398,0.9801378846168518,0.99137282371521,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,778873464,2121,Deserialization cleanup,closed,2021-11-18T12:45:53Z,0,0,0,0.9850618243217468,0.9802297353744508,0.990625262260437,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,630054049,836,Breakpad integration,closed,2021-06-15T19:56:49Z,0,0,0,0.9875192642211914,0.8914955854415894,0.9884422421455384,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1381557518,4771,SampleTrack caching refactoring: weak_ptr approach,closed,2023-06-27T10:19:41Z,0,0,0,0.9804677963256836,0.9904781579971312,0.9940611720085144,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,877717688,2668,Issue 2607: plugin validation,closed,2022-05-18T11:14:16Z,0,0,0,0.98782479763031,0.9933710098266602,0.9949407577514648,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1395602718,4797,Wide sample sequence stretching decorator,closed,2023-07-07T16:07:49Z,0,0,0,0.984742283821106,0.989152193069458,0.9916887879371644,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1501508573,5138,Destructive effects applied to stretched clips,closed,2023-09-19T09:41:14Z,0,0,0,0.7711334824562073,0.989449679851532,0.9149811863899232,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1005900482,3278,Define instance vst2 2nd,closed,2022-08-23T14:24:36Z,0,0,0,0.984740912914276,0.9929485321044922,0.9941797256469728,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,921748399,2867,Issue 2845: effects stack UI,closed,2022-05-25T20:24:08Z,0,0,0,0.9877343773841858,0.991472065448761,0.9943535327911376,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,594643417,759,Update 2.4.2 Turkish Translation,closed,,0,0,0,0.9672096967697144,0.9921581745147704,0.9828185439109802,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1037172677,3432,Audio sharing support,closed,2022-09-05T08:20:07Z,0,0,0,0.9804514050483704,0.98195481300354,0.9600998163223268,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,680302149,1193,New spectral editing tool - brush tool,closed,,0,0,0,0.9612466096878052,0.9881151914596558,0.8646280765533447,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1411723598,4853,Have clips know project tempo,closed,,0,0,0,0.9826807379722596,0.9722394943237304,0.9927033185958862,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,794253376,2224,Integrate WavPack library to export/import wavpack files,closed,2022-06-24T14:26:37Z,0,0,0,0.9851994514465332,0.9927290081977844,0.9906448125839232,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1369923024,4746,Mixer does not use track,closed,2023-06-21T20:11:52Z,0,0,0,0.9830422401428224,0.9781190156936646,0.992984652519226,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1749886542,6068,6001 formant preservation,closed,2024-03-20T12:19:13Z,0,0,0,0.9730700254440308,0.9849333167076112,0.98968106508255,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1340498239,4668,New export UI,closed,2023-08-02T12:26:16Z,0,0,0,0.9837913513183594,0.9774808883666992,0.9742417335510254,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1354169053,4701,4700 make an audacity library of staffpads time stretcher,closed,2023-06-01T10:22:48Z,0,0,0,0.9797536730766296,0.9751489758491516,0.9908488988876344,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1476170267,5042,Time stretching 3 of 6 repair drawing tools for stretched audio,closed,2023-09-25T07:17:28Z,0,0,0,0.982317328453064,0.9714861512184144,0.989982545375824,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,629045391,830,Color scheme for spectrogram,closed,2021-06-15T16:41:44Z,0,0,0,0.9809688329696656,0.977895975112915,0.9863015413284302,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,665864719,966,Tracking version,closed,2021-06-18T13:46:40Z,0,0,0,0.9869654178619384,0.9881240725517272,0.9914029240608216,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,937515523,2941,Audio setup rework,closed,2022-06-15T15:49:47Z,0,0,0,0.9843155741691588,0.9806227684020996,0.9910106658935548,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1262080078,4384,Import/export refactoring,closed,,0,0,0,0.9876634478569032,0.9790862202644348,0.9907788038253784,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1030194401,3396,Issue 2606: vst3 statelessness,closed,2022-08-23T10:38:51Z,0,0,0,0.9496082067489624,0.9882233738899232,0.9473435878753662,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1845092749,6359,Master effects,closed,2024-05-27T09:00:31Z,0,0,0,0.972866415977478,0.9711455702781676,0.9539794921875,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,726387136,1614,Wave Clip rename,closed,2021-09-15T03:09:01Z,0,0,0,0.981711745262146,0.9749998450279236,0.991678774356842,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,734418429,1679,Smart clips,closed,2021-10-05T16:16:38Z,0,0,0,0.8789465427398682,0.8814082145690918,0.9689862728118896,0,accept,unanimous_agreement,0
+audacity/audacity,pull_requests,1657298102,5818,`lib-wave-track-paint`,closed,2024-04-25T12:52:39Z,0,0,0,0.9797953367233276,0.9934350252151488,0.9929861426353456,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,727460146,1623,Ffmpeg update,closed,2021-09-24T18:03:22Z,0,0,0,0.9882646799087524,0.9836596250534058,0.9436529874801636,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,661059630,952,Error reporting to Sentry,closed,2021-06-08T15:08:26Z,0,0,0,0.8834664821624756,0.9535890817642212,0.8655632734298706,0,accept,unanimous_agreement,0
+audacity/audacity,pull_requests,988597829,3183,Define settings vst2 - 2nd,closed,2022-07-15T12:48:51Z,0,0,0,0.9854997992515564,0.9913597702980042,0.9921329617500304,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1857693643,6395,Real time limiter UI,closed,2024-05-22T13:49:35Z,0,0,0,0.9873327612876892,0.9585280418395996,0.9878022074699402,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,969181551,3088,Use XDG dirs by default on Linux,closed,2022-06-24T14:21:01Z,0,0,0,0.9870136380195618,0.992388129234314,0.9889156818389891,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1686909656,5874,Multiple-file import of audio files with tempo detection.,closed,2024-02-07T12:50:44Z,0,0,0,0.9886059165000916,0.9912070631980896,0.993529975414276,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,912108369,2831,Issue 2659: effects menu sorting,closed,2022-06-11T11:55:13Z,0,0,0,0.9872815012931824,0.9920275807380676,0.9944643378257751,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1501566589,5139,Repair plot spectrum command for stretched data,closed,2023-09-19T09:47:30Z,0,0,0,0.9869199991226196,0.9845792055130004,0.9930752515792848,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1596227849,5570,5548 parse audio file title for loop metadata,closed,2023-12-05T11:58:46Z,0,0,0,0.9873347282409668,0.988731563091278,0.993180513381958,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1755067541,6094,Wide wave clip,closed,2024-03-14T12:26:36Z,0,0,0,0.9630565643310548,0.975265085697174,0.9855952262878418,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,995999641,3229,Issue 3078: realtime effects UI keyboard navigation & accessibility,closed,2022-08-26T12:50:00Z,0,0,0,0.965574026107788,0.9789633750915528,0.9918473958969116,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1732553000,5980,Plugin manager window update,closed,2024-03-22T14:05:44Z,0,0,0,0.985606014728546,0.9886013865470886,0.9921603798866272,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1361390914,4723,4717 relocate caching from sampletrackcache to some place below WaveClip,closed,,0,0,0,0.9894356727600098,0.9947798252105712,0.9915698766708374,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1699492245,5900,5891 non destructive pitch shifting,closed,2024-02-02T17:19:25Z,0,0,0,0.9825456142425536,0.9610369205474854,0.976847767829895,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,2136092721,7590,6940 vscode setup,closed,2024-10-22T14:50:35Z,0,0,0,0.9888877272605896,0.9920268654823304,0.9925077557563782,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,697987551,1377,Stereo track affordance,closed,2021-08-20T13:00:46Z,0,0,0,0.9836578965187072,0.9910356998443604,0.991309642791748,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1473454555,5027,Ignore right channel envelope,closed,2023-08-22T13:27:03Z,0,0,0,0.9137265086174012,0.9710751175880432,0.9880704879760742,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1729398268,5965,Wide wave track,closed,2024-03-05T13:49:07Z,0,0,0,0.9733417630195618,0.9797097444534302,0.98069566488266,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,906207164,2801,Make echo stateless 2,closed,2022-04-14T19:38:59Z,0,0,0,0.9873914122581482,0.9817345142364502,0.9948746562004088,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1513933344,5193,Channels API extend,closed,2023-09-25T14:39:46Z,0,0,0,0.9880546927452089,0.9876817464828492,0.9945610165596008,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1001666006,3258,Source stage and sink,closed,2022-08-01T13:25:12Z,0,0,0,0.986308753490448,0.9881581664085388,0.986364483833313,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,650304892,918,Preliminary work to change the 3d party libraries management process,closed,2021-05-24T13:53:54Z,0,0,0,0.98331218957901,0.991671860218048,0.9794909358024596,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,855682242,2565,Effects side panel,closed,2022-02-25T15:52:46Z,0,0,0,0.968339502811432,0.9824842810630798,0.9871618151664734,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1565218751,5398,5390 stretch rendering always joint stereo,closed,2023-10-30T08:38:26Z,0,0,0,0.9646229147911072,0.9903811812400818,0.9906345009803772,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,843132792,2536,Unit testing,closed,2022-02-18T12:27:42Z,0,0,0,0.9784290194511414,0.9581564664840698,0.9889867305755616,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1724329763,5952,5901 overflow button,closed,2024-02-22T11:52:54Z,0,0,0,0.9874936938285828,0.9757454991340636,0.9892557859420776,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,958783921,3030,Define settings vst3 i2969 3rd,closed,,0,0,0,0.9858871102333068,0.9860191345214844,0.99420964717865,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1067882590,3696,Meter toolbar navigation & accessibility,closed,2022-11-09T09:45:34Z,0,0,0,0.9455535411834716,0.982265830039978,0.9800314903259276,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1418387472,4867,Have clips know project tempo,closed,2023-07-10T21:54:48Z,0,0,0,0.9826807379722596,0.9722394943237304,0.9927033185958862,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1616668719,5685,Symmetric vertical zoom,closed,2023-12-04T13:27:34Z,0,0,0,0.9760631918907166,0.9578412771224976,0.9849615097045898,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1012098555,3317,Effect plugin window beautifications,closed,2022-08-25T21:18:13Z,0,0,0,0.9871325492858888,0.9903096556663512,0.9918255805969238,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,942850386,2957,Stateless vst3 settings,closed,,0,0,0,0.9883021712303162,0.986791491508484,0.9942576885223388,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1366890235,4739,Disallow mismatched sample rates,closed,2023-06-09T16:06:07Z,0,0,0,0.954099416732788,0.9309967160224916,0.9829291105270386,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,906707832,2805,Non display channel group data,closed,2023-05-24T21:53:07Z,0,0,0,0.9829435348510742,0.9629234671592712,0.993898868560791,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1394541366,4795,Audio io does not use track,closed,2023-06-22T15:08:23Z,0,0,0,0.9847247004508972,0.9599347710609436,0.9934242963790894,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1663244018,5839,5546 audio file header search for loop metadata,closed,2024-01-16T22:36:09Z,0,0,0,0.9878837466239928,0.9919500350952148,0.992137372493744,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1151272452,4033,Clip copy dialog,closed,2023-02-20T19:20:51Z,0,0,0,0.9882325530052184,0.9446824193000792,0.9888100028038024,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1193880092,4171,Realtime effects menu grouping,closed,2023-03-03T19:02:30Z,0,0,0,0.98468416929245,0.979939579963684,0.9918515086174012,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1608078841,5653,Wave color nonsense,closed,2024-02-19T17:44:17Z,-1,-1,0,0.5703496336936951,0.9309700727462769,0.7857868671417236,-1,accept,majority_agreement,-1
+audacity/audacity,pull_requests,2329382831,8211,Add instance UUID support,closed,2025-02-13T15:14:49Z,0,0,0,0.9886882901191713,0.9860047698020936,0.9947233200073242,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1882292475,6472,[AU4] Timeline ruler,closed,2024-05-24T13:18:59Z,0,0,0,0.9827429056167604,0.991280734539032,0.990134060382843,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1698944560,5899,Fivefold faster tempo detection and spectrograms too,closed,,0,0,0,0.948170006275177,0.9638458490371704,0.9821929931640624,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,2127481387,7561,Implement track deletion and a relevant minor refactoring,closed,2024-10-30T19:32:51Z,0,0,0,0.987294614315033,0.992605447769165,0.9941017031669616,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,689846228,1295,Make Privacy Policy links accessible from the keyboard,closed,2021-07-15T01:18:09Z,0,0,0,0.9786998629570008,0.992853581905365,0.993909478187561,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1644927880,5789,Copy selection toolbar start and stop time string into clipboard,closed,,0,0,0,0.98904687166214,0.9935365319252014,0.9879172444343568,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,2119908016,7515,[AU4] Consecutive and non-consecutive track selecting,closed,2024-10-28T19:15:36Z,0,0,0,0.9855933785438538,0.9857653975486756,0.9912286996841432,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,658864805,948,Adds lib-uuid,closed,2021-06-02T14:41:54Z,0,0,0,0.9878824949264526,0.989462673664093,0.9944475889205932,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,692396185,1323,Install updates,closed,2021-08-04T23:15:05Z,0,0,0,0.9854590892791748,0.9838718175888062,0.9915134310722352,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,799847175,2261,Issue 2066: clip trim snapping,closed,2021-12-14T08:33:47Z,0,0,0,0.9863057136535645,0.9890056848526,0.9934113621711732,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,951518835,3009,Define settings vst3 i2969 2nd,closed,,0,0,0,0.9870356917381288,0.9873363375663756,0.9945560693740844,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,2000678541,7017,6954 plugin manager and do effect method usable in au4,closed,2024-08-19T05:59:32Z,0,0,0,0.9873688817024232,0.991099178791046,0.9948851466178894,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1160276671,4053,Toolkit neutral menus part 2,closed,,0,0,0,0.9866927266120912,0.9892427325248718,0.9878042936325072,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,2199460306,7785,7647 effect panel part 2,closed,2024-12-02T14:12:54Z,0,0,0,0.9733919501304626,0.99196058511734,0.990667164325714,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,853729827,2561,Issue 2543: wave track naming,closed,2022-03-22T10:19:09Z,0,0,0,0.985683798789978,0.9936150312423706,0.993047297000885,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,966857286,3070,Define settings vst3 i2969 4th,closed,2022-07-01T13:03:59Z,0,0,0,0.9880996346473694,0.9876253008842468,0.9945558309555054,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1615605289,5675,Hide some lesser known preferences,closed,,0,0,0,0.9817497730255128,0.963930368423462,0.956734538078308,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1829011461,6306,Realtime limiter,closed,,0,0,0,0.9865692853927612,0.9540659785270692,0.9881950616836548,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,2258025855,7978,Distinguish timepoint and duration on beats formatter,closed,2025-01-07T10:18:15Z,0,0,0,0.9852686524391174,0.9780902862548828,0.9888601899147034,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,753935106,1865,Fix text edit shortcuts,closed,2021-10-21T12:13:10Z,0,0,0,0.9870959520339966,0.9690722227096558,0.9930769205093384,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1140184855,3996,VST3 factory presets,closed,2023-02-20T20:14:01Z,0,0,0,0.9888784289360046,0.9888314008712769,0.9917173981666564,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1528635452,5239,5196 clip menus,closed,2023-09-26T12:53:53Z,0,0,0,0.986282765865326,0.975093424320221,0.9903073310852052,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,1004141694,3271,Define instance vst2,closed,,0,0,0,0.9879171252250672,0.9892889261245728,0.9939817786216736,0,accept,unanimous_agreement,2
+audacity/audacity,pull_requests,713145817,1482,Experimental dialog journalling,closed,2021-08-20T10:42:31Z,0,0,0,0.9793187975883484,0.9814890027046204,0.9786191582679749,0,accept,unanimous_agreement,2

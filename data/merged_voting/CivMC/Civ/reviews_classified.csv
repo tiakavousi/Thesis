@@ -1,0 +1,24 @@
+id,pr_number,body,distilbert_sentiment_label,codebert_sentiment_label,deberta_sentiment_label,distilbert_confidence,codebert_confidence,deberta_confidence,majority_label,final_decision,decision_reason
+2140197598,550,a couple minor comments but overall some really nice work,1,1,1,0.9570522308349608,0.9712655544281006,0.9810266494750975,1,accept,unanimous_agreement
+2258245769,606,(dumb github ui),-1,0,-1,0.6771412491798401,0.9250721335411072,0.8621819615364075,-1,accept,majority_agreement
+2355744632,606,"looks good overall, but a few small changes would be nice",1,1,1,0.9525811672210692,0.896435558795929,0.9281265139579772,1,accept,unanimous_agreement
+2370228266,397,"you should check if the item damaged is the same as the one in the player's hand, otherwise this could incorrectly trigger for armour or offhand items.",0,0,0,0.9751685857772828,0.9856215119361876,0.9873814582824708,0,accept,unanimous_agreement
+2370211686,631,all the calls to connection.close() are not necessary,0,0,0,0.9785651564598083,0.9923485517501832,0.9946243166923524,0,accept,unanimous_agreement
+1903926110,334,would using [a link] and [a link] work instead?,0,0,0,0.9858359098434448,0.9946492314338684,0.9935737252235411,0,accept,unanimous_agreement
+1886303357,2,"looks good, but does dogfacts really broadcast at random intervals, determined on restart? wtf?",-1,-1,-1,0.9458699226379396,0.9634086489677428,0.9937180280685424,-1,accept,unanimous_agreement
+1912434424,351,"this looks good to me, i assume reinforcement caching would make this not too intensive? grass seems to try to spread more than any other of our checks here that we prevent. if someone else thinks that's sane too then we should be good.",1,1,1,0.8545522689819336,0.8941130638122559,0.8187198638916016,1,accept,unanimous_agreement
+2553989919,729,"[a link] recommends a minimum despawn range of 36, even if the simulation distance is 3. mob spawn range should also be 3",0,0,0,0.9855035543441772,0.9933887720108032,0.9939712882041932,0,accept,unanimous_agreement
+2275081005,619,looks good to me,1,1,1,0.9669890999794006,0.9499172568321228,0.9083709716796876,1,accept,unanimous_agreement
+2255206751,585,can this be made configurable?,0,0,0,0.987966239452362,0.9921637773513794,0.9951928853988647,0,accept,unanimous_agreement
+1912433672,345,"code looks like it makes sense, does this hack need a config value added as well though?",0,0,0,0.979223370552063,0.9896363615989684,0.9850015640258788,0,accept,unanimous_agreement
+1956421379,385,"i'm not researching this myself, i'll just trust it makes it better.",0,0,0,0.6519238352775574,0.8381818532943726,0.563558042049408,0,accept,unanimous_agreement
+1944491333,374,"doesn't this defeat the point of the hack, and let you explode anchors in the overworld?",0,0,0,0.8538148403167725,0.5663350224494934,0.9619677662849426,0,accept,unanimous_agreement
+1912827649,354,mixing tabs and spaces?,0,0,0,0.9878877401351928,0.9795326590538024,0.990161657333374,0,accept,unanimous_agreement
+2032853874,481,i'm happy for you or sorry that happened,1,1,-1,0.7883629202842712,0.9741849303245544,0.9227200746536256,1,accept,majority_agreement
+2041669548,491,works :),1,1,0,0.8296049237251282,0.9927387833595276,0.5847682356834412,1,accept,majority_agreement
+1898782559,237,:thumbs_up:,0,0,1,0.8380307555198669,0.9771975874900818,0.9533231854438782,0,accept,majority_agreement
+1898783247,238,:thumbs_up:,0,0,1,0.8380307555198669,0.9771975874900818,0.9533231854438782,0,accept,majority_agreement
+1907510009,338,"comparing damage values of an axe is not really a good way of checking durability, because the unbreaking enchantment exists. this should be a while loop that applies damage and deoxidises one at a time, until the tool is broken or it's fully deoxidied.",0,0,0,0.7911977171897888,0.8828279972076416,0.9616512656211852,0,accept,unanimous_agreement
+1944498581,376,"i think a lot of players have built around this as expected functionality, and i'm not sure we should change it or not. as a feature i have no strong opinions either way, it just depends on the design philosophy of citadel and how we think that _any_ interactions with reinforced blocks should go. should probably come to a consensus as a team on it",0,0,0,0.5583717226982117,0.7486907243728638,0.7308868169784546,0,accept,unanimous_agreement
+1981379976,395,deleting code is my favourite activity,1,0,1,0.592025876045227,0.755882740020752,0.7506177425384521,1,accept,majority_agreement
+1999772206,394,thanks for fixing this,1,1,1,0.6962162852287292,0.6082999110221863,0.7962043285369873,1,accept,unanimous_agreement

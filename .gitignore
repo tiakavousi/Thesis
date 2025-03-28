@@ -13,7 +13,12 @@ build/
 *.egg-info/
 
 # Data and logs
-data/
+data/binary_classified
+data/binary_features
+data/processed
+data/raw
+data/raw_data_exploration
+
 saved_models/
 datasets/raw/
 

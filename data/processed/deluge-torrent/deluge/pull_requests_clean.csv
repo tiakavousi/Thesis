@@ -1,0 +1,101 @@
+id,number,title,user,created_at,merged_at,comments,state,closed_at
+813588818,331,Update Windows Packaging,doadin,2022-01-04T05:57:05Z,,131,closed,2022-01-13T22:23:59Z
+823521779,338,IP Check Updates,doadin,2022-01-15T07:12:26Z,,32,closed,2022-01-30T16:14:07Z
+224597487,221,[Core] Call wait_for_alert in a thread,DjLegolas,2018-10-22T06:25:21Z,,13,closed,2023-11-27T15:50:47Z
+56100230,57,UI option handling fixes and cleanup,bendikro,2016-01-14T21:59:55Z,2016-04-18T10:57:41Z,5,closed,2016-04-18T10:57:41Z
+189115298,181,Initial Appveyor Support,doadin,2018-05-18T19:31:01Z,,15,closed,2018-06-02T20:54:04Z
+96429411,138,host:port paste support,matiasw,2016-12-04T11:22:56Z,,19,closed,2017-02-23T18:49:25Z
+21665586,12,[Extractor] Add Finding Win 7z Path via Registry,doadin,2014-09-23T18:23:44Z,,12,closed,2014-09-24T21:51:10Z
+185333635,180,#3171 Add Option To Specify Outgoing Connection Interface,doadin,2018-05-02T04:38:12Z,2018-05-29T19:00:52Z,14,closed,2018-05-29T19:00:52Z
+838831086,359,[Core] Document all exported core methods with type hints,gazpachoking,2022-02-03T00:51:26Z,,18,closed,2022-02-11T08:49:51Z
+198527596,200,Feature GTK3UI,cas--,2018-07-01T14:46:39Z,2018-11-05T08:51:30Z,31,closed,2018-11-05T08:51:30Z
+829002583,343,[3499][Core] Stopped using deprecated functions,DjLegolas,2022-01-21T22:44:12Z,,27,closed,2022-02-13T13:50:12Z
+22166378,14,Added method remove_torrents to core.,bendikro,2014-10-02T20:06:26Z,,6,closed,2014-12-03T16:52:44Z
+821658522,337,Windows Continued,doadin,2022-01-13T23:05:52Z,,9,closed,2022-01-21T13:34:07Z
+843173714,369,Automatically refresh and expire the torrent status cache,gazpachoking,2022-02-08T19:34:48Z,,6,closed,2022-02-15T15:15:06Z
+67617488,78,[#1959] [WebUI] Allow user selectable GUI language,bendikro,2016-04-23T20:23:04Z,2016-04-25T14:45:34Z,9,closed,2016-04-25T14:45:34Z
+1944514990,454,Ci fixes and updates,Lord-Kamina,2024-06-28T14:51:37Z,,11,closed,2024-09-18T13:46:25Z
+69542676,90,Develop pass ui client args,bendikro,2016-05-10T17:08:03Z,2016-05-21T14:06:13Z,4,closed,2016-05-21T14:06:13Z
+197747938,196,WiP [#3065] Enhance TLS Security,cas--,2018-06-27T14:14:56Z,,10,closed,2018-09-06T18:18:36Z
+66721759,67,[GTKUI] Fix #2802: GTKUI classic mode shutdown procedure is broken,bendikro,2016-04-16T00:35:03Z,,2,closed,2016-04-18T15:33:55Z
+835215548,354,Remove twisted.trial tests,gazpachoking,2022-01-29T21:35:27Z,,8,closed,2022-02-03T22:33:52Z
+853664019,376,Support IPv6 In host lists for Connection Managers,doadin,2022-02-15T20:15:29Z,,5,closed,2022-02-18T23:06:06Z
+201463737,204,[#2009][WebUI] Add About window,DjLegolas,2018-07-14T18:33:52Z,,21,closed,2018-10-21T14:58:35Z
+833909351,352,[Core] Test mixing in async/await syntax,gazpachoking,2022-01-27T21:49:40Z,,20,closed,2022-02-02T05:28:02Z
+199964042,201,[#3189] Refactor HTTPDownloader to Agent,DjLegolas,2018-07-08T22:23:42Z,,4,closed,2018-07-15T11:47:20Z
+840951781,364,[CI] Added CI run on minimum and current python requirements,DjLegolas,2022-02-05T22:40:29Z,,11,closed,2022-03-02T13:19:49Z
+68481559,83,Fix Auto-add plugin to accept torrent files with uppercase extension,Tanz0rz,2016-04-30T23:04:23Z,,8,closed,2016-05-12T16:44:14Z
+53487192,50,[#2724] [Web] Forward exceptions in JSON-RPC back to caller,bendikro,2015-12-12T22:23:15Z,2016-04-09T23:03:45Z,1,closed,2016-04-09T23:03:45Z
+237415408,228,[UI|Console] added console option to specify move completed folder,hukal,2018-12-10T18:06:20Z,,16,closed,2019-05-11T21:37:23Z
+69753503,93,Add external ip from lt to UI statusbars,cas--,2016-05-11T22:34:00Z,2016-05-15T10:53:01Z,7,closed,2016-05-15T10:53:01Z
+65557104,62,Develop console rewrite,bendikro,2016-04-07T00:24:04Z,2016-10-30T12:55:46Z,10,closed,2016-10-30T12:55:46Z
+228576104,224,Modify the transfer protocol in a couple ways.,aresch,2018-11-06T05:11:59Z,,10,closed,2018-11-13T03:46:44Z
+834951713,353,Add maybe_coroutine decorator to easily mix in async/await syntax,gazpachoking,2022-01-29T02:43:29Z,,11,closed,2022-02-06T21:06:23Z
+573751266,306,[GTKUI] Added detection of torrent URL on GTK UI focus ,matiasw,2021-02-15T19:23:22Z,,7,closed,2021-10-03T18:49:54Z
+809911318,325,Drop Python2 support,DjLegolas,2021-12-25T16:34:25Z,,4,closed,2021-12-28T19:32:18Z
+18939141,5,[#2478] [Blocklist] Add WebUI plugin page,omaralvarez,2014-07-27T08:49:54Z,,15,closed,2014-08-04T17:47:03Z
+22694011,19,[GTKUI] Fix magnet association button access is denied,doadin,2014-10-14T08:06:06Z,,14,closed,2014-11-25T19:02:39Z
+73206436,103,Develop ui entry tests,bendikro,2016-06-09T12:41:25Z,,2,closed,2016-10-18T20:35:03Z
+430494533,296,Update Install Instructions,SergioInToronto,2020-06-07T23:52:35Z,,4,closed,2021-12-12T18:28:47Z
+835490068,355,[Config] Don't log users passwords in plain text,doadin,2022-01-30T19:47:23Z,,14,closed,2022-02-05T12:27:02Z
+2043232571,462,Replace deprecated cgi module with email,mtasaka,2024-08-29T06:32:38Z,,6,closed,2024-09-08T08:52:56Z
+22502419,16,#2406 Implemented core.add_torrent_files to speed up adding multiple torrents.,bendikro,2014-10-09T15:42:13Z,,2,closed,2014-12-03T15:41:15Z
+201357294,202,Prevent time formatting crash when seconds were floats,gazpachoking,2018-07-13T17:46:04Z,,7,closed,2018-07-27T06:28:45Z
+282494537,240,[WiP] Update to libtorrent-1.2,DjLegolas,2019-05-27T12:27:47Z,,4,closed,2019-06-05T14:25:23Z
+829809938,347,[Core] Return plugin keys with get_torrents_status,gazpachoking,2022-01-23T18:40:11Z,,13,closed,2022-01-26T18:45:13Z
+855294437,377,[Console] Swap j and k key's behavior to fit vim mode,KtlTheBest,2022-02-17T10:09:09Z,,3,closed,2022-03-02T11:41:27Z
+958457944,386,[Packaging] Pinned Pyinstaller to v4.10 and readme update,mhertz,2022-06-05T16:45:03Z,,10,closed,2022-06-13T18:56:30Z
+70958876,99,Develop misc fixes tests component core,bendikro,2016-05-21T20:00:09Z,2016-05-24T22:59:16Z,2,closed,2016-05-24T22:59:16Z
+89536357,115,Use libtorrent.__version__ since libtorrent.version is deprecated,aresch,2016-10-16T19:30:29Z,,13,closed,2016-10-17T11:43:18Z
+161767435,175,Call the blocking wait_for_alert in a thread.,AllSeeingEyeTolledEweSew,2018-01-09T01:42:51Z,,4,closed,2018-11-01T11:14:41Z
+269701478,234,Replace platform.linux_distribution function,DjLegolas,2019-04-11T18:44:44Z,,1,closed,2019-05-08T20:34:05Z
+949961411,385,[Web] Accept charset in content-type for json messages,ibizaman,2022-05-28T07:32:27Z,,2,closed,2022-06-12T15:09:30Z
+1482698195,430,[Core] implement synchronous and v2 metafile creation,rcarpa,2023-08-21T11:27:13Z,,2,closed,2023-11-20T10:18:55Z
+21600957,10,Added automated tests and stuff on travis ,bendikro,2014-09-22T19:01:05Z,,1,closed,2014-09-25T13:35:29Z
+40080308,34,Update Translations,doadin,2015-07-15T23:18:49Z,,12,closed,2015-07-16T00:17:23Z
+66466125,65,[WebUI] Fix #2798: WebUI plugin fail to start,bendikro,2016-04-14T11:08:59Z,,8,closed,2016-04-18T11:02:34Z
+67647635,79,[Core] Save fastresume file on separate thread,bendikro,2016-04-24T19:44:47Z,2016-04-28T22:21:30Z,4,closed,2016-04-28T22:21:30Z
+76878828,105,Libtorrent 1.1 compatibility,minus7,2016-07-10T17:29:13Z,,6,closed,2016-07-20T11:15:01Z
+91943369,133,[WebUI] Log correct http address if listening on IPv6,bendikro,2016-11-02T10:27:49Z,2016-11-22T22:17:39Z,5,closed,2016-11-22T22:17:39Z
+100566702,139,[WebUI] Added X-Deluge-Session header support.,N3X15,2017-01-07T11:43:08Z,,7,closed,2017-02-11T05:36:02Z
+828976088,342,Simplify PyInstaller spec file,CirnoT,2022-01-21T22:04:13Z,,8,closed,2022-01-23T16:23:33Z
+1508919923,433,Fix Errors Due to Deps,doadin,2023-09-09T19:39:48Z,,11,closed,2023-09-18T12:20:53Z
+1376718448,427,[UI][Common] Add daemon version check,DjLegolas,2023-06-03T07:18:32Z,,3,closed,2023-11-20T12:37:18Z
+87703135,109,[UI] Fix ZeroDivisionError at pieces bar update,elemongw,2016-10-03T11:50:15Z,,6,closed,2016-10-10T18:04:17Z
+125013908,158,Save torrent state only if state has changed. ,ratoaq2,2017-06-11T05:09:19Z,2017-06-14T10:00:08Z,3,closed,2017-06-14T10:00:08Z
+69703771,92,Develop autodoc fix,bendikro,2016-05-11T16:39:02Z,2016-05-22T11:12:22Z,1,closed,2016-05-22T11:12:22Z
+52690022,47,Defer save state function to separate thread,bendikro,2015-12-04T16:28:11Z,,2,closed,2015-12-14T21:37:15Z
+54178330,55,[Core] Implement async_add_torrent in torrentmanager,bendikro,2015-12-19T13:02:42Z,,1,closed,2016-04-10T10:51:00Z
+89749929,117,Python 3 fixes,aresch,2016-10-18T05:40:29Z,,9,closed,2016-10-24T15:44:30Z
+815760460,334,[Gtk] Fixed magnets not showing the prefetched metadata,DjLegolas,2022-01-06T18:58:33Z,,7,closed,2022-01-08T20:05:21Z
+1241140745,412,Proposal about i2p,jiigen,2023-02-14T20:31:27Z,,4,closed,2023-06-02T07:53:39Z
+2036915919,460,[UI][Common] Wrap torrent comment and tracker status URLs in HTML (clickable),zakkarry,2024-08-26T08:44:01Z,,1,closed,2024-09-08T08:52:55Z
+68484887,84,[#2813][Partial Revert][GTKUI] Remove old twisted and gnome code,doadin,2016-05-01T02:16:41Z,,6,closed,2016-05-06T21:45:42Z
+70983959,101,[Console] Fix to console argument parsing,bendikro,2016-05-22T18:10:07Z,2016-05-24T22:59:57Z,2,closed,2016-05-24T22:59:57Z
+91518793,128,[Tests] Increase file descriptor limit,bendikro,2016-10-30T11:27:18Z,,4,closed,2016-11-01T12:54:23Z
+192211234,186,Fix and cleanup outgoing interface code,cas--,2018-06-02T18:25:41Z,2018-06-02T20:35:37Z,3,closed,2018-06-02T20:35:37Z
+193819664,189,[AutoAdd] Add WebUI interface,DjLegolas,2018-06-10T10:43:54Z,,6,closed,2018-07-12T18:19:28Z
+230293436,226,gtk3,doadin,2018-11-12T22:51:58Z,,5,closed,2019-06-17T10:39:35Z
+222292293,215,Resolve symlinked config files,PhilHudson,2018-10-11T21:59:17Z,,8,closed,2018-10-21T14:25:37Z
+860907027,380,    Add a systemd user service,WhyNotHugo,2022-02-22T23:20:22Z,,6,closed,2022-03-02T11:41:26Z
+1144457570,404,[UI][Common] Add support for BitTorrent V2 file tree,DjLegolas,2022-12-03T20:43:23Z,,2,closed,2023-08-27T10:36:58Z
+847391903,372,[Config] fixed callLater wrapper func,DjLegolas,2022-02-11T10:48:08Z,,2,closed,2022-02-12T17:14:51Z
+66722206,68,Develop plugin handling + webui fixes,bendikro,2016-04-16T00:45:30Z,,5,closed,2016-04-18T14:57:01Z
+88866952,112,[#2900] Fix Error loading torrent: invalid bencoded value,bendikro,2016-10-11T16:34:38Z,,6,closed,2016-10-28T13:48:43Z
+90637967,124,Feature/python3 support,cas--,2016-10-24T15:39:04Z,2016-10-26T09:11:04Z,7,closed,2016-10-26T09:11:04Z
+120083585,155,Trac#3011 Handle WM_ENDSESSION on Windows to shutdown cleanly,cas--,2017-05-11T11:28:19Z,,3,closed,2021-12-28T20:03:29Z
+140975568,170,Store state and fastresume in per-torrent files.,AllSeeingEyeTolledEweSew,2017-09-14T03:29:56Z,,7,closed,2018-01-12T05:42:01Z
+286664484,244,bugfix for peers tab failing to set flag location request.country returns bytes not a string,thelamer,2019-06-10T12:52:03Z,,7,closed,2019-06-11T19:23:48Z
+294721419,256,[GTK3]Fix Deprecated Functions,doadin,2019-07-05T03:22:06Z,,2,closed,2019-10-31T12:29:33Z
+412211155,288,[Servers] Moved check_ssl_keys and generate_ssl_keys to crypto_utils.py,DjLegolas,2020-05-01T16:59:34Z,,4,closed,2021-12-20T22:11:07Z
+700685996,312,Support libtorrent 2,iczero,2021-07-31T09:55:42Z,,7,closed,2021-10-03T18:27:52Z
+19890802,7,[#1310] [Notifications] Add webui prefs page,omaralvarez,2014-08-17T16:15:57Z,,6,closed,2014-08-19T15:35:40Z
+22836993,20,[GTKUI] Fix magnet association button setting path to nonexistant exe,doadin,2014-10-16T07:36:36Z,,6,closed,2015-07-16T00:40:44Z
+86969824,108,Check if libtorrent supports load_country_db before usage,minus7,2016-09-27T16:56:05Z,,6,closed,2016-09-28T09:13:51Z
+90275701,122,[GtkUI] Avoid duplicate code in piecesbar's drawing logic,elemongw,2016-10-20T20:32:49Z,,3,closed,2016-10-26T09:57:49Z
+124005186,157,lossless compression of images saved 457KB,Fish2,2017-06-05T15:55:39Z,,6,closed,2018-06-21T14:03:53Z
+192293561,187,Fix And Cleanup Interface Code,doadin,2018-06-04T04:15:07Z,,3,closed,2018-10-04T09:53:01Z
+201377832,203,[#2837][WebUI] Handle missing gettext.js file,DjLegolas,2018-07-13T19:17:12Z,,1,closed,2018-07-16T15:23:33Z
+412490090,289,[Core] Changed on_alert_tracker_error behavior for lt >= 1.2,DjLegolas,2020-05-02T18:29:00Z,,4,closed,2021-04-17T16:16:37Z
+456611783,298,Remove nonexistent web argument from Linux docs,BenQuigley,2020-07-25T12:50:16Z,,6,closed,2020-07-27T15:41:47Z
+814174512,332,[AutoAdd] Fixed error dialog not being shown on error,DjLegolas,2022-01-04T20:17:54Z,,5,closed,2022-01-06T10:06:51Z

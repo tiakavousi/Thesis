@@ -15,9 +15,9 @@ build/
 # Data and logs
 data/binary_classified
 data/binary_features
-data/processed
 data/raw
 data/raw_data_exploration
+data/processed/**/extra/
 
 saved_models/
 datasets/raw/

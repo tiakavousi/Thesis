@@ -1,0 +1,176 @@
+id,pr_number,user,created_at,body
+1797336629,634,Protonull,2024-10-11T19:12:19Z,`setmin_y` ?
+1797337666,634,drekamor,2024-10-11T19:13:32Z,what's wrong?
+1797338030,634,Protonull,2024-10-11T19:14:02Z,"if this class will only be used by the buildlimits hack, it could be made an inner-class of the hack. that's just a personal preference though."
+1797338822,634,drekamor,2024-10-11T19:15:01Z,soundtech ok'ed this so :man_shrugging:
+1797340312,634,Protonull,2024-10-11T19:16:55Z,just seems like an odd naming convention to have both camel and snake case. it's typical for getters in java to use camel casing (eg: `setminy`) or otherwise to have the field public if you want to retain the name.
+1797343662,634,drekamor,2024-10-11T19:20:43Z,"oh, i used `y_min` in the config so it just got carried over to the var names. now that i look at it, it does feel a bit weird"
+1797344436,634,Protonull,2024-10-11T19:21:45Z,okay :+1:
+1797406899,634,awoo-civ,2024-10-11T20:42:10Z,"yeah `setminy` is correct, you never wanna make exceptions to name casing."
+1797408353,634,awoo-civ,2024-10-11T20:44:13Z,nit: remove this empty line
+1797409963,634,awoo-civ,2024-10-11T20:46:29Z,nit: remove this empty line
+1797410325,634,awoo-civ,2024-10-11T20:47:01Z,nit: remove this empty line
+1797410848,634,awoo-civ,2024-10-11T20:47:46Z,move the declaration of `player` to right above this line or just use `e.getplayer()` directly.
+1797414896,634,awoo-civ,2024-10-11T20:53:44Z,`type` should ideally be an enum instead of a string.
+1797418542,634,awoo-civ,2024-10-11T20:58:48Z,"public static buildlimit deserialize( map args) { int miny = 0; int maxy = 0; string type = ""altitude""; type = (string)args.get(""type""); if (type.equals(""altitude"")) { if (args.containskey(""min_y"")) { miny = (integer)args.get(""min_y""); } if (args.containskey(""max_y"")) { maxy = (integer)args.get(""max_y""); } } string world = ""world""; world = (string)args.get(""world""); return new buildlimit(world, type, miny, maxy); }"
+1798527270,634,okx-code,2024-10-13T19:43:54Z,there doesn't seem to be a `type` other than altitude. is this necessary?
+1798529063,634,okx-code,2024-10-13T19:47:05Z,hack configs already store if they are enabled (shouldenable). the handling here is not really necessary.
+1798529984,634,okx-code,2024-10-13T19:48:33Z,"you don't need to log if a hack is enabled or disabled, that's done already."
+1798530257,634,okx-code,2024-10-13T19:48:58Z,why linkedhashmap here? is insertion order important?
+1798530665,634,okx-code,2024-10-13T19:49:41Z,are the setters necessary?
+1798530877,634,okx-code,2024-10-13T19:50:00Z,unnecessary
+1798530899,634,okx-code,2024-10-13T19:50:02Z,unnecessary
+1798531248,634,okx-code,2024-10-13T19:50:41Z,"`component.text(string, textcolor)` could be used to make this more succint, but you don't have to do it that way"
+1798531899,634,Protonull,2024-10-13T19:51:47Z,"instead of try-catching an assignment, you could use an iterator to check that each element is an instance of `buildlimit`, which then lets you print nice warnings for each offending entry."
+1798533014,634,Protonull,2024-10-13T19:53:45Z,this one actually is necessary: it's only basichack that registers itself as a listener upon `onenable`
+1798533714,634,okx-code,2024-10-13T19:54:56Z,goddamnit i hate hacks
+1798534056,634,Protonull,2024-10-13T19:55:32Z,"needs an `ondisable` override here to remove this listener, then the `if(!config.isenabled()) return;` checks are not necessary since the event will only ever be called when the hack is enabled, because the listeners will only ever be registered upon hack enable."
+1798548319,634,okx-code,2024-10-13T20:20:00Z,why?
+1798548604,634,drekamor,2024-10-13T20:20:30Z,soundtech asked to add `type` because he wants to add others (e.g radius limit) in the future
+1798558431,634,drekamor,2024-10-13T20:37:18Z,making it an enum would mean adding yet another useless for anything else class. can't make it a subclass because it needs to be accessed from different packages.
+1798560699,634,Protonull,2024-10-13T20:41:04Z,is a type really necessary? just have a sealed interface and then [a link] it.
+1798724440,634,awoo-civ,2024-10-14T04:03:36Z,"i do not understand the concern with adding another class, even if it was necessary which i don't think it is? would defining a public enum in an already existing class not work just fine? in any case, using a string is quite bad form as: 1. it can be anything - easy for bugs to sneak in 2. finding out what it can be is near impossible enums fix these issues. btw, i recently did this exact refactoring: [a link]"
+1798783027,634,Protonull,2024-10-14T05:54:37Z,"use [a link], which is what basichack uses."
+1800034949,634,okx-code,2024-10-14T20:22:57Z,"this shouldenable() call is still unnecessary and will cause unexpected behaviour if something happens like the hack is disabled in the config, but then is enabled by a command."
+1800042185,634,okx-code,2024-10-14T20:25:17Z,"this throwing is fine as it will disable the hack, which will be more visible to the administrator. just printing the error like this will cause strange behaviour as the hack will still be enabled but not initialised properly."
+1800046273,634,okx-code,2024-10-14T20:26:42Z,"throwing is fine here as the exception will be handled and actually printed rather than discarded, so it's clearer what the problem actually is. see `org.bukkit.configuration.serialization.configurationserialization#deserializeviamethod`"
+1649369392,550,Protonull,2024-06-21T19:47:44Z,would it better to allow for minimessage display names and lore?
+1649371963,550,Protonull,2024-06-21T19:51:11Z,"from what i remember, every itemmeta implements repairable, so you should be able to do what you did above with damage. or you could do an [a link]."
+1649377585,550,Protonull,2024-06-21T19:58:26Z,"might be worth looking into serialised item stacks using `==:`, though we'd need to find/create an item creator that produces a yaml output."
+1649391099,550,Protonull,2024-06-21T20:15:22Z,not a fan of all this kind of reformatting :p
+1649398532,550,Protonull,2024-06-21T20:24:00Z,"not sure these work, iirc `.getitemmeta()` creates a duplicate meta, so any changes to it would then need to be saved back onto the item."
+1650280497,550,MrJeremyFisher,2024-06-24T03:02:03Z,"yeah, i think that'd be a much better solution just because of the volume of stuff that items can have now that needs to be checked for and assigned. i put something together using bukkit's inbuilt itemstack serialization that works pretty well, as well as a command in sah to quickly see what a serialized item should look like in a config."
+1651933180,550,Protonull,2024-06-25T03:17:55Z,"small thing: it's better to do `component.text("" has left the game"", namedtextcolor.yellow)` instead as then you aren't re-creating the component with the colour, but instead are colouring the original component. just a small allocation optimisation."
+1653783458,550,okx-code,2024-06-26T00:45:37Z,is it safe to remove this?
+1653784370,550,okx-code,2024-06-26T00:47:11Z,if you're going to change indentation here at least fix it please
+1653785707,550,okx-code,2024-06-26T00:49:39Z,"no point using a list here anymore, this can be simplified"
+1653787310,550,okx-code,2024-06-26T00:51:47Z,"if this replaces itemmetaconverterhack, that class should be deleted as well."
+1653789176,550,MrJeremyFisher,2024-06-26T00:55:12Z,"it doesn't, the intent is to have something to see what an item should look like in a config. itemmetaconverterhack may not be necessary anymore though, but that'd want some testing to figure out."
+1653790018,550,MrJeremyFisher,2024-06-26T00:56:00Z,"sorry, as you can see from my earlier conversation with orin my autoformatter just won't quit."
+1653790171,550,okx-code,2024-06-26T00:56:18Z,you've removed itemmetaconverterhack from the default config though?
+1653790791,550,okx-code,2024-06-26T00:57:34Z,just merged your autoformat pr so that should help
+1653790911,550,MrJeremyFisher,2024-06-26T00:57:51Z,"whoops, will fix"
+1653796841,550,MrJeremyFisher,2024-06-26T01:09:32Z,"yeah, mojang changed the way it's handled so we don't have to care about it anymore."
+1729593513,606,awoo-civ,2024-08-23T23:09:35Z,"nit: no need for the double indents here, the `) {` being on its own line means a single indent is fine"
+1729596739,606,awoo-civ,2024-08-23T23:17:07Z,"misleading formatting, the `&&` is on the same line as the previous check but applies to the whole statement; use one of these, depending on intent: [code block] or [code block] also same nit as before: whole statement can be 1-indented"
+1729599097,606,awoo-civ,2024-08-23T23:22:15Z,"actually, shouldn't it just be [code block] ? was this tested?"
+1729602986,606,awoo-civ,2024-08-23T23:30:01Z,"use an arraylist by default, unless you know you benefit from linked lists specifically (unlikely)"
+1729604956,606,awoo-civ,2024-08-23T23:32:54Z,oh it should be [code block] right?
+1729608107,606,awoo-civ,2024-08-23T23:36:56Z,nit: the ifs can be squished together: [code block] (i also reversed the conditions since a null check should be cheaper than whatever `isair()` is doing
+1729756576,606,kickylol,2024-08-24T05:18:24Z,oops yeah that should be what it is
+1729761480,606,kickylol,2024-08-24T05:22:08Z,"tbh i just tried to make it as similar to the already existing getclicks code as possible, the previous one used linked lists so  ̄\_(ツ)_/ ̄"
+1729766888,606,Diet-Cola,2024-08-24T05:25:01Z,awoos passionate hatred for linkedlists can be seen in praxis civ-dev
+1729948554,606,kickylol,2024-08-24T12:00:29Z,this is just how intellij formats it soz :loudly_crying_face:
+1729951408,606,awoo-civ,2024-08-24T12:21:37Z,ahhh
+1729951712,606,awoo-civ,2024-08-24T12:23:04Z,as expected of java tooling
+1792645174,606,okx-code,2024-10-09T00:27:47Z,this message should only be sent once (by exiting the loop with break)
+1792646016,606,okx-code,2024-10-09T00:29:47Z,"i agree with awoo, you can even pre-size it with new arraylist<>(acidtypes.length())"
+1792675051,606,kickylol,2024-10-09T01:30:12Z,its a bit intentional since there could be situations where multiple acid operations could fail but one could still be valid
+1792681366,606,okx-code,2024-10-09T01:43:46Z,hm ok this is probably fine
+1792697699,606,kickylol,2024-10-09T02:14:36Z,i have killed the linkedlist
+1807560618,606,okx-code,2024-10-20T01:42:23Z,shouldn't acid blocks be able to affect other acid blocks now? this condition should be consistent with /cti
+1843265011,606,kickylol,2024-11-15T06:47:58Z,should be good now
+1534860909,383,awoo-civ,2024-03-21T23:52:37Z,needs modifying to account for my comment below.
+1534871556,383,awoo-civ,2024-03-22T00:01:44Z,needs updating.
+1534873362,383,awoo-civ,2024-03-22T00:05:15Z,"might wanna be more considerate towards users by accepting both uppercase and lowercase, i.e. comparing with .tolowercase() or equivalent."
+1534883975,383,drekamor,2024-03-22T00:15:20Z,fixed
+1534887001,383,awoo-civ,2024-03-22T00:22:00Z,"or not, ig it's fine."
+1534887013,383,drekamor,2024-03-22T00:22:03Z,updated
+1500643803,319,Diet-Cola,2024-02-23T13:08:08Z,ori is gonna love the fact someone else is using final variables
+1500702137,319,Protonull,2024-02-23T13:56:54Z,"just keep in mind this is a *global* toggle, so if someone hides banned players in their `/ep showall` window, then everyone else after that will also have banned players hidden. and when someone then unhides them, everyone after that will also see them."
+1500702794,319,Protonull,2024-02-23T13:57:26Z,contruct :]
+1500704365,319,walkersgaming,2024-02-23T13:58:50Z,"huh, didn't realise. is there a better way to do it then?"
+1500707796,319,Protonull,2024-02-23T14:01:52Z,"you could do something similar to the `cooldowns` map slightly above. or you could make it a player setting and let people toggle it on or off without needing to run `/ep showall`, which might be preferred since it's a particularly taxing command to run. it'll also help with option persistence, as in, you don't need to open `/ep showall` and then re-open it with the toggle, doubling the strain on the server, to see what you want to see."
+1500964356,319,okx-code,2024-02-23T17:20:39Z,this could be a hashset
+1500975126,319,okx-code,2024-02-23T17:31:21Z,does this mean that the toggle can only clicked 10 seconds after opening the gui?
+1500997444,319,walkersgaming,2024-02-23T17:52:43Z,yes but it will only matter on the rare occasion someone wants to look at banned pearls
+1501048410,319,walkersgaming,2024-02-23T18:46:47Z,updated with the former idea
+1501319426,319,MrJeremyFisher,2024-02-24T02:13:05Z,this should be !bannedpearltoggle
+1903306966,564,okx-code,2025-01-05T16:59:35Z,extra whitespace?
+1903307223,564,okx-code,2025-01-05T17:01:24Z,i don't believe packets support hashcode? did you check this before using hashset?
+1903313324,564,MrJeremyFisher,2025-01-05T17:45:12Z,they seem to.
+1798450909,631,okx-code,2024-10-13T16:41:33Z,error handling here is not necessary since you are now using try-with-resources. this method can just be removed tbh
+1798450969,631,okx-code,2024-10-13T16:41:39Z,[code block] etc for subsequent uses
+1798451133,631,okx-code,2024-10-13T16:41:57Z,[code block] etc
+1798451815,631,okx-code,2024-10-13T16:43:15Z,"you can use executeupdate here and checked if the number of updated rows was 0 or 1 to see if the insert was actually successful. since you are using insert ignore you could be doing nothing (that is, trying to add a warp with the same name as an existing warp) and this method will still return true"
+1798452074,631,okx-code,2024-10-13T16:43:44Z,[code block] unique and not null are implied by primary key
+1798463382,631,awoo-civ,2024-10-13T17:03:57Z,nit: messed up indentation
+1798463743,631,awoo-civ,2024-10-13T17:05:08Z,nit: this entire section is double-indented
+1801697401,631,okx-code,2024-10-15T18:15:11Z,you don't need to call close here. the connection is automatically closed with try-with-resources
+1801698913,631,okx-code,2024-10-15T18:16:15Z,can this be made all non-static? global state is difficult to keep track of.
+1964810724,750,okx-code,2025-02-21T04:15:37Z,what is the point of calling this function twice?
+1964816210,750,okx-code,2025-02-21T04:21:29Z,"this is a line of code that took me several hours to write. unfortunately, this is necessary because of the way that minecraft handles knockback and damage. removing this just introduces the bug where you can deal knockback with no cooldwon. i think that paper should be fixing this in 1.21.3 so that may be a better way."
+1931375039,746,Protonull,2025-01-28T00:43:15Z,i'd argue that the priority should be set to lowest so that the transformation is done as early as possible. any event handlers thereafter would then be deciding based on the amended command.
+1931380285,746,Protonull,2025-01-28T00:49:49Z,"since you're doing length checks, i'd advocate doing an `indexof()` instead since that's arguably has a more obvious control flow (i can only speak to myself, but i had to look up the documentation for that version of split to see what the second parameter would do). [code block]"
+1932775999,746,MrJeremyFisher,2025-01-28T19:53:50Z,i'm not sure about this one. to me the split makes intuitive sense vs. what you've got there. i'll leave it up to the admins on whether or not they care.
+1504483244,334,AngrySoundTech,2024-02-27T15:43:55Z,debug print
+1504793761,334,okx-code,2024-02-27T19:03:26Z,"this is not necessary and can be removed, because this event will only be fired once for a given horse entity (unlike creaturespawnevent)"
+1509999528,353,okx-code,2024-03-02T16:15:54Z,"doesn't this just skip all blocks, not just reinforced ones?"
+1510193949,353,Diet-Cola,2024-03-03T06:26:42Z,no? we do multiple checks on the block first i.e if its air etc before creating the reinforcement
+1511440357,353,okx-code,2024-03-04T16:27:57Z,"i don't understand, what is this command supposed to do if skipreins is true then?"
+1512219354,353,Diet-Cola,2024-03-05T06:59:34Z,"my bad, good catch"
+1536672866,387,AngrySoundTech,2024-03-23T18:21:37Z,"i don't think this is intuitive as a toggle, the command should be something like `/cmc togglechunkmetalogs` or `/cmc chunkmetalogs true`"
+1536673361,387,AngrySoundTech,2024-03-23T18:25:50Z,"the command shouldn't hold what's effectively global state itself, there should be some dedicated collection of feature flags be it the config, or secondarily derived from the config"
+1536675523,387,AngrySoundTech,2024-03-23T18:42:17Z,"we shouldn't be logging with guard conditions like this in modern java, we should be using the appropriate log level and a message supplier to prevent resources spent on extra checks and calculations. this also makes the above command unnecessary. e.g. [code block]"
+1536687519,387,okx-code,2024-03-23T20:21:22Z,"i did some research into this and there's not really any good options for runtime log configuration like that, and since it's temporary i just went for something easy"
+1536687590,387,okx-code,2024-03-23T20:22:04Z,no it shouldn't but it was the easiest option for a very accessory feature
+1536687618,387,okx-code,2024-03-23T20:22:14Z,i'll change that
+1498392042,275,Protonull,2024-02-21T22:30:26Z,you should do the same with all of these components too :]
+1498398531,275,okx-code,2024-02-21T22:38:24Z,nah
+1509893468,351,awoo-civ,2024-03-02T05:57:35Z,"nit: remove newline, the if statement pertains directly to the variable declared above, they're tightly related so they should be tightly visually placed as well."
+1509893482,351,awoo-civ,2024-03-02T05:57:48Z,"nit: remove newline, same as above."
+1509893567,351,awoo-civ,2024-03-02T05:58:27Z,"perhaps turn this into an early return instead of nesting, i.e. `if (destrein == null) { return }`."
+1912082177,713,okx-code,2025-01-11T16:17:21Z,"i know this is for consistency's sake, but do you really want to commit yourself to handling tickets of everyone wanting replacement compactor repair kits? :)"
+1912082263,713,RedDevel2,2025-01-11T16:17:50Z,oh.. right....
+1653792581,547,okx-code,2024-06-26T01:01:36Z,why not loreline.compact() without component.empty()?
+1653875752,547,MrJeremyFisher,2024-06-26T03:28:06Z,it's what worked. i'm just going to close this for now because the item issue didn't occur in 1.20.6.
+1691553084,570,AngrySoundTech,2024-07-25T14:29:12Z,"this won't find the comment if the build failed, no?"
+1691607914,570,Huskydog9988,2024-07-25T14:56:24Z,yes? but that seems to be the behavior already? it's probably worth adding a check and saying it failed anyway.
+1699144074,570,Huskydog9988,2024-07-31T21:50:22Z,"ok so i just confirmed it, because of the conditional statement on line 13, it will never run on a failed build"
+1684468526,568,AngrySoundTech,2024-07-19T14:29:54Z,"this is only the case for linux/unix, should be `.\gradlew.bat build` for powershell and i believe `gradlew.bat build` for cmd on windows?"
+1691975722,568,MrJeremyFisher,2024-07-25T18:45:56Z,"sorry, missed this. powershell and cmd on windows 10 both accept `.\gradlew`"
+1496981358,262,Protonull,2024-02-21T06:40:37Z,just thought i'd put this here :p ![a link]
+1496982576,262,Diet-Cola,2024-02-21T06:42:01Z,"best part about this is, i followed the logic of the promote player command... which doesnt even use this either"
+1496983116,262,Protonull,2024-02-21T06:42:42Z,civ code d:
+1495161954,239,Protonull,2024-02-20T02:13:09Z,please don't do wildcard imports
+1495167100,239,MrJeremyFisher,2024-02-20T02:23:30Z,thanks and apologies. was probably an auto format.
+1495235417,239,Protonull,2024-02-20T04:39:56Z,wildcard
+1495235461,239,Protonull,2024-02-20T04:40:01Z,wildcard
+1501190381,321,okx-code,2024-02-23T21:34:03Z,why not delete this whole file?
+1501201102,321,Protonull,2024-02-23T21:42:06Z,"i intend to add some utilities to it soon in another pr since they're outside the scope of this pr, and i figured deleting the file then remaking it is probably a bit extra, but i can amend this pr to delete the file if that's what you really want."
+1501210376,321,okx-code,2024-02-23T21:52:25Z,yes i would delete the file
+1501210796,321,Protonull,2024-02-23T21:53:05Z,"okay, if you're sure"
+1929619604,740,okx-code,2025-01-25T22:27:33Z,why pnpm? let's stick to npm
+1929619858,740,Huskydog9988,2025-01-25T22:30:52Z,"npm has performance issues, and pnpm fixes the ballooning node_modules size issues as well. i recommend reading [a link]"
+1501085268,273,AngrySoundTech,2024-02-23T19:27:05Z,"this config section needs some work, as it stands the config options are confusing and it's not clear that `skybase` is added to `base`, and lacks the ability to disable subfeatures. i would arrange it like this: [code block] if sky materials are really needed to be different, [code block]"
+1501089223,273,AngrySoundTech,2024-02-23T19:31:23Z,"this doesn't seem like it ignores transparent blocks, which it should. otherwise stuff like glass and leaves would cause it to not reach full speed."
+1501094849,273,okx-code,2024-02-23T19:36:44Z,"this is intentional, a bonus is provided if you can't protect your rails like that."
+1527104076,339,okx-code,2024-03-16T05:59:39Z,no copy necessary [code block]
+1527104350,339,okx-code,2024-03-16T06:01:22Z,could just `new playernames()` here instead of a static method and an anonymous class
+1527104434,339,okx-code,2024-03-16T06:02:12Z,[code block] no async going on here anymore
+1826877269,639,Diet-Cola,2024-11-03T00:17:27Z,is there a reason for removing this?
+1826877532,639,Diet-Cola,2024-11-03T00:18:59Z,can just remove commented line
+1826877771,639,Huskydog9988,2024-11-03T00:22:24Z,the global chat command has no reason to suggest nl groups to chat in
+1527208926,350,okx-code,2024-03-16T17:57:32Z,indentation?
+1527209064,350,okx-code,2024-03-16T17:57:58Z,"this function is a throwback from the java 7 days, you can do `new arraylist<>(invites.keyset())` now"
+1527209092,350,okx-code,2024-03-16T17:58:10Z,same here: `new arraylist<>();`
+1536676480,386,AngrySoundTech,2024-03-23T18:49:31Z,"is it ever possible that this event can be fired simultaneously, such as during low tps? if so i could imagine it causing some problems, and potentially more players falling through portals than before."
+1536687382,386,okx-code,2024-03-23T20:19:53Z,simultaneously with what? it runs at the end of a tick.
+1597730872,512,okx-code,2024-05-12T23:01:22Z,change
+1597732286,512,RedDevel2,2024-05-12T23:11:19Z,woops done
+1524022271,356,okx-code,2024-03-13T23:19:57Z,should be all tcp
+1524027049,356,AngrySoundTech,2024-03-13T23:28:25Z,"i wanted to specifically call out the service not the protocol to clue people into that being what it is, especially since people might not be familiar with the rabbitmq admin gui, but i can change this to be more clear"
+1524037145,356,Protonull,2024-03-13T23:42:53Z,might be worth adding the rabbitmq dashboard port too: [a link]
+1741066165,619,Protonull,2024-09-02T15:25:31Z,"might be worth setting this to true, as then the feature can be merged without any actual change to the game, which can be a different discussion."
+1741161332,619,kickylol,2024-09-02T18:06:30Z,"very true, default value is now true"
+1691550498,565,AngrySoundTech,2024-07-25T14:27:42Z,"ls as left shift is a little ambiguous here, how can we make this more understandable?"
+1691676571,565,MrJeremyFisher,2024-07-25T15:33:43Z,i could change it to l+ls. or move all of them from l/r to left/right to be even more clear
+1801711541,565,okx-code,2024-10-15T18:26:41Z,"how about we make this three lines, one for each option so they don't need to be abbreviated?"
+1826877687,638,Diet-Cola,2024-11-03T00:20:52Z,hiddenore stuff in bastion pr?
+1826877735,638,okx-code,2024-11-03T00:21:57Z,yeah it was necessary to get this to build. but i deleted this class anyway so it doesn't matter
+1797295816,630,RedDevel2,2024-10-11T18:24:13Z,catus
+1964424630,765,Huskydog9988,2025-02-20T22:27:07Z,whats the point in checking the block type here? also doesn't this add another point where a blocklist needs to be maintained?
+1964439038,765,Protonull,2025-02-20T22:39:07Z,"it's necessary to check the block type here because there is no `logstripevent` or equivalent, so the event needs to be inferred from a right-click block interaction involving a log and an axe. and while this switch will need to be maintained, the event handler is no longer vulnerable to collateral changes."
+1499515016,311,okx-code,2024-02-22T16:18:06Z,plugin.getlifecyclemanager?
+1511513065,335,Protonull,2024-03-04T17:20:58Z,"maybe i'm just paranoid, but i'd defensively replace this with `if (event.gethand() != equipmentslot.hand)` instead."
+1526604903,371,okx-code,2024-03-15T17:19:48Z,an npe here will never happen because of the previous check

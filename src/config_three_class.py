@@ -16,17 +16,17 @@ CONFIG_3CLASS = {
         # "device": "cuda" if torch.cuda.is_available() else "cpu",
     },
     "models": {
-        "deberta": {
-            "pretrained_model_name": "microsoft/deberta-base",
-            "model_save_path": str(PROJECT_ROOT / "saved_models" / "deberta_3class"/ "model_best_f1_0.8954.pt")
-        },
-        "codebert": {
-            "pretrained_model_name": "microsoft/codebert-base",
-            "model_save_path": str(PROJECT_ROOT / "saved_models" / "codebert_3class" / "model_best_f1_0.8819.pt")
-        },
+        # "deberta": {
+        #     "pretrained_model_name": "microsoft/deberta-base",
+        #     "model_save_path": str(PROJECT_ROOT / "saved_models" / "deberta_3class"/ "saved_full_model")
+        # },
+        # "codebert": {
+        #     "pretrained_model_name": "microsoft/codebert-base",
+        #     "model_save_path": str(PROJECT_ROOT / "saved_models" / "codebert_3class" / "saved_full_model")
+        # },
         "distilbert": {
             "pretrained_model_name": "distilbert-base-uncased",
-            "model_save_path": str(PROJECT_ROOT / "saved_models" / "distilbert_3class" / "model_best_f1_0.8832.pt")
+            "model_save_path": str(PROJECT_ROOT / "saved_models" / "distilbert_3class" / "saved_full_model")
         },
     },
     "dataset": {

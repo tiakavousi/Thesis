@@ -1,13 +1,17 @@
 import os
 import torch
+from pathlib import Path
+# Dynamically resolve the project root
+PROJECT_ROOT = Path(__file__).resolve().parents[1] 
+
 
 CONFIG = {
     "github": {
         "token": os.getenv("GITHUB_TOKEN"),
         "base_url": "https://api.github.com",
         "raw_dir": "data/raw",
-        "processed_dir": "/Users/tayebekavousi/Desktop/github_sa/data/processed",
-        "classified_dir": "/Users/tayebekavousi/Desktop/github_sa/data/classified",
+        "classified_dir": str(PROJECT_ROOT/"data/classified"),
+        "processed_dir": str(PROJECT_ROOT/"data/processed"),
         "repositories": [
             "redis/redis", #1
             "apache/kafka", #2

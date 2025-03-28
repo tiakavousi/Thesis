@@ -4,11 +4,7 @@ import gc
 import torch
 import pandas as pd
 from pathlib import Path
-from transformers import (
-    DebertaTokenizerFast, DebertaForSequenceClassification,
-    RobertaTokenizerFast, RobertaForSequenceClassification,
-    DistilBertTokenizerFast, DistilBertForSequenceClassification
-)
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
 from torch.nn.functional import softmax
 
 # Add paths to config files
@@ -34,34 +30,27 @@ FILES_TO_PROCESS = {
     "pull_requests_clean.csv": "title"
 }
 
+# Label mapping: model outputs 0/1/2 → final labels -1/0/1
+LABEL_MAP = {0: -1, 1: 0, 2: 1}
 
-# Model-specific loader
+# Model loader
 def load_model_and_tokenizer(model_name, model_config):
     print(f"[INFO] 🔄 Loading {model_name} model and tokenizer...")
-    pretrained_name = model_config["pretrained_model_name"]
-    checkpoint_path = model_config["model_save_path"]
 
-    if model_name == "deberta":
-        model = DebertaForSequenceClassification.from_pretrained(pretrained_name, num_labels=3)
-        tokenizer = DebertaTokenizerFast.from_pretrained(pretrained_name)
-    elif model_name == "codebert":
-        model = RobertaForSequenceClassification.from_pretrained(pretrained_name, num_labels=3)
-        tokenizer = RobertaTokenizerFast.from_pretrained(pretrained_name)
-    elif model_name == "distilbert":
-        model = DistilBertForSequenceClassification.from_pretrained(pretrained_name, num_labels=3)
-        tokenizer = DistilBertTokenizerFast.from_pretrained(pretrained_name)
-    else:
-        raise ValueError(f"Unknown model name: {model_name}")
+    model_dir = model_config["model_save_path"]
 
-    checkpoint = torch.load(checkpoint_path, map_location=DEVICE)
-    model.load_state_dict(checkpoint["model_state_dict"], strict=False)
+    model = AutoModelForSequenceClassification.from_pretrained(model_dir)
+    tokenizer = AutoTokenizer.from_pretrained(model_dir)
+
     model.to(DEVICE)
     model.eval()
 
-    print(f"[INFO] ✅ {model_name} model loaded and ready.")
+    assert model.config.num_labels == 3, f"[❌] Model '{model_name}' does not have 3 output labels."
+
+    print(f"[INFO] ✅ {model_name} model loaded and ready with {model.config.num_labels} labels.")
     return model, tokenizer
 
-# Prediction function
+# Prediction
 def predict(model, tokenizer, texts):
     print(f"[INFO] Starting prediction on {len(texts)} text entries...")
     all_preds = []
@@ -85,7 +74,7 @@ def predict(model, tokenizer, texts):
     print(f"[INFO] ✅ Prediction complete.\n")
     return all_preds, all_confs
 
-# Main inference loop
+# Main loop
 def run_inference():
     print("[🚀] Starting sentiment inference...\n")
     for model_name, model_config in MODELS.items():
@@ -116,23 +105,26 @@ def run_inference():
                 print(f"[✏️] Predicting sentiments for {len(df)} rows...")
                 texts = df[text_column].astype(str).tolist()
                 preds, confs = predict(model, tokenizer, texts)
-                df[f"{model_name}_label"] = preds
+
+                # Map model predictions to -1, 0, 1
+                mapped_preds = [LABEL_MAP[p] for p in preds]
+
+                df[f"{model_name}_sentiment_label"] = mapped_preds
                 df[f"{model_name}_confidence"] = confs
+                print(f"[🔒] Output will be saved to: {output_path}")
                 df.to_csv(output_path, index=False)
                 print(f"[💾] Sentiment saved to: {output_path}")
 
-                # Clear memory after each file
                 del texts, preds, confs, df
                 gc.collect()
                 print(f"[🧹] Memory cleared after file: {file_name}")
 
-        # Clear model & tokenizer from memory after each model
         del model, tokenizer
         gc.collect()
         print(f"[🧽] Model {model_name} removed from memory.\n")
 
     print("\n[🎉] All models and repositories processed.")
 
-# Execute
+# Entry point
 if __name__ == "__main__":
     run_inference()

@@ -1,0 +1,101 @@
+id,number,title,state,merged_at,distilbert_sentiment_label,codebert_sentiment_label,deberta_sentiment_label,distilbert_confidence,codebert_confidence,deberta_confidence,majority_label,final_decision,decision_reason
+813588818,331,Update Windows Packaging,closed,,0,0,0,0.9861592650413512,0.9905073642730712,0.9820982813835144,0,accept,unanimous_agreement
+823521779,338,IP Check Updates,closed,,0,0,0,0.9884904623031616,0.9609383344650269,0.9606488943099976,0,accept,unanimous_agreement
+224597487,221,[Core] Call wait_for_alert in a thread,closed,,0,0,0,0.9887561202049256,0.99446702003479,0.9949475526809692,0,accept,unanimous_agreement
+56100230,57,UI option handling fixes and cleanup,closed,2016-04-18T10:57:41Z,0,0,0,0.9893250465393066,0.9886183738708496,0.9902349710464478,0,accept,unanimous_agreement
+189115298,181,Initial Appveyor Support,closed,,0,0,0,0.9856659770011902,0.9872753620147704,0.9586573839187622,0,accept,unanimous_agreement
+96429411,138,host:port paste support,closed,,0,0,0,0.987360179424286,0.9894815683364868,0.9890369772911072,0,accept,unanimous_agreement
+21665586,12,[Extractor] Add Finding Win 7z Path via Registry,closed,,0,0,0,0.9873643517494202,0.9919183850288392,0.995448648929596,0,accept,unanimous_agreement
+185333635,180,#3171 Add Option To Specify Outgoing Connection Interface,closed,2018-05-29T19:00:52Z,0,0,0,0.9868573546409608,0.9940265417099,0.9950142502784728,0,accept,unanimous_agreement
+838831086,359,[Core] Document all exported core methods with type hints,closed,,0,0,0,0.9872589707374572,0.9907426238059998,0.9945958256721495,0,accept,unanimous_agreement
+198527596,200,Feature GTK3UI,closed,2018-11-05T08:51:30Z,0,0,0,0.9787584543228148,0.9782922863960266,0.9847561717033386,0,accept,unanimous_agreement
+829002583,343,[3499][Core] Stopped using deprecated functions,closed,,0,0,0,0.972558617591858,0.9934566617012024,0.9901360869407654,0,accept,unanimous_agreement
+22166378,14,Added method remove_torrents to core.,closed,,0,0,0,0.9880951642990112,0.993342101573944,0.9947039484977722,0,accept,unanimous_agreement
+821658522,337,Windows Continued,closed,,0,0,0,0.9833989143371582,0.9565934538841248,0.972096860408783,0,accept,unanimous_agreement
+843173714,369,Automatically refresh and expire the torrent status cache,closed,,0,0,0,0.9875099658966064,0.9910562038421632,0.9934990406036376,0,accept,unanimous_agreement
+67617488,78,[#1959] [WebUI] Allow user selectable GUI language,closed,2016-04-25T14:45:34Z,0,0,0,0.9856566190719604,0.9918071627616882,0.9945645332336426,0,accept,unanimous_agreement
+1944514990,454,Ci fixes and updates,closed,,0,0,0,0.986034333705902,0.9611568450927734,0.9799254536628724,0,accept,unanimous_agreement
+69542676,90,Develop pass ui client args,closed,2016-05-21T14:06:13Z,0,0,0,0.9878743290901184,0.9883785843849182,0.9949827194213868,0,accept,unanimous_agreement
+197747938,196,WiP [#3065] Enhance TLS Security,closed,,0,0,0,0.9831010699272156,0.9926013350486756,0.9939968585968018,0,accept,unanimous_agreement
+66721759,67,[GTKUI] Fix #2802: GTKUI classic mode shutdown procedure is broken,closed,,0,0,0,0.9880318641662598,0.9865441918373108,0.9767301678657532,0,accept,unanimous_agreement
+835215548,354,Remove twisted.trial tests,closed,,0,0,0,0.9854228496551514,0.9861412048339844,0.8783442974090576,0,accept,unanimous_agreement
+853664019,376,Support IPv6 In host lists for Connection Managers,closed,,0,0,0,0.9865555763244628,0.9927155375480652,0.9880792498588562,0,accept,unanimous_agreement
+201463737,204,[#2009][WebUI] Add About window,closed,,0,0,0,0.981617510318756,0.9920371770858764,0.993870735168457,0,accept,unanimous_agreement
+833909351,352,[Core] Test mixing in async/await syntax,closed,,0,0,0,0.9891679286956788,0.9946534633636476,0.9952115416526794,0,accept,unanimous_agreement
+199964042,201,[#3189] Refactor HTTPDownloader to Agent,closed,,0,0,0,0.9894240498542786,0.9948915243148804,0.995123326778412,0,accept,unanimous_agreement
+840951781,364,[CI] Added CI run on minimum and current python requirements,closed,,0,0,0,0.98580801486969,0.9938697814941406,0.9928922653198242,0,accept,unanimous_agreement
+68481559,83,Fix Auto-add plugin to accept torrent files with uppercase extension,closed,,0,0,0,0.9886358976364136,0.9936050772666932,0.9901106953620912,0,accept,unanimous_agreement
+53487192,50,[#2724] [Web] Forward exceptions in JSON-RPC back to caller,closed,2016-04-09T23:03:45Z,0,0,0,0.9895986318588256,0.9920533895492554,0.9955808520317078,0,accept,unanimous_agreement
+237415408,228,[UI|Console] added console option to specify move completed folder,closed,,0,0,0,0.9872524738311768,0.994317591190338,0.9936913251876832,0,accept,unanimous_agreement
+69753503,93,Add external ip from lt to UI statusbars,closed,2016-05-15T10:53:01Z,0,0,0,0.9888563752174376,0.990964651107788,0.9945862293243408,0,accept,unanimous_agreement
+65557104,62,Develop console rewrite,closed,2016-10-30T12:55:46Z,0,0,0,0.985174000263214,0.9845430254936218,0.99130779504776,0,accept,unanimous_agreement
+228576104,224,Modify the transfer protocol in a couple ways.,closed,,0,0,0,0.9820974469184875,0.9870702028274536,0.9928491115570068,0,accept,unanimous_agreement
+834951713,353,Add maybe_coroutine decorator to easily mix in async/await syntax,closed,,0,0,0,0.9888573884963988,0.9939715266227722,0.9942438006401062,0,accept,unanimous_agreement
+573751266,306,[GTKUI] Added detection of torrent URL on GTK UI focus ,closed,,0,0,0,0.9875807762145996,0.9937233328819276,0.9920029640197754,0,accept,unanimous_agreement
+809911318,325,Drop Python2 support,closed,,0,0,0,0.9872236251831056,0.9855499863624572,0.985278844833374,0,accept,unanimous_agreement
+18939141,5,[#2478] [Blocklist] Add WebUI plugin page,closed,,0,0,0,0.9864051342010498,0.9927474856376648,0.9939507246017456,0,accept,unanimous_agreement
+22694011,19,[GTKUI] Fix magnet association button access is denied,closed,,0,0,0,0.9614105820655824,0.9869862198829652,0.982171595096588,0,accept,unanimous_agreement
+73206436,103,Develop ui entry tests,closed,,0,0,0,0.9830321073532104,0.9744244813919068,0.9842023849487304,0,accept,unanimous_agreement
+430494533,296,Update Install Instructions,closed,,0,0,0,0.9877889752388,0.9802539944648744,0.9794374108314514,0,accept,unanimous_agreement
+835490068,355,[Config] Don't log users passwords in plain text,closed,,0,0,0,0.9804732799530028,0.9642783999443054,0.9939762353897096,0,accept,unanimous_agreement
+2043232571,462,Replace deprecated cgi module with email,closed,,0,0,0,0.9794513583183287,0.988109052181244,0.99245423078537,0,accept,unanimous_agreement
+22502419,16,#2406 Implemented core.add_torrent_files to speed up adding multiple torrents.,closed,,0,0,0,0.982721984386444,0.9949594736099244,0.99072003364563,0,accept,unanimous_agreement
+201357294,202,Prevent time formatting crash when seconds were floats,closed,,0,0,0,0.9589446187019348,0.9083905816078186,0.983937442302704,0,accept,unanimous_agreement
+282494537,240,[WiP] Update to libtorrent-1.2,closed,,0,0,0,0.9846928119659424,0.992098331451416,0.9908996820449828,0,accept,unanimous_agreement
+829809938,347,[Core] Return plugin keys with get_torrents_status,closed,,0,0,0,0.9895422458648682,0.9928750991821288,0.9952701926231384,0,accept,unanimous_agreement
+855294437,377,[Console] Swap j and k key's behavior to fit vim mode,closed,,0,0,0,0.9884004592895508,0.993478298187256,0.9929800629615784,0,accept,unanimous_agreement
+958457944,386,[Packaging] Pinned Pyinstaller to v4.10 and readme update,closed,,0,0,0,0.989398717880249,0.9907020330429076,0.9877521991729736,0,accept,unanimous_agreement
+70958876,99,Develop misc fixes tests component core,closed,2016-05-24T22:59:16Z,0,0,0,0.9850430488586426,0.9482824206352234,0.9824385046958924,0,accept,unanimous_agreement
+89536357,115,Use libtorrent.__version__ since libtorrent.version is deprecated,closed,,0,0,0,0.9879242181777954,0.9946229457855223,0.977894961833954,0,accept,unanimous_agreement
+161767435,175,Call the blocking wait_for_alert in a thread.,closed,,0,0,0,0.9815505743026732,0.9930237531661988,0.9924163818359376,0,accept,unanimous_agreement
+269701478,234,Replace platform.linux_distribution function,closed,,0,0,0,0.9849336743354796,0.9935584664344788,0.9952561259269714,0,accept,unanimous_agreement
+949961411,385,[Web] Accept charset in content-type for json messages,closed,,0,0,0,0.9893845915794371,0.9925916194915771,0.994939923286438,0,accept,unanimous_agreement
+1482698195,430,[Core] implement synchronous and v2 metafile creation,closed,,0,0,0,0.9880940318107604,0.9939910769462584,0.9950830936431884,0,accept,unanimous_agreement
+21600957,10,Added automated tests and stuff on travis ,closed,,0,0,0,0.9827478528022766,0.9912588000297546,0.9906917214393616,0,accept,unanimous_agreement
+40080308,34,Update Translations,closed,,0,0,0,0.9869652986526488,0.9716540575027466,0.9525502324104308,0,accept,unanimous_agreement
+66466125,65,[WebUI] Fix #2798: WebUI plugin fail to start,closed,,0,0,0,0.9004443287849426,0.9916542768478394,0.9901260137557985,0,accept,unanimous_agreement
+67647635,79,[Core] Save fastresume file on separate thread,closed,2016-04-28T22:21:30Z,0,0,0,0.98871111869812,0.9931901097297668,0.9947476983070374,0,accept,unanimous_agreement
+76878828,105,Libtorrent 1.1 compatibility,closed,,0,0,0,0.983309805393219,0.9860936403274536,0.9843364953994752,0,accept,unanimous_agreement
+91943369,133,[WebUI] Log correct http address if listening on IPv6,closed,2016-11-22T22:17:39Z,0,0,0,0.9890469908714294,0.9938588738441468,0.9938297867774964,0,accept,unanimous_agreement
+100566702,139,[WebUI] Added X-Deluge-Session header support.,closed,,0,0,0,0.9886316657066344,0.9944812059402466,0.9920231103897096,0,accept,unanimous_agreement
+828976088,342,Simplify PyInstaller spec file,closed,,0,0,0,0.9868878722190856,0.991033375263214,0.9938430786132812,0,accept,unanimous_agreement
+1508919923,433,Fix Errors Due to Deps,closed,,0,0,0,0.9674211144447328,0.9374966025352478,0.8921743631362915,0,accept,unanimous_agreement
+1376718448,427,[UI][Common] Add daemon version check,closed,,0,0,0,0.9896871447563172,0.9933112859725952,0.9933252334594728,0,accept,unanimous_agreement
+87703135,109,[UI] Fix ZeroDivisionError at pieces bar update,closed,,0,0,0,0.9896596074104308,0.9878841042518616,0.9912374019622804,0,accept,unanimous_agreement
+125013908,158,Save torrent state only if state has changed. ,closed,2017-06-14T10:00:08Z,0,0,0,0.9862446188926696,0.9915636777877808,0.9926210641860962,0,accept,unanimous_agreement
+69703771,92,Develop autodoc fix,closed,2016-05-22T11:12:22Z,0,0,0,0.9838736653327942,0.7909244298934937,0.9934291243553162,0,accept,unanimous_agreement
+52690022,47,Defer save state function to separate thread,closed,,0,0,0,0.9849731922149658,0.9918417930603028,0.9947808384895324,0,accept,unanimous_agreement
+54178330,55,[Core] Implement async_add_torrent in torrentmanager,closed,,0,0,0,0.9890823364257812,0.9945934414863586,0.994703471660614,0,accept,unanimous_agreement
+89749929,117,Python 3 fixes,closed,,0,0,0,0.9872559309005736,0.9823310375213624,0.9912342429161072,0,accept,unanimous_agreement
+815760460,334,[Gtk] Fixed magnets not showing the prefetched metadata,closed,,0,0,0,0.98624587059021,0.9903308153152466,0.9931653141975404,0,accept,unanimous_agreement
+1241140745,412,Proposal about i2p,closed,,0,0,0,0.9820592999458312,0.9842961430549622,0.9910515546798706,0,accept,unanimous_agreement
+2036915919,460,[UI][Common] Wrap torrent comment and tracker status URLs in HTML (clickable),closed,,0,0,0,0.9852641820907592,0.9922541379928588,0.9934226870536804,0,accept,unanimous_agreement
+68484887,84,[#2813][Partial Revert][GTKUI] Remove old twisted and gnome code,closed,,0,0,0,0.9861617088317872,0.994355082511902,0.949751615524292,0,accept,unanimous_agreement
+70983959,101,[Console] Fix to console argument parsing,closed,2016-05-24T22:59:57Z,0,0,0,0.9890910983085632,0.9931502938270568,0.9932414293289183,0,accept,unanimous_agreement
+91518793,128,[Tests] Increase file descriptor limit,closed,,0,0,0,0.9887657761573792,0.9931347370147704,0.9947031140327454,0,accept,unanimous_agreement
+192211234,186,Fix and cleanup outgoing interface code,closed,2018-06-02T20:35:37Z,0,0,0,0.9876537919044496,0.9745790362358092,0.9913803935050964,0,accept,unanimous_agreement
+193819664,189,[AutoAdd] Add WebUI interface,closed,,0,0,0,0.985481858253479,0.9889450669288636,0.9925969839096068,0,accept,unanimous_agreement
+230293436,226,gtk3,closed,,0,0,0,0.9554117918014526,0.9569167494773864,0.9749279022216796,0,accept,unanimous_agreement
+222292293,215,Resolve symlinked config files,closed,,0,0,0,0.9882287979125975,0.9891828894615172,0.9938657879829408,0,accept,unanimous_agreement
+860907027,380,    Add a systemd user service,closed,,0,0,0,0.986748993396759,0.9856430888175964,0.9936874508857728,0,accept,unanimous_agreement
+1144457570,404,[UI][Common] Add support for BitTorrent V2 file tree,closed,,0,0,0,0.9880380630493164,0.9934865236282348,0.9925774931907654,0,accept,unanimous_agreement
+847391903,372,[Config] fixed callLater wrapper func,closed,,0,0,0,0.9888878464698792,0.9927462935447692,0.9935542345046996,0,accept,unanimous_agreement
+66722206,68,Develop plugin handling + webui fixes,closed,,0,0,0,0.9785478115081788,0.9861432909965516,0.9761946797370912,0,accept,unanimous_agreement
+88866952,112,[#2900] Fix Error loading torrent: invalid bencoded value,closed,,0,0,0,0.970146894454956,0.98461252450943,0.9881454706192015,0,accept,unanimous_agreement
+90637967,124,Feature/python3 support,closed,2016-10-26T09:11:04Z,0,0,0,0.9853919148445128,0.9920097589492798,0.9890981912612916,0,accept,unanimous_agreement
+120083585,155,Trac#3011 Handle WM_ENDSESSION on Windows to shutdown cleanly,closed,,0,0,0,0.989971160888672,0.9906355738639832,0.9930961728096008,0,accept,unanimous_agreement
+140975568,170,Store state and fastresume in per-torrent files.,closed,,0,0,0,0.987539768218994,0.9920706152915956,0.9932419657707214,0,accept,unanimous_agreement
+286664484,244,bugfix for peers tab failing to set flag location request.country returns bytes not a string,closed,,0,0,0,0.5704763531684875,0.9805824160575868,0.9801406264305116,0,accept,unanimous_agreement
+294721419,256,[GTK3]Fix Deprecated Functions,closed,,0,0,0,0.9882885217666626,0.9914534091949464,0.9919875860214232,0,accept,unanimous_agreement
+412211155,288,[Servers] Moved check_ssl_keys and generate_ssl_keys to crypto_utils.py,closed,,0,0,0,0.9714162945747375,0.9949223399162292,0.9933974742889404,0,accept,unanimous_agreement
+700685996,312,Support libtorrent 2,closed,,0,0,0,0.9830350875854492,0.9860156774520874,0.9653578400611876,0,accept,unanimous_agreement
+19890802,7,[#1310] [Notifications] Add webui prefs page,closed,,0,0,0,0.98785400390625,0.9932282567024232,0.9933698177337646,0,accept,unanimous_agreement
+22836993,20,[GTKUI] Fix magnet association button setting path to nonexistant exe,closed,,0,0,0,0.9888721108436584,0.9905130863189696,0.993999719619751,0,accept,unanimous_agreement
+86969824,108,Check if libtorrent supports load_country_db before usage,closed,,0,0,0,0.9877973198890686,0.992584764957428,0.991931974887848,0,accept,unanimous_agreement
+90275701,122,[GtkUI] Avoid duplicate code in piecesbar's drawing logic,closed,,0,0,0,0.9884530901908876,0.9931365251541138,0.9938175082206726,0,accept,unanimous_agreement
+124005186,157,lossless compression of images saved 457KB,closed,,0,0,0,0.9845000505447388,0.9263405799865724,0.9865951538085938,0,accept,unanimous_agreement
+192293561,187,Fix And Cleanup Interface Code,closed,,0,0,0,0.9867584109306335,0.9887697696685792,0.982426643371582,0,accept,unanimous_agreement
+201377832,203,[#2837][WebUI] Handle missing gettext.js file,closed,,0,0,0,0.989033818244934,0.994063675403595,0.995230495929718,0,accept,unanimous_agreement
+412490090,289,[Core] Changed on_alert_tracker_error behavior for lt >= 1.2,closed,,0,0,0,0.983870267868042,0.9941346049308776,0.994398295879364,0,accept,unanimous_agreement
+456611783,298,Remove nonexistent web argument from Linux docs,closed,,0,0,0,0.9701718091964722,0.9882423281669616,0.9878656268119812,0,accept,unanimous_agreement
+814174512,332,[AutoAdd] Fixed error dialog not being shown on error,closed,,0,0,0,0.9859639406204224,0.9918068647384644,0.9924147725105286,0,accept,unanimous_agreement

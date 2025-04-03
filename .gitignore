@@ -22,7 +22,7 @@ data/raw_data_exploration/
 # data/processed/
 data/merged_for_voting/
 report_ganarator/
-report/
+# report/
 saved_models/
 datasets/raw/
 

@@ -1,0 +1,16 @@
+id,pr_number,user,created_at,body,is_bot_generated,is_bot_trigger,is_build_results_link,is_bot_mention,is_k8s_test_command,is_specific_command,is_bot_related
+1639687553,20951,github-advanced-security[bot],2024-06-14T11:30:24Z,"## Unused variable, import, function or class
+
+Unused variable isPrivate.
+
+[Show more details](https://github.com/qbittorrent/qBittorrent/security/code-scanning/388)",True,False,False,False,False,False,True
+1382896142,19542,github-advanced-security[bot],2023-11-06T07:59:25Z,"## Unused variable, import, function or class
+
+Unused variable generateRandomSSLlPort.
+
+[Show more details](https://github.com/qbittorrent/qBittorrent/security/code-scanning/322)",True,False,False,False,False,False,True
+1382896145,19542,github-advanced-security[bot],2023-11-06T07:59:25Z,"## Unused variable, import, function or class
+
+Unused variable sslEnabled.
+
+[Show more details](https://github.com/qbittorrent/qBittorrent/security/code-scanning/323)",True,False,False,False,False,False,True

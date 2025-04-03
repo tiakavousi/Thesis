@@ -1,0 +1,2 @@
+id,pr_number,user,created_at,body,is_bot_generated,is_bot_trigger,is_build_results_link,is_bot_mention,is_k8s_test_command,is_specific_command,is_bot_related
+834184146,835,BotchedRPR,2021-05-07T08:51:16Z,"I'll probably too. I try not to use software that ""adds"" my data into Google's magic data collection server lab to do... well nobody knows what they are going to do.",True,False,False,False,False,False,True

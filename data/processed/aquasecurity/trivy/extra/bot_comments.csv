@@ -1,0 +1,3 @@
+id,pr_number,user,created_at,body,is_bot_generated,is_bot_trigger,is_build_results_link,is_bot_mention,is_k8s_test_command,is_specific_command,is_bot_related
+2482470900,7679,aqua-bot,2024-11-18T09:55:45Z,Backport PR created: https://github.com/aquasecurity/trivy/pull/7944,True,False,False,False,False,False,True
+2559057843,8106,aqua-bot,2024-12-23T07:20:49Z,Backport PR created: https://github.com/aquasecurity/trivy/pull/8158,True,False,False,False,False,False,True

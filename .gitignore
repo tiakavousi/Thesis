@@ -19,7 +19,7 @@ data/raw_data_exploration/
 data/classified/
 data/merged_voting/
 data/pr_sentiment_aggregated/
-data/processed/
+# data/processed/
 data/merged_for_voting/
 report_ganarator/
 report/

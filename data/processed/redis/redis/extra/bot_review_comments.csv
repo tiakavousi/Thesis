@@ -1,0 +1,36 @@
+id,pr_number,user,created_at,body,is_bot_generated,is_bot_trigger,is_build_results_link,is_bot_mention,is_k8s_test_command,is_specific_command,is_bot_related
+1472565820,12822,github-advanced-security[bot],2024-01-31T09:49:38Z,"## Use of a broken or risky cryptographic algorithm
+
+This file makes use of a broken or weak cryptographic algorithm (specified by [call to kvstoreDictGetSomeKeys](1)).
+
+[Show more details](https://github.com/redis/redis/security/code-scanning/40)",True,False,False,False,False,False,True
+1472565822,12822,github-advanced-security[bot],2024-01-31T09:49:38Z,"## Use of a broken or risky cryptographic algorithm
+
+This file makes use of a broken or weak cryptographic algorithm (specified by [call to dictGetSomeKeys](1)).
+
+[Show more details](https://github.com/redis/redis/security/code-scanning/41)",True,False,False,False,False,False,True
+996429494,11290,github-advanced-security[bot],2022-10-16T11:26:02Z,"## Multiplication result converted to larger type
+
+Multiplication result may overflow 'unsigned int' before it is converted to 'unsigned long'.
+
+[Show more details](https://github.com/redis/redis/security/code-scanning/33)",True,False,False,False,False,False,True
+1413009883,12826,github-advanced-security[bot],2023-12-03T06:14:49Z,"## Wrong type of arguments to formatting function
+
+This argument should be of type 'int' but is of type 'unsigned long'.
+
+[Show more details](https://github.com/redis/redis/security/code-scanning/35)",True,False,False,False,False,False,True
+1413009884,12826,github-advanced-security[bot],2023-12-03T06:14:49Z,"## Wrong type of arguments to formatting function
+
+This argument should be of type 'int' but is of type 'signed long'.
+
+[Show more details](https://github.com/redis/redis/security/code-scanning/36)",True,False,False,False,False,False,True
+1795364683,13592,github-advanced-security[bot],2024-10-10T12:51:07Z,"## Potentially overflowing call to snprintf
+
+The [size argument](1) of this snprintf call is derived from its return value, which may exceed the size of the buffer and overflow.
+
+[Show more details](https://github.com/redis/redis/security/code-scanning/48)",True,False,False,False,False,False,True
+1795451361,13592,github-advanced-security[bot],2024-10-10T13:37:54Z,"## Potentially overflowing call to snprintf
+
+The [size argument](1) of this snprintf call is derived from its return value, which may exceed the size of the buffer and overflow.
+
+[Show more details](https://github.com/redis/redis/security/code-scanning/49)",True,False,False,False,False,False,True

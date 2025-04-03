@@ -21,11 +21,11 @@ This project is a modular Python-based pipeline that collects, processes, and an
   - Aggregates sentiment data per PR (e.g., negativity ratio)
   - Performs binary logistic regression to test effect of sentiment on PR success
 
-- **Dataset Output sentiGit.csv:**
-  - The resulting merged sentiment dataset from this pipeline is saved as sentiGit.csv.
-  - It consolidates all labeled text from PR comments, reviews, inline review comments, and PR titles across multiple repositories.
-  - Each entry includes a unique ID, the cleaned text (text), and the final sentiment label (sentiment).
-  - Sentiment labels are derived using a majority vote across three transformer models; if no majority is found, manual labels are used.
+# Dataset Output sentiGit.csv:
+The resulting merged sentiment dataset from this pipeline is saved as sentiGit.csv.
+It consolidates 72355 labeled text from PR comments, reviews, inline review comments, and PR titles across multiple repositories.
+Each entry includes a unique ID, text, and the sentiment label.
+Sentiment labels are derived as a result of fine tuning three transformer models (DeBERTa, DistilBERT and CodeBERT) and Majority Voting ensemble model.
 
 ## Project Structure
 ```

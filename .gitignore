@@ -20,6 +20,7 @@ data/classified/
 data/merged_voting/
 data/pr_sentiment_aggregated/
 data/processed/
+data/merged_for_voting/
 report_ganarator/
 report/
 saved_models/

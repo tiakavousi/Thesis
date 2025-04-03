@@ -1,0 +1,319 @@
+id,pr_number,user,created_at,body
+71091684,4996,JosephMcc,2016-07-17T23:05:35Z,"Is there some reason you can't just add a simple style class of ""bottom, top, right, left"" here and avoid the convoluted naming? Much easier to just use ""window-list-item-box.right"" instead of ""window-list-item-box.window-list-item-box-right"". Also stays more in line with what you typically see in gtk.
+"
+71091721,4996,JosephMcc,2016-07-17T23:07:11Z,"I'm pretty sure you didn't intend this semicolon to be here ;)
+"
+71092400,4996,JosephMcc,2016-07-17T23:45:21Z,"Whitespace
+"
+71092404,4996,JosephMcc,2016-07-17T23:45:30Z,"Whitespace
+"
+71092409,4996,JosephMcc,2016-07-17T23:45:49Z,"Whitespace
+"
+71391283,4996,brownsr,2016-07-19T18:04:02Z,"Completely agree.  I'd left it in line with what was there previously, but everytime I come back and look at this it jars horribly.  I was thinking of making the changes you suggest anyway, so I'll do that now.
+"
+226408689,7944,germanfr,2018-10-18T18:03:06Z,"Aren't `filter`, `each`, `map` and `find` already built into cjs arrays? No need to duplicate them here."
+226487866,7944,jaszhix,2018-10-18T22:38:37Z,"They are, but on Spidermonkey there is a performance gain to using for loop alternatives instead. This is less of an issue on V8. I ran these tests in the Firefox 52 ESR, which is the closest to our environment.
+
+https://jsperf.com/aarontgrogg-array-filter-vs-for-loop
+https://jsperf.com/loops/33
+http://jsben.ch/ABI1C
+http://jsben.ch/aY0kG"
+226539207,7944,germanfr,2018-10-19T05:50:42Z,"Those tests compare filter vs raw code, but that is not the case here because at the end what slows it down is calling the callback function I guess. I don't know about the implementation but sure is very similar (?). I'm going to test it on Cinnamon anyway, just because I'm curious :)"
+226547213,7944,jaszhix,2018-10-19T06:47:50Z,"Cool. The jsben.ch tests are ones I set up - here's one similar to the findIndex one, but with filter: http://jsben.ch/umjQN
+"
+226737465,7944,germanfr,2018-10-19T18:14:06Z,"My results conclude that you are right, your loop implementation is faster BUT, the difference in my tests for arrays of 10M elements is a couple of ms (and it even becomes zero the more you use it). For arrays of 100 elements (if you go crazy) the difference is non existent. I think native methods should be used for consistency, or preferably normal loops which is perfectly fine, but defining those seems like not ok at all. It's just my opinion :)
+
+[Here are my tests](https://drive.google.com/open?id=1cPWm7nbT57zC4d-glCi1XUGRau_WciLC) (it is a cinn extension)."
+226748976,7944,jaszhix,2018-10-19T18:55:08Z,"Thanks for looking into this more. While I agree this won't make a dramatic difference in a lot of cases, I think these methods should stay in the PR. Take a function that iterates multiple things to get its return value and gets called relatively frequently for instance, for invocation the latency can add up - especially when we want Cinnamon to be as responsive as possible.
+
+These are there to provide an option, not to replace every instance of filter, findIndex, etc - as you point out the gains diminish with smaller arrays, but the gains are still there and consistent.
+
+Here's the results I got from test-extension:
+
+Cjs-Message: 13:45:25.762: JS LOG: [LookingGlass/info] Array.prototype.filter: 20.6ms
+Cjs-Message: 13:45:25.763: JS LOG: [LookingGlass/info] Custom filter:              11.7ms
+
+If this were a function that was meant to assist with an animation, it could mean the difference between something being jerky or smooth, since CInnamon needs to spend 16ms or less for each frame."
+226762854,7944,germanfr,2018-10-19T19:48:25Z,"Those results are from 1M array items and the difference becomes smaller the more you use the functions. In an animation there would be no difference for example, assuming you have an array of <1M items.
+
+I understand your point, but in those cases why not to use loops? I presume they are even faster than these functions."
+226767367,7944,jaszhix,2018-10-19T20:07:29Z,"I think you're seeing that because of Spidermonkey's JIT optimization- if it doesn't get GC'd its still cached as byte code, but we shouldn't rely on that. 
+
+This allows the performance benefit of for loops, but the readability of explicitly named functions like forEach. The each function I added in particular can iterate both arrays and objects, which can be convenient. For objects it uses Object.keys and a for loop, which is a little faster than for...in."
+226820734,7944,germanfr,2018-10-20T08:46:55Z,"Sorry @jaszhix I still don't get where is exactly that critical place in this PR where you have a large array and save more than 1 ms. I think that such micro-optimisations belong to cjs, not cinnamon. But idk 😅"
+226820994,7944,jaszhix,2018-10-20T08:58:10Z,"Its ok, I'm an optimization junkie. Sometimes its unnecessary, but I wouldn't say little perf bumps here and there ever hurt anything. :) I'd like to think with enough micro-optimizations it can add up overall to more responsiveness. Since the compositor and JS context share a single thread its not a bad idea to use the fastest methods. If this were a web page or a little node utility, I'd say sure. But Cinnamon is performance critical, if it slows down all the windows its managing slows down."
+226821192,7944,germanfr,2018-10-20T09:05:08Z,"Yes, of course. But why not implement them in cjs instead? If we can make native methods faster why can't we improve them instead of creating faster duplicates so that cinnamon can benefit from that in every single place? It seems like a better solution to me, but maybe there is a reason not to do that I can't see."
+226821283,7944,jaszhix,2018-10-20T09:08:44Z,"Mainly because I'd prefer to keep CJS even as possible with GJS, otherwise back-porting patches gets harder. I could upstream it, but not sure they would want them. If they do, great, but then we can't add the optimizations on our schedule."
+226821408,7944,germanfr,2018-10-20T09:14:43Z,Oh I understand. Maybe some day! Sorry for bothering with this 😅
+4086378,1966,gauravjuvekar,2013-05-05T06:32:53Z,"Shouldn't that be inside the calendar applet?
+"
+4086382,1966,dalcde,2013-05-05T06:44:51Z,"I just kept it in the place it used to be
+"
+263223792,8428,jaszhix,2019-03-07T03:13:45Z,"Might be good to do these logical comparisons when the change in CSS is detected, instead of on every paint."
+263223846,8428,jaszhix,2019-03-07T03:14:05Z,Indentation is off.
+263223966,8428,jaszhix,2019-03-07T03:15:10Z,We use two spaces after a bracket-less if statement.
+263224226,8428,jaszhix,2019-03-07T03:16:57Z,Maybe we can check if the theme node is eligible before calling `st_widget_add_background_effects`? We should know after `st_widget_recompute_style`.
+263224403,8428,jaszhix,2019-03-07T03:18:19Z,We could probably make `st_widget_recompute_style` return the `new_theme_node` passed as an argument to this function and avoid a function invocation in the paint cycle.
+263224476,8428,jaszhix,2019-03-07T03:18:49Z,Spaces here will make the code easier to read.
+263224646,8428,jaszhix,2019-03-07T03:19:59Z,"In `st_widget_recompute_style`, we know if the style has _changed_, so it might be good to use that boolean state instead of assuming any processing is needed because there is an old theme node."
+263224949,8428,jaszhix,2019-03-07T03:22:02Z,What is the purpose of this function?
+268451058,8428,brownsr,2019-03-24T20:23:54Z,OK
+268451068,8428,brownsr,2019-03-24T20:24:04Z,"OK, done"
+268451107,8428,brownsr,2019-03-24T20:24:54Z,"OK, done."
+268452184,8428,brownsr,2019-03-24T20:48:41Z,"Doesn't appear to be necessary, removed."
+268452591,8428,brownsr,2019-03-24T20:59:26Z,"Perhaps, if I could work out how to do that, but there's only a couple of very fast and cheap tests here, so I can't imagine any practicable difference."
+268452640,8428,brownsr,2019-03-24T21:00:29Z,"i.e. the work to set up the effects is only done the first time through, and after that there there is just a check to see if it exists. So only the first time through takes time if either of the effect types are there in the CSS, and after that there is just a simple if test, which should take a miniscule time. I can't see any effect on performance myself if the effects are not in the CSS."
+268452833,8428,brownsr,2019-03-24T21:05:18Z,I think that will just move the tests in the function to be done preceding it.  I don't think there will be any improvement.
+268453270,8428,brownsr,2019-03-24T21:16:24Z,"Yes, but this function is also called without being preceded by recompute_style, so that won't work in that instance."
+268453424,8428,brownsr,2019-03-24T21:21:12Z,"Yes, I can see that might be possible in that case.  But this function is also called when there is no style change.  Could potentially separate out into two functions, perhaps i.e. have one dedicated to just the case where there is a style change.  I can't see there would be a speed improvement, but it could possibly make the code a tiny bit easier to follow, probably at the cost of a bit more code."
+272824487,8428,jaszhix,2019-04-07T08:53:40Z,I see an impact on performance immediately upon using Cinnamon with no CSS changes. You are adding a _lot_ of code to St's paint function. Please try testing in higher resolutions.
+272824604,8428,jaszhix,2019-04-07T08:56:29Z,"After #8230 is merged, you could piggy-back off of the change condition I added, to give some idea. I find it hard to believe you can say there will be no improvement on something you haven't tried yet."
+272824640,8428,jaszhix,2019-04-07T08:57:27Z,Sounds like a lot of overhead for a feature maybe 25% of Cinnamon users will take advantage of (optimistically).
+272824874,8428,jaszhix,2019-04-07T09:04:26Z,"We have a private struct used by this class, so we can check if the style has changed, and guard this more. This is a paint function, and it _will_ impact latency, even when the user is not interacting with the Cinnamon UI - it is part of the stage."
+284861267,8428,brownsr,2019-05-16T19:24:05Z,"Yes, but remember I am only re-implementing something that was already there and had to be turned off last time because it was broken.  There's no hurry as far as I am concerned.  With all the major performance / latency stuff that you've done, the last thing I want to do is to compromise that.  So right now I am waiting for the dust to settle, maybe next release, before looking at this PR again and seeing how it might be improved."
+159145637,7149,Odyseus,2017-12-31T19:09:53Z,"Hello, @collinss.
+
+I have been ""playing around"" with the new `cinnamon-xlet-makepot` script and I found a couple of ""inconsistencies"".
+
+Since the script now uses Python 3, the package to install now (in Debian based systems) is called `python3-polib`. Although, I thing that it should also be added to that message something like *or whatever name the package for the **polib** Python 3 module is called in your distribution*."
+159145641,7149,Odyseus,2017-12-31T19:10:29Z,`args.py` should be changed to `args.python`.
+159145657,7149,Odyseus,2017-12-31T19:10:51Z,`subprocess` is already imported at the beginning of the script.
+159145662,7149,Odyseus,2017-12-31T19:11:52Z,"The `xgettext` command is called even if there are no files listed in the `js_files` variable. I think that this call should be made inside the `else` block (only when there are files listed) to avoid the following message.
+
+```
+xgettext: no input file given
+Try 'xgettext --help' for more information.
+```"
+159145672,7149,Odyseus,2017-12-31T19:13:09Z,Same as in the previous call to the `xgettext` command.
+159147488,7149,Odyseus,2017-12-31T22:50:12Z,"With the move to Python 3, maybe it isn't needed to use `GLib.mkdir_with_parents` and just use `os.makedirs(this_locale_dir, exist_ok=True)` here? One less module to import (**GLib**).
+
+Furthermore, I think that the mode `755` passed to `GLib.mkdir_with_parents` is wrong. Since it's supposed to create folders with **read/write/exec** permissions for the current user, but instead it creates folders with only **write/exec** permissions for the current user. Using the mode `0o755` will create folders with the right permissions."
+159164645,7149,Odyseus,2018-01-01T22:01:31Z,"Additionally, the `-j` (`--join-existing`) argument should be passed to the `xgettext` command **only** if the POT file already exists. If the scanning of the JS files didn't find any strings to translate (or if the `--skip-js` argument is used), a POT file will not be created and executing the `xgettext` command with the `--join-existing` argument with a non existent file for the `--output` argument will simply fail."
+159338040,7149,collinss,2018-01-02T23:25:34Z,"Good point. I'll still include the package name for debian-based systems, but I'll change the wording and update the package name."
+159338309,7149,collinss,2018-01-02T23:27:22Z,"Ah, good catch. I guess I didn't run into a case that would fail here in my testing."
+159338628,7149,collinss,2018-01-02T23:29:47Z,"Ah, yeah, I think I copied that line from the other script"
+159341946,7149,collinss,2018-01-02T23:57:45Z,"hmm... yeah, that would simplify things a bit. I didn't realize that option had been added to python 3. That could also be used in cinnamon-settings to simplify things in a couple of places. I think I'll add it to my python 3 branch."
+159347490,7149,Odyseus,2018-01-03T00:54:56Z,"Yes, I remember seeing the use of `mkdir` (the GNU coreutils command) in one of the other Python files. I found it weird, knowing that the `os.makedirs` method also exists in Python 2, although without the `exist_ok` parameter.
+
+I didn't mention this in my previous message. But, if it is important for the directories to be generated with a **755** mode, then the code would be `os.makedirs(this_locale_dir, mode=0o755, exist_ok=True)`. The default mode used by `os.makedirs` is `0o777`."
+159351484,7149,collinss,2018-01-03T01:46:48Z,"Yeah, I saw that in the docs. I already fixed it locally. I'm going to do a bit more testing and then I'll push my changes."
+159355315,7149,Odyseus,2018-01-03T02:46:27Z,"In this line, `dirname` should be used instead of `basename`. Otherwise, a directory with the POT file name is created inside the current working directory."
+159355389,7149,Odyseus,2018-01-03T02:47:50Z,I forgot to mention this line before. The `js_files` variable is floating there without doing anything. LOL
+159355516,7149,Odyseus,2018-01-03T02:50:17Z,"Typos:
+
+- **disrtibution's** to **distribution's**
+- **syatems to** **systems**."
+159355585,7149,Odyseus,2018-01-03T02:51:23Z,"Typo: **,pot** to **.pot** (There is a comma in front of ""pot"")."
+159357623,7149,collinss,2018-01-03T03:31:30Z,"Apparently I don't have spellcheck enabled in sublime on my laptop...
+Usually I use my desktop, but I'm having hard drive issues."
+159357808,7149,collinss,2018-01-03T03:35:23Z,facepalm... I even looked it up to make sure I got the right one.
+159357817,7149,collinss,2018-01-03T03:35:36Z,lol
+159532074,7149,Odyseus,2018-01-03T21:27:37Z,Typo: **syatems** to **systems**.
+159532750,7149,Odyseus,2018-01-03T21:29:15Z,"There is a problem with the implementation of the **pot_exists** variable. This variable will be set to **True** whether strings to translate where found or not while scanning JS files. Running the script for the first time on an xlet **without** strings to translate on its JS files and **with** strings to translate on its Python files will fail due to the use of the `--join-existing` argument in conjunction with a path to a non-existent POT file.
+
+I think that the easiest and *safest* way of doing this is by directly checking the existence of the POT file to decide if the `--join-existing` argument should be added or not.
+
+```python
+if os.path.exists(pot_path):
+    command_args.append('-j')
+```"
+159549041,7149,collinss,2018-01-03T23:00:32Z,"The problem with doing it that way is that if the script is run on an applet that already has a pot file, it will just add to the existing one instead of regenerating it like I would expect. I don't think it matters though. AFAICT none of the xlets we have currently meet that criteria, and the -j option would work if there were."
+159561353,7149,Odyseus,2018-01-04T00:38:55Z,"> ...it will just add to the existing one instead of regenerating it like I would expect...
+
+I was about to ask you why would you want to regenerate the POT file, but then I remembered how dumb `xgettext` can be sometimes (it doesn't remove obsolete strings and it doesn't update the line reference from a *msgid* whose source code has been moved). And I suddenly remembered why I remove the POT files when I'm doing POT updates in bulk.
+
+👍 "
+347162113,8617,eli-schwartz,2019-11-17T21:54:10Z,Why are you adding this?
+348421205,8617,software-artificer,2019-11-20T11:08:10Z,"When building Cinnamon with `--enable-introspection` flag it will produce `Cinnamon-0.1.gir` (which is XML with metadata description of the exported symbols) and `Cinnamon-0.1.typelib` (which is respective binary code) those are part of GObject Introspection bindings that allow using various features provided by the `libcinnamon` from any non-C compatible language that can consume GObject stuff, like for example JS. 
+
+I know you have removed it in your #8688, but that might be a backwards incompatible change, because there might be software that is already dependent on NM being exposed through `Cinnamon-0.1.gir`. I'm not saying that is a good way to go about it, I'm just saying that we don't know what things exist out there (outside of Cinnamon itself) that might be broken after we removed this. I haven't seen any discussion about this on your PR nor anyone pointed out why this dependency existed in the first place. So I would be curious to find this out.
+
+From my investigation, there is no any single applet or extension in Cinnamon itself that is using NM via Cinnamon, only directly. There were some references to it in https://github.com/linuxmint/cinnamon/blob/master/js/ui/extension.js#L25-L26, but according to this comment this is no longer the case after 4.2 release.
+
+I'm comfortable taking this out, but I would like for maintainers to have a look and verify that we are comfortable with this change and all this makes sense. Let's see what they have to say once this reviewed and I will action this appropriately."
+349649594,8617,eli-schwartz,2019-11-22T15:22:21Z,"That is a direct import of imports.gi.NMClient, not an import of imports.gi.Cinnamon using the utility functions from imports.gi.NM
+
+(Note: NM and NMClient are *not* the same thing. At all. The latter is from the deprecated libnm-glib.)
+
+-_-
+
+It is okay to be ""backwards incompatible"" during the move from 4.2 to 4.4 with something that was never documented, *always* wrong, and not even proven to exist anywhere, which I still don't believe does exist anywhere because I can't think why anyone would think to do it."
+165855953,7255,germanfr,2018-02-04T20:11:59Z,"Also note this. I wasn't sure if this was the best way to do it. I could have used `not_` from the operator module, but I didn't want to add an import."
+165856626,7255,JosephMcc,2018-02-04T20:31:30Z,I didn't do a real review or test this. I don't even understand everything you're doing here but this gchar * should probably be freed when you're done with it. Since you only use it in the if() block below I would just declare it there and then free it right after you set the envcolor.
+165857626,7255,germanfr,2018-02-04T20:58:32Z,"That is just a reference to a string in the term struct, which would get freed (I suppose) whether I reference it or not."
+344532622,8884,mtwebster,2019-11-11T01:40:49Z,These in this section should just be `this._mediakeysStep` (6 occurences)
+344533113,8884,mtwebster,2019-11-11T01:45:38Z,"Add a listener similar to: https://github.com/linuxmint/cinnamon/blob/6560b3be37f783a4c015254a8c9b84e1ff8457ab/files/usr/share/cinnamon/applets/sound%40cinnamon.org/applet.js#L1034
+
+You could even use the same callback, just tack on something to update `this._mediakeysStep`"
+344533197,8884,mtwebster,2019-11-11T01:46:24Z,There is already a settings object for this schema - `this._sound_settings` - use it instead
+18931124,3553,mtwebster,2014-10-15T23:47:07Z,"need to `import subprocess`, this doesn't work currently
+"
+18931185,3553,mtwebster,2014-10-15T23:48:52Z,"I'm a flickr noob, but wouldn't it be better as 'Collection URL:' instead of author, as it could be a collection from various authors?
+
+Also, the dialog is very cramped, it might be nicer to use a Gtk.MessageDialog, which will lay things out a bit better, and you can still pack the GtkEntry into the content area - it also makes sure things stay _reasonably_ consistent with how dialogs are displayed in the system.
+"
+18931491,3553,mtwebster,2014-10-15T23:58:01Z,"Destroy dialogs, don't just hide them unless you've got a really good reason to.
+
+A dialog should go:
+
+<new dialog>
+<prep dialog>
+dialog.show_all()
+dialog.run()
+<handle response id's, destroy afterwards.>
+
+Right now the 'Close' button does nothing (and I think it should be 'Cancel', not Close)
+"
+18931727,3553,mtwebster,2014-10-16T00:04:24Z,"I think i'd rather keep the flickr button from being sandwiched like it is, maybe (-) packed into a box to the left of that widget, then (+)(flickr) right-aligned,  or (-)(+) left, (flickr) right.
+
+Is the (-) button smart enough to remove the flickr cache?
+"
+19056495,3553,ondrejkolin,2014-10-18T21:46:06Z,"@mtwebster The problem is, that Collection URL's are just for Pro Accounts ... I would suggest here a place for future improvments
+"
+19058243,3553,ondrejkolin,2014-10-19T06:37:35Z,"@mtwebster in file cs_backgrounds.py is import subprocess, where is the problem? 
+"
+8650718,2662,corbin-auriti,2014-01-04T03:38:37Z,"This could be false.
+"
+8650719,2662,corbin-auriti,2014-01-04T03:38:56Z,"This also could also be false.
+"
+244899821,8251,jaszhix,2019-01-03T01:42:15Z,"There is no Array.prototype.has, you probably meant to use `includes`.
+
+`Cjs-Message: 19:38:16.555: JS WARNING: [/usr/share/cinnamon/js/ui/lookingGlass.js line 127 > eval 1]: reference to undefined property ""has""`"
+244900734,8251,jaszhix,2019-01-03T01:53:39Z,"`Array.prototype.forEach` is slower than for loops.
+
+You can try [these](https://jsperf.com/for-vs-foreach/75) [tests](https://jsperf.com/loops/33) in Firefox, which uses the same JS engine as Cinnamon.
+
+An alternative is the the `each` function in misc/util, which wraps a for loop.
+
+```js
+Util.each(this._applicationsButtons, (button) => {...})
+```"
+244900885,8251,jaszhix,2019-01-03T01:55:32Z,"This could probably be broken down into multiple lines, it's not easy to read this way."
+245047350,8251,Curly060,2019-01-03T16:05:23Z,Huh? Why would it think this is an Array? I have changed the type of apps from Array to Set so I don't understand this warning.
+245047762,8251,Curly060,2019-01-03T16:06:40Z,"forEach is used all over the place in this file. We are talking about the menu with, say, max. 1000 entries (and that would be a lot). So IMHO it is fine to use forEach here."
+245122361,8251,jaszhix,2019-01-03T20:23:39Z,"Ah, I see - still doesn't seem necessary - arrays are faster."
+245122957,8251,jaszhix,2019-01-03T20:25:59Z,"It's not about a few instances here or there, it's about using the fastest methods possible. Cinnamon JS has to run on the same thread as the window manager. Every _little_ optimization adds up. It is something I would recommend in new code."
+245201486,8251,LingMan,2019-01-04T04:26:28Z,"What's the purpose of changing the array to a set? While it doesn't make a difference in this case, search results (should) have an order. It feels wrong to use a set in this context."
+245201697,8251,LingMan,2019-01-04T04:29:44Z,"You can move the ""let res = new Set();"" before the ""if"" since it is in both branches."
+245488791,8251,Curly060,2019-01-05T21:12:09Z,"@LingMan The current logic only allows to show/hide an item, so ordering is not possible at all. In that case, a Set felt semantically the most correct choice. Also, I just assumed that a Set is naturally the fastest in looking up items. That's not really the case in JS..."
+246551380,8251,Curly060,2019-01-09T21:25:32Z,Thanks. Done in the updated PR.
+251262455,8251,LingMan,2019-01-28T00:41:06Z,Nitpick: Missing space between `if` and `(pattern)`. The rest looks good to random me.
+251622849,8251,Curly060,2019-01-28T22:33:22Z,fixed
+113845025,6486,jaszhix,2017-04-28T03:19:40Z,"You could just use !category || !msg here because if they are null this won't catch it because you're only checking for undefined. As long as it is at least a variable, which parameters are, you don't need to check undefined.
+
+In JS this checks
+
+- null
+- undefined
+- NaN
+- empty string ("""")
+- 0
+- false"
+182138749,7376,collinss,2018-04-17T16:15:05Z,"Do we need the check ```volume != this.appet._volumeNorm``` here? It will not change the value in any way, and it adds complexity to the condition, making it harder to read. I suppose it might avoid some calculations if the value is 100% already, but the calculations are pretty minor, so I can't imagine it would have a noticeable impact on performance."
+182243205,7376,claudiux,2018-04-17T21:43:39Z,"Yes, we need it. Without this test, which is done quickly because it compares two integers, there are two comparisons with floats that are made at each loop when volume is 100%. If you try removing this test, you will notice a loss of performance and your fan will run out."
+182248729,7376,claudiux,2018-04-17T21:51:49Z,"Thanks for your tests, @collinss !"
+182285169,7376,collinss,2018-04-18T01:18:05Z,"No worries. I was just wondering as the calculations didn't seem that intense. But I guess if it's doing those calculations in rapid succession, it could add up."
+182409245,7376,claudiux,2018-04-18T12:34:29Z,It would be cool if there was a tool to measure the resources taken by each xlet.
+328745305,8873,JosephMcc,2019-09-26T17:49:42Z,It would be better not to use GtkStock in new code. 
+328911786,8873,norbusan,2019-09-27T04:46:57Z,"Hi @JosephMcc 
+thanks for your comment - Can you explain why using Gtk.STOCK_X is deprecated? I checked the library documentation and couldn't find anything related to it being deprecated.
+
+OTOH, if not, would you prefer a simpl `_(""Yes"")` and `_(""No"")`?
+
+Thanks"
+332973483,8873,Odyseus,2019-10-09T12:02:48Z,"Hello, everybody.
+
+@norbusan: For an up-to-date documentation of Gnome libraries (Gtk, Clutter, GLib, Gio, etc.), exists [this on-line documentation](https://lazka.github.io/pgi-docs/) that can also be [downloaded for off-line use](https://github.com/lazka/pgi-docs) as a static HTML site, and also can be downloaded as [Devhelp books](https://github.com/pygobject/pgi-docs-devhelp). These documentations are extracted directly from the Debian testing/unstable source code of said libraries. Each documentation details when a function, constant, class, etc. has been introduced and/or deprecated."
+333072061,8873,norbusan,2019-10-09T15:11:54Z,"Thanks @Odyseus 
+so I see now that the STOCK stuff is deprecated. The explanation for replacement is minimal, so would the following be what you have in mind?
+```
+    d.add_buttons(""_No"", Gtk.ResponseType.NO,
+                  ""_Yes"", Gtk.ResponseType.YES)
+```
+?"
+333079601,8873,Odyseus,2019-10-09T15:24:51Z, @norbusan: The **Yes/No** strings should be declared using the `_()`calls. ~~But what actually is in my mind is why change the use of `Gtk.MessageDialog` at all? `Gtk.MessageDialog` is perfectly used contextually and as a `one-liner` that doesn't require to use hard-coded strings.~~
+333083747,8873,norbusan,2019-10-09T15:31:57Z,"Ok, don't know about the msgfmt stuff in Python.
+
+Concerning `MessageDialog` - I tried that, but didn't see how to add a checkbox somewhere there.
+
+If you have a better suggestion, and are so fluent, it should be quick and easy to come up with something better / more suited. I don't mind if you include some other code at all! I just did something that works *now* and I can put into Debian until something similar is included upstream."
+333098914,8873,Odyseus,2019-10-09T15:59:39Z,"Oh, yes. Completely disregard my comments on `Gtk.MessageDialog`. I didn't see that you added more widgets to the dialog further down the code.
+
+In regards to `gettext` on Python, it's pretty much the same as in any other language. You just use a call to `_()` with the strings that you want to be exposed for localization. The call to `gettext.install(""cinnamon"", ""/usr/share/locale"")` at the beginning of this file installs the function `_()` in Python’s built-ins namespace ([gettext module docs](https://docs.python.org/3/library/gettext.html#module-gettext)).
+
+By the way, you also need to add the calls to `_()` to the strings at around lines **40** and **43** of this file."
+333285867,8873,norbusan,2019-10-10T00:20:19Z,"Ok, thanks. I have changed to `_(""Yes"")` and `_(""No"")`, and added the same translation call to the other strings. Pushed to this PR."
+1092185,843,ebbes,2012-07-03T13:32:16Z,"return appletsCurrentlyInPanel.indexOf(uuid) != -1; would be simpler.
+"
+365859769,8988,mtwebster,2020-01-13T15:18:33Z,"Is this code ever reached?  You call `_ejectFinish() if `this._mount.can_eject()` in the `remove()` method, so I don't think this would ever be reached.  I may be mistaken (mounts, drives, volumes are confusing)."
+365860096,8988,mtwebster,2020-01-13T15:19:12Z,"""Successfully"""
+365996010,8988,claudiux,2020-01-13T19:50:43Z,Ooops. I should have removed my mittens.
+366018276,8988,mtwebster,2020-01-13T20:44:19Z,"for some reason it doesn't display the block of code i wanted - this is what I am referring to:
+https://github.com/linuxmint/cinnamon/pull/8988/files/8b5cbb4b6c47fb32f1f7dac013597aec99da29e1#diff-65655e0b47c0d12eb7b07fb200e3d23dR190-R198"
+1977280,1232,autarkper,2012-10-30T11:15:18Z,"It seems that 'bring-windows-to-current-workspace' is not referenced in files/usr/share/cinnamon/applets/window-list@cinnamon.org/applet.js, right?
+"
+1977620,1232,mtwebster,2012-10-30T12:09:30Z,"Right - working from the point of view of the window-list, I didn't think it was appropriate to have that as a possible action when clicking on a window-list 'alert' item.
+"
+483865583,9559,Cobinja,2020-09-04T22:17:04Z,What exactly is the purpose of prepending 'applet-box' **and** appending 'applet'? I'd say one of them is sufficient.
+483867645,9559,bomdia,2020-09-04T22:26:04Z,"applet-box is the default class name and because i use a set method its overwrited so this, is in the _init of Applet class 
+when creating the actor is setted to applet-box and is a common class in a lot of theme so i don't think is possible remove it, for the appending applet is done only if we have an uuid and is appendend to the parsed uuid (note the space  before it)"
+483868040,9559,bomdia,2020-09-04T22:27:50Z,so the custom class name ends up in something like menu-cinnamon-org-applet is more cosmetic but i thinks is more intuitive
+499158913,9559,NikoKrause,2020-10-03T15:50:52Z,"I haven't tested it, but I think it should be as follows:
+```
+_addStyleClass(className){
+    this.actor.add_style_class_name(className);
+}
+```
+"
+499159023,9559,NikoKrause,2020-10-03T15:52:06Z,"Hence this needs to be changed to:
+```
+applet._addStyleClass('applet-box'+appletClass);
+```"
+1193208632,11664,anaximeno,2023-05-14T21:01:49Z,"Aren't there more effective ways of checking if the platform is mint? This code will be executed whenever its parent block is reached while only the first pass in the condition would be enough for defining the platform. Also, in that place it will be dependent on the result of the `samodule.process()` in the parent if condition, which may be good or bad depending on your goal there."
+1193214752,11664,rcalixte,2023-05-14T21:50:56Z,"> Aren't there more effective ways of checking if the platform is mint? This code will be executed whenever its parent block is reached while only the first pass in the condition would be enough for defining the platform.
+
+Agreed that it's not an elegant solution. I just double-checked the `platform` module and I actually think there's a function there that can be used instead.
+
+> Also, in that place it will be dependent on the result of the `samodule.process()` in the parent if condition, which may be good or bad depending on your goal there.
+
+This was intentional since the processes are either there or they are not. This would create a blind spot for users who remove the binaries from their path but that's something we can't try to solve for right now.
+
+Thanks for the review!"
+1193217536,11664,rcalixte,2023-05-14T22:16:32Z,@anaximeno Feel free to take a look at the change. It has a few blind spots but it should suffice for our needs. I'll resolve this thread for now too.
+249303820,8314,Odyseus,2019-01-21T00:35:50Z,"```suggestion
+```
+
+Since you are cleaning code, you could remove this import since it isn't used anymore."
+249303898,8314,Odyseus,2019-01-21T00:37:48Z,"```suggestion
+        this.settings.bind(""show-places"", ""showPlaces"", () => this._refreshBelowApps());
+```
+
+This callback isn't called. Missing parentheses."
+249304022,8314,Odyseus,2019-01-21T00:40:11Z,"```suggestion
+            Mainloop.timeout_add_seconds(1, () => this._refreshAll());
+```
+
+This could also be an arrow function."
+250702084,8314,Odyseus,2019-01-24T17:21:38Z,"```suggestion
+        }
+
+        if (this.contextMenu.sourceActor !== button.actor &&
+            this.contextMenu.isOpen) {
+            this.contextMenu.close();
+        }
+
+```"
+176939932,7395,jaszhix,2018-03-25T13:15:23Z,"Although older code is using `var`, in new code we use lexical scoping with `let`."
+190124171,7395,marcus-lundgren,2018-05-23T05:09:25Z,Don't use `==`. Use `===` instead. This should be changed in multiple places (including changing `!=` to `!==`)
+190125077,7395,marcus-lundgren,2018-05-23T05:16:20Z,"@clefebvre Can you make checks like these, e.g. not using `==`, a part of the CI/code style enforcement in javascript?"
+190226798,7395,Tak,2018-05-23T12:30:38Z,"Updating. FWIW, the existing code doesn't use ===/!=="
+190276970,7395,marcus-lundgren,2018-05-23T14:47:48Z,"Yeah, I know. And those should definitively be fixed at some point (in a different PR). It is a buggy operator that should never be used, and is scary to change. Making it at least better in the area we touch goes a long way :-)"
+638832283,10043,ItzSwirlz,2021-05-25T14:17:36Z,It should just fit with the function type so using this function *should* work
+638833944,10043,ItzSwirlz,2021-05-25T14:19:32Z,"I'm not sure what the point of this is. This is just for YYYY-MM-DD and i don't know what time has to do with anything, it doesn't seem to be used in the final output"
+642578927,10043,mtwebster,2021-05-31T15:58:44Z,"used here: https://github.com/linuxmint/Cinnamon/blob/master/js/ui/main.js#L208-L211
+
+Using the screen recorder I get a file named `cinnamon-20210531-1.webm` "
+642579165,10043,mtwebster,2021-05-31T15:59:17Z,"should be ok
+"
+643236634,10043,mtwebster,2021-06-01T15:55:52Z,cinnamon
+644053116,10043,ItzSwirlz,2021-06-02T15:01:36Z,Fixed 

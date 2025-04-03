@@ -1,0 +1,34 @@
+id,pr_number,user,created_at,body
+166450562,98,leigh123linux,2018-02-06T21:39:28Z,Can the required meson version be reduced to accommodate LMDE3 
+166609908,98,Salamandar,2018-02-07T13:02:44Z,"I tried to use 0.37.0, but 0.40.0 provides `link_whole`.
+http://mesonbuild.com/Release-notes-for-0-40-0.html"
+166657259,98,leigh123linux,2018-02-07T15:42:03Z,"Can you replace link_whole?, this really needs to build on lmde3"
+166664077,98,Salamandar,2018-02-07T16:01:30Z,"Not really, no. I even waited for Meson to implement this feature.
+That's compiler-level, it passes `-Wl,--whole-archive` to the linker. It's needed to expose archive symbols in the shared libraries dynamic symbol table.
+
+By the way, Meson is a really young project with really fast changes. 0.40 was an important release, you can't really *not* ship it with LMDE3."
+166664603,98,Salamandar,2018-02-07T16:03:02Z,"Most of the Meson projects will target `0.40.x`. Here : 
+* gstreamer https://cgit.freedesktop.org/gstreamer/gstreamer/tree/meson.build
+* systemd https://github.com/keszybz/systemd/blob/c4f082a7f87ba888a28525b43921754e1bf29413/meson.build"
+623927889,193,mtwebster,2021-04-30T14:37:45Z,"now is GDateTime, not gint63"
+623928009,193,mtwebster,2021-04-30T14:37:55Z,"time is GDateTime, not gint63"
+1382483930,236,rcalixte,2023-11-05T00:03:34Z,"Is there a reason you removed the existing commands and replaced them? The new commands are also duplicative and incorrect. For me, `meson build debian/build` generates errors but this is also duplicative of the command that works from step 1. This is on systems with meson version 0.61.2. Also, `meson compile` and `meson install` both just run the `ninja` commands from the previous commands that were in the documentation. Same for the uninstall steps that come after this. I don't understand the need to obfuscate those commands.
+
+
+Apologies if there's any confusion on my part."
+1843287464,245,SparkyBluefang,2024-11-15T07:13:39Z,Does this obsolete the `pnp_ids` meson build option and `hwdata` dependency?
+945176421,213,rcalixte,2022-08-13T18:22:38Z,"@JosephMcc Can you change this instead to:
+```
+<key name=""locate-pointer"" type=""as"">
+  <default>['&lt;Control_L&gt;']</default>
+```
+
+or
+
+```
+<key name=""locate-pointer"" type=""as"">
+  <default>['<Control_L>']</default>
+```
+(either one should work)
+
+This would allow for multiple values to be set (such as both Ctrl keys or alternate keystrokes)."

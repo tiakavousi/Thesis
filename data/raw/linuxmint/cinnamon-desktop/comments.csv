@@ -1,0 +1,310 @@
+id,pr_number,user,created_at,body
+360716380,98,clefebvre,2018-01-26T08:33:25Z,"Hi @Salamandar,
+
+This is really interesting for us, Meson looks really cool.
+
+Could you do the following in this PR:
+
+- Rebase the PR (it will result in having .circleci in your branch and trigger a CI build so we can check it builds everywhere).
+- Add the ""files"" directory as is... right now you're listing the one file by naming it, our projects use ""files"" dirs which have to be installed as is. You can use install_dir in Meson if I'm not mistaken.
+- Modify the debian/ packaging, disconnect it from autoconf and connect it to Meson. We build (and so does CI) with dpkg-buildpackage, for the build to use Meson, we need dpkg-buildpackage to call the appropriate meson and ninja commands.
+"
+360730793,98,Salamandar,2018-01-26T09:36:13Z,Hi ! I'm working on it. I did not touch cinnamon-desktop in a while and I've had a lot of experience with Meson since then… So a bit of refactoring is needed. I'll push when all done.
+360760542,98,Salamandar,2018-01-26T11:25:20Z,"> You can use install_dir in Meson if I'm not mistaken.
+
+At the time, install_dir would remove all the target directory content. It no longer does that so yes, I can use it.
+
+EDIT : That's highly prefix-dependent. The default prefix is `/usr/local`, so the files directory does not correspond. I'll install each subdir of usr independently."
+360773478,98,Salamandar,2018-01-26T12:34:19Z,"> disconnect it from autoconf and connect it to Meson
+
+Do you mean to completely forget about Autotools ? I was keeping the ac/am files for now, but if that's your plan, i'll just remove all autotools files from the repo."
+360792207,98,Salamandar,2018-01-26T14:01:48Z,"The debian buildsystem now uses meson, but that installs gir files into `/usr/lib/x86_64-linux-gnu` instead of just `/usr/lib`.
+I'll investigate this further."
+360798350,98,Salamandar,2018-01-26T14:26:28Z,"Okay, I give up trying to install the correct Meson version (>=0.40) in the CI env."
+363729438,98,leigh123linux,2018-02-07T10:42:51Z,"The meson pr has no option for --with-pnp-ids-path and installs a useless file to /usr/share/libcinnamon-desktop/pnp.ids
+
+
+The --with-pnp-ids-path option is used to specify the path to pnp.ids
+
+```
+--with-pnp-ids-path     Specify the path to pnp.ids [default=(internal)]
+```
+ As the internal file is garbage it should be possible to set it to use hwdata package
+
+```
+rpm -qf /usr/share/hwdata/pnp.ids
+hwdata-0.308-1.fc28.noarch
+```
+Linuxmint uses the same path (/usr/share/hwdata/pnp.ids).
+
+https://github.com/linuxmint/cinnamon-desktop/blob/master/debian/rules#L15"
+363740823,98,Salamandar,2018-02-07T11:28:54Z,"Yeah, there was a TODO left…
+Actually I did not have any idea about what's that file, so I just left it as is waiting for your feedback. That worked ;)"
+363907561,98,mtwebster,2018-02-07T20:55:58Z,Squash please?  Then I'll merge
+363914290,98,Salamandar,2018-02-07T21:20:03Z,"Yeah, will do tomorrow ! "
+364080542,98,Salamandar,2018-02-08T11:13:45Z,"I squashed the Meson files modifs, but kept separate the Debian build system modifs and the deletion of Autotools. Tell me if you prefer to have this squashed as well !"
+2507486577,248,hsbasu,2024-11-29T10:10:02Z,@clefebvre Please look into this.
+2507488094,248,clefebvre,2024-11-29T10:10:53Z,Can you give me the error msg?
+2507495021,248,hsbasu,2024-11-29T10:14:37Z,"> Can you give me the error msg?
+
+Gimme two minutes."
+2507503101,248,hsbasu,2024-11-29T10:18:52Z,"Check this [build log](https://code.launchpad.net/~mamolinux/+archive/ubuntu/daily-builds/+build/29305883/+files/buildlog_ubuntu-noble-amd64.cinnamon-desktop_6.4.0-unstable+202411261317~ubuntu24.04.1_BUILDING.txt.gz). It is not opening from my end right now.
+
+For more details: check LP recipes [Stable](https://code.launchpad.net/~mamolinux/+recipe/cinnamon-desktop), [Daily-build](https://code.launchpad.net/~mamolinux/+recipe/cinnamon-desktop-unstable) as I am also building cinnamon for upcoming Ubuntu releases. Even though Mint targets 24.04 LTS, these might be a good perspective to look for build errors."
+2507506539,248,hsbasu,2024-11-29T10:20:37Z,"Last few lines from the log:
+
+```
+-----------
+Called: `/usr/bin/pkg-config --modversion iso-codes` -> 1
+stderr:
+Package iso-codes was not found in the pkg-config search path.
+Perhaps you should add the directory containing `iso-codes.pc'
+to the PKG_CONFIG_PATH environment variable
+Package 'iso-codes', required by 'virtual:world', not found
+-----------
+CMake binary for host machine is not cached
+CMake binary missing from cross or native file, or env var undefined.
+Trying a default CMake fallback at cmake
+Did not find CMake 'cmake'
+Found CMake: NO
+Dependency lookup for iso-codes with method 'cmake' failed: CMake binary for machine host machine not found. Giving up.
+Run-time dependency iso-codes found: NO (tried pkgconfig)
+
+../meson.build:43:12: ERROR: Dependency ""iso-codes"" not found, tried pkgconfig
+dh_auto_configure: error: cd obj-x86_64-linux-gnu && DEB_PYTHON_INSTALL_LAYOUT=deb LC_ALL=C.UTF-8 meson setup .. --wrap-mode=nodownload --buildtype=plain --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libdir=lib/x86_64-linux-gnu -Dpython.bytecompile=-1 --buildtype=debug -Dpnp_ids=/usr/share/hwdata/pnp.ids returned exit code 1
+make[1]: *** [debian/rules:11: override_dh_auto_configure] Error 25
+make[1]: Leaving directory '/<<PKGBUILDDIR>>'
+make: *** [debian/rules:8: build] Error 2
+dpkg-buildpackage: error: debian/rules build subprocess returned exit status 2
+--------------------------------------------------------------------------------
+```"
+2507506938,248,leigh123linux,2024-11-29T10:20:50Z,"I needed to do it for fedora.
+
+https://src.fedoraproject.org/rpms/cinnamon-desktop/c/809ab833c7044b0a4b520ddbc183b563dad22ca5?branch=rawhide"
+2507522657,248,clefebvre,2024-11-29T10:29:25Z,"OK, it was introduced by Michael's revamp on gnome-rr.
+
+We do need it in build-depend. Please remove the version though."
+2507525130,248,hsbasu,2024-11-29T10:30:49Z,"> OK, it was introduced by Michael's revamp on gnome-rr.
+> 
+> We do need it in build-depend. Please remove the version though.
+
+Okay."
+2507528709,248,hsbasu,2024-11-29T10:32:46Z,@clefebvre Done.
+2507529366,248,clefebvre,2024-11-29T10:33:09Z,Thanks
+2567086484,250,clefebvre,2025-01-01T17:26:48Z,https://github.com/linuxmint/mint22.1-beta/issues/4#issuecomment-2535973441
+2567653973,250,kovacsIVgabor,2025-01-02T11:47:35Z,"So what should I do @clefebvre?
+What would be the right way to achieve this?
+Should I open a feature request?
+Thanks"
+2568000629,250,JosephMcc,2025-01-02T16:00:16Z,"I don't speak for clem, but if you read the link that he posted, this really does fall under the ""niche"" use case. Sometimes we just have to say ""no"" things. Not every feature request is something that can or will be excepted."
+2568034023,250,kovacsIVgabor,2025-01-02T16:23:09Z,"Thank you @JosephMcc for taking the time to explain it to me. Now I understand, but it's sad.
+Maybe adding some class to these elements so it would be possible to hide them with theme css? (if it is possible)
+Or it is already possible with css if I can figure out some selector?
+Thank you"
+2568040669,250,JosephMcc,2025-01-02T16:27:46Z,"All of the style classes used are here: https://github.com/linuxmint/cinnamon-screensaver/blob/master/src/cinnamon-screensaver.css
+
+I haven't actually tried to override them and can't test at the moment, but would be a place to start."
+2568195102,250,kovacsIVgabor,2025-01-02T18:30:17Z,"Thank you, but no luck. I can't figure out a selector and even if I could, I can only make things transparent which is not the way I solve things :/"
+2571566958,250,kovacsIVgabor,2025-01-05T09:49:58Z,"@clefebvre What about consistency with greeter? Because the greeter doesn't have ""unlock"" like button and the osk also hideable."
+338393799,96,clefebvre,2017-10-21T13:16:41Z,"Can you explain https://github.com/linuxmint/cinnamon-desktop/pull/96/commits/651175e336292f51a1e3943a58edf6e6c9575ab4?
+
+Other than that, everything looks good.
+
+Do we really need to include a list of symbols in the git tree? That content will be obsolete with every new build.. and it looks like it could very well be generated automatically."
+338423313,96,Fantu,2017-10-21T18:36:28Z,"if is not mainteined good probably is better avoid it, if you want remove 651175e commit.
+the content need to be updated only if some api will be added/modified/changed and can be useful to understand if the abi need to be dumped
+"
+376582692,96,Fantu,2018-03-27T16:10:13Z,"probably I'll rebase this in few days and I'll other improvements from debian
+@clefebvre about migration to meson can be good use debhelper from stretch-backports instead some manually addition? (ubuntu 18.04 already have debhelper updated with meson support)
+I'll try to split all changes in different commits with good descriptions"
+376912890,96,Fantu,2018-03-28T14:44:51Z,"@clefebvre rebased and add some other improvements and small fixes, if you don't want commit ""Bump version to 3.7.0 for testing"" remove it
+also tested build http://debomatic-amd64.debian.net/distribution#stretch/cinnamon-desktop/3.7.0~1/buildlog
+other important improvements are needed but I suppose is not possible now, for example I not understand if you still want support s.o. older that stretch and bionic
+some other possible improvement not done for now:
+- meson support without manual addition for basic build support using meson require debhelper>=10.3 newer from backport should be also better; migrating dh compat from 9 to 11 make possible also other small improvements and for what I saw few days ago also helped to found a partial build error where on dh 9 of same packages before continued anyway
+- as spotted also by lintian: debian-control-has-obsolete-dbg-package (same of all other packages), tell me if will be possible switch to -dbgsym"
+379461647,96,Fantu,2018-04-07T11:08:37Z,"now that I had confirm of mint18 support dropped I added other improvements, I also tested build on stretch:
+http://debomatic-amd64.debian.net/distribution#stretch/cinnamon-desktop/3.7.0~2"
+381614765,96,clefebvre,2018-04-16T14:16:50Z,All merged except for version bump.
+99117632,43,jlu5,2015-05-05T15:33:32Z,"Why? The package name is supposed to match the library version.
+"
+99169730,43,monsta,2015-05-05T18:29:54Z,"@JosephMcc can tell you how it caused installation problems on his machine.
+
+Besides, the lib API version already was 4 - which didn't match the name.
+"
+99171426,43,jlu5,2015-05-05T18:32:55Z,"@JosephMcc was the one who committed 01d5fec, which is reverted here.
+"
+99179599,43,monsta,2015-05-05T18:51:40Z,"I know, and that was a hack, and I already asked him if this PR solves the issue.
+"
+99221538,43,jlu5,2015-05-05T21:06:45Z,"Oh, I see.
+"
+107020968,49,clefebvre,2015-05-30T10:57:14Z,"Hi leigh, we need more than that to change it.
+
+Can you find out if that fixes/breaks anything? Does it detect your screen vendor info better with that change for instance?
+"
+107028243,49,leigh123linux,2015-05-30T11:38:43Z,"To be honest it doesn't make any difference to my desktop PC, it shows 'Iiyama North America' with or without it.
+My Lenovo shows 'laptop'  with or without it.
+"
+107856820,49,clefebvre,2015-06-02T08:21:44Z,"Ah well then :)
+"
+107866004,49,leigh123linux,2015-06-02T08:42:16Z,"so your going to keep the meaningless one with all the fedora and redhat git refences :sunglasses: 
+"
+107877808,49,clefebvre,2015-06-02T09:09:50Z,"Yes.
+"
+1919275018,237,mtwebster,2024-01-31T14:57:56Z,"Would this workflow be better off as part of our auto-builds (see https://github.com/linuxmint/github-actions), rather than adding it to every repo? They get triggered for PRs as well.
+
+It wouldn't be on ubuntu-latest container, but I still think it would do the job off mint/lmde images."
+1919470303,237,Fantu,2024-01-31T16:32:35Z,"If will not be a problem to manage exclusions of any repository in it can be better.
+Small note: it works only for PR this action.
+If you want to do it you can start with the action from here but add also the exclusion from https://github.com/linuxmint/cinnamon-settings-daemon/pull/385/commits/9749faa9e7b2c652142d3af26bf688bece9d4362 so will be:
+```
+skip: ChangeLog,*.po,LINGUAS
+# word to exclude must be always lowercase as must be same of the codespell dictionary
+ignore_words_list: gir,tyes
+```
+and from my PR cherry-pick the other commit with the fixes done
+after on new PR of other components will appear many spell error detected and also other possible things to exclude anyway with `only_warn: 1` don't fail the tests so don't force contributors to resolve errors already present but at least warns inline in the changed code and under the first errors in the one not changed by the PR"
+1939476094,237,mtwebster,2024-02-12T20:06:07Z,"Ok, I added codespell to our CI:
+https://github.com/linuxmint/github-actions/commit/cb715827ba6090a605072b159257e42f30bde9d0
+
+Tested on this repo:
+https://github.com/linuxmint/cinnamon-desktop/actions/runs/7877089417
+
+I fixed the file in cinnamon-settings-daemon so we don't need to exclude 'tyes'. Let me know if anything doesn't look right. If exceptions ever become an issue we can still specify them per-repo (Add another input [here](https://github.com/linuxmint/cinnamon-desktop/blob/master/.github/workflows/build.yml#L18-L25), like `dependencies`).
+
+Want to update these prs with just the spelling corrections?  Thanks"
+1942153913,237,Fantu,2024-02-13T18:28:48Z,"Inserting it into the build job currently runs it 3 times, it would be better to find a way to run it only once, then I think it would be fine to keep it ""global"".
+I updated my 2 PR keeping only typo fixes.
+Looking c-s-d codespell needs to add `,*.svg` (can be useful also in others repo) and `,requestor` to ignore_words_list"
+1948655802,237,mtwebster,2024-02-16T15:40:03Z,"Ok I made a few more changes:
+https://github.com/linuxmint/github-actions/commit/8fb9c7c4a7f4670e8c3f8d0637e269978e2552c3
+
+- It only runs on one machine now
+- You can specify per-repo words/files to skip, in addition to the 'defaults' (Changelog, .po, etc...)
+
+This way someone opening a PR can add to the repo ignore lists instead of us having to update our github-actions every time.
+
+edit: I used xapp to test per-repo stuff:
+https://github.com/linuxmint/xapp/commit/b5894870cd47ee1dd3f53e86562a7ecf2ce90475"
+830140426,193,mtwebster,2021-04-30T14:38:33Z,Please test more.
+830196687,193,ItzSwirlz,2021-04-30T16:02:32Z,"Will do then if it's better I can test two different computers since it's available.
+
+You may be wondering what the hell is going on with the cash crap and that's because compiler complains so I didn't want to introduce something annoying"
+25814302,3,clefebvre,2013-10-07T14:45:55Z,"When does it fail?
+"
+25815055,3,leigh123linux,2013-10-07T14:54:10Z,"The bug is marked private for some stupid reason
+
+ https://bugzilla.redhat.com/show_bug.cgi?id=1014881
+
+```
+Truncated backtrace:
+Thread no. 1 (10 frames)
+ #2 _gdk_x11_display_error_event at gdkdisplay-x11.c:2533
+ #5 handle_error at xcb_io.c:213
+ #7 XRRSetCrtcConfig at XrrCrtc.c:147
+ #8 gnome_rr_crtc_set_config_with_time at /lib64/libcinnamon-desktop.so.4
+ #9 configure_crtc at /lib64/libcinnamon-desktop.so.4
+ #10 g_hash_table_foreach at ghash.c:1526
+ #11 gnome_rr_config_apply_with_time at /lib64/libcinnamon-desktop.so.4
+ #12 apply_configuration at /usr/lib64/cinnamon-settings-daemon-3.0/libxrandr.so
+ #13 use_stored_configuration_or_auto_configure_outputs at /usr/lib64/cinnamon-settings-daemon-3.0/libxrandr.so
+ #14 on_randr_event at /usr/lib64/cinnamon-settings-daemon-3.0/libxrandr.so
+ #14 on_randr_event at /usr/lib64/cinnamon-settings-daemon-3.0/libxrandr.so
+
+```
+
+backtrace
+
+http://pastebin.com/eC6uatVJ
+"
+25877131,3,leigh123linux,2013-10-08T09:50:10Z,"https://bugzilla.redhat.com/show_bug.cgi?id=1013187
+"
+246603469,70,maxyz,2016-09-13T07:52:21Z,"This is caused by my update to the autogen.sh, that I was sure it was being run by Debian's dh_autoreconf, but it isn't. I'll need to review the gnome-macros pull requests.
+Anyway, why no using the canonical optional gtk-doc? (As documented here: https://developer.gnome.org/gtk-doc-manual/stable/settingup_autoconf.html.en)
+"
+246608645,70,itzexor,2016-09-13T08:15:29Z,"I just copied over the same fix that was applied in cinnamon-screen saver a month ago. Btw @leigh123linux and I don't use Debian-based distros, we are just trying to get it to build successfully as it did before just running autogen.sh and make.
+
+https://github.com/linuxmint/cinnamon-screensaver/commit/39893ad00bb3597ba49ba981b08f7ff03c693690
+
+Edit: This is the output of ./autogen.sh without this patch: http://dpaste.com/1V63DXT.txt
+"
+246641042,70,maxyz,2016-09-13T10:31:32Z,"That's what I meant. I've only tested this in Debian that's ignoring the autogen.sh script, my mistake.
+
+About the macro, I would strongly suggest the use of canonical rules whenever possible, it's hard enough to maintain the auto\* stuff as to having to review minor differences for common patterns.
+"
+262498995,80,clefebvre,2016-11-23T12:19:24Z,@mtwebster can you review this PR?
+262499773,80,mtwebster,2016-11-23T12:23:41Z,"I've had it merged on my local branch for a while, was just working on fixing fingerprint support.  I'll merge it now though."
+262500799,80,clefebvre,2016-11-23T12:29:13Z,tx :)
+1033523929,204,Fantu,2022-02-09T09:09:10Z,"@mtwebster from CI builds fails seems there is file missing:
+`schemas/meson.build:32:2: ERROR: File org.cinnamon.desktop.peripherals.gschema.xml.in does not exist.`"
+1033673959,204,mtwebster,2022-02-09T11:46:17Z,"Fixed, sorry"
+1118926119,204,Fantu,2022-05-05T18:40:24Z,"@mtwebster I prepared a rebase solving a small conflict, if you want use it:  https://github.com/Fantu/cinnamon-desktop/commits/muffin-5.2-test"
+46093787,13,Fantu,2014-06-14T17:13:36Z,"@mtwebster : also this fix and update po/POTFILES.in
+"
+46094495,13,mtwebster,2014-06-14T17:42:11Z,"Ack - looking at the diff hangs firefox pretty good :)
+"
+265129195,82,clefebvre,2016-12-06T11:39:31Z,"Cool, @leigh123linux can you confirm this is fine with Fedora?"
+265130405,82,leigh123linux,2016-12-06T11:46:02Z,Looks good to me.
+377015318,105,marmistrz,2018-03-28T19:55:47Z,@JosephMcc ping
+381567287,105,clefebvre,2018-04-16T11:26:23Z,"As the key is only used in csd (and the other PR is still being dicussed, please put it in https://github.com/linuxmint/cinnamon-settings-daemon/blob/master/data/org.cinnamon.settings-daemon.plugins.power.gschema.xml.in.in instead)."
+381425205,111,Fantu,2018-04-15T17:57:54Z,build tested here: http://debomatic-amd64.debian.net/distribution#dpr-lmde-stable/cinnamon-desktop/3.7.0~4
+381615145,111,clefebvre,2018-04-16T14:18:06Z,"stretch has debhelper 10, so I don't think we'll depend on 11.
+
+everything else (except the version bump) was merged."
+808424746,185,ItzSwirlz,2021-03-26T18:17:44Z,Just saying by the way-can we rename gvc files to 'cvc'? This isn't GNOME's thing this is ours.. we're branching from them. If we are going to branch/fork then make it our own. Just an idea.
+808702036,185,Fantu,2021-03-27T09:32:08Z,@ItzSwirlz I think is good don't rename when not necessary to make easier/fast rebase/cherry-pick from origin (of fork) when needed
+1919220175,236,mtwebster,2024-01-31T14:30:49Z,"96ae2a514a1ff0effe1181db47ff26b5e1267ad
+
+The 'deprecated_warnings' is a typo, which is why you were getting this error.
+"
+2477012699,245,mtwebster,2024-11-14T17:26:50Z,Merged - https://github.com/linuxmint/cinnamon-desktop/commit/913198430f27852544f9443a250421168d3d4466
+58702157,11,mtwebster,2014-10-10T19:07:30Z,"was manually merged
+"
+32080881,7,Frogging101,2014-01-11T00:39:43Z,"It still locks up, rarely. I'm closing this until I've fixed it for sure.
+"
+124238095,53,gerow,2015-07-23T20:56:48Z,"Relevant PR from cinnamon-settings-daemon: https://github.com/linuxmint/cinnamon-settings-daemon/pull/93
+"
+59355637,23,leigh123linux,2014-10-16T12:49:00Z,"closes
+
+https://github.com/linuxmint/Cinnamon/issues/3564
+
+and
+
+https://github.com/linuxmint/Cinnamon/issues/3059
+"
+139856907,51,leigh123linux,2015-09-13T09:40:38Z,"Why is this needed?, I have no issue building c-d with make without this change.
+"
+234212619,67,maxyz,2016-07-21T10:10:47Z,"Something went wrong here. This patch breaks the build. I'll fix it.
+
+Done.
+"
+260606810,79,leigh123linux,2016-11-15T10:36:17Z,"Mint also uses usr/include/cinnamon-desktop/libcvc
+
+https://github.com/linuxmint/cinnamon-desktop/blob/master/debian/libcvc-dev.install#L1
+"
+265716521,83,leigh123linux,2016-12-08T11:16:27Z,Should address https://github.com/linuxmint/Cinnamon/issues/6059
+433369379,112,clefebvre,2018-10-26T10:52:42Z,"I'll close this, we're staying with dh10 in LMDE 3."
+414191278,119,collinss,2018-08-20T04:00:49Z,"Can you please explain why this is a good idea? If you build this without introspection, I don't know if Cinnamon will even work at all, but if it does, many important parts of it will definitely break (ie. calendar, sound, keybindings, to name a few). Also, if you don't have gobject introspection in general, that breaks pretty much everything."
+526105667,130,leigh123linux,2019-08-29T09:30:33Z,"Fixes these build warnings.
+
+```
+../libcvc/gvc-mixer-stream.c:169: Warning: Cvc: invalid ""transfer"" annotation for guint32: only valid for array, struct, union, boxed, object and interface types
+../libcvc/gvc-mixer-stream.c:497: Warning: Cvc: invalid ""transfer"" annotation for guint32: only valid for array, struct, union, boxed, object and interface types
+../libcvc/gvc-mixer-stream.c:169: Warning: Cvc: gvc_mixer_stream_get_volume: return value: Missing (transfer) annotation
+../libcvc/gvc-mixer-stream.c:497: Warning: Cvc: gvc_mixer_stream_get_base_volume: return value: Missing (transfer) annotation
+[54/56] /usr/bin/g-ir-compiler libcvc/Cvc-1.0.gir --output libcvc/Cvc-1.0.typelib
+```"
+554092534,133,deskwizard,2019-11-14T21:40:18Z,Closed as requested.
+547451613,134,schachmat,2019-10-29T14:36:08Z,Ping. Can I get a review for this patchset? I'm hoping to get this in before Cinnamon 4.4.
+564500880,141,clefebvre,2019-12-11T11:33:35Z,"The bug is valid, but there's two issues in the PR:
+
+- We should always use dgettext.. and never return format_string.. that's the actual bug.
+- dcgettext can't be used, it fetches the translation from /usr/share/locale/$LANGUAGE/LC_TIME/cinnamon.mo... what we want is the opposite, we want /usr/share/locale/$LC_TIME/LC_MESSAGES/cinnamon.mo.
+
+Superseded by https://github.com/linuxmint/cinnamon-desktop/pull/142"
+732421905,174,ItzSwirlz,2020-11-23T20:57:40Z,"err... with Buster this sort of leaves us a *bit* behind... it's why LMDE 4 failed (dependencies)
+
+We can either branch or just close this. I'll leave it to you guys"
+773365387,178,mtwebster,2021-02-04T14:48:57Z,"I don't want whitespace commits, all they do is pollute git blame/history. We correct whitespace issues around other changes only."
+1145172386,196,ItzSwirlz,2022-06-02T18:17:52Z,"With the likely upcoming Muffin rebase, I feel like holding this off."
+1159263539,207,mtwebster,2022-06-17T22:05:39Z,Oops - thanks!

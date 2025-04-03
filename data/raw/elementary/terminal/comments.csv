@@ -1,0 +1,1520 @@
+id,pr_number,user,created_at,body
+1688082107,737,jeremypw,2023-08-22T12:23:02Z,Probably needs splitting into two PRs.
+1690353247,737,jeremypw,2023-08-23T17:24:38Z,Now only fixes the linked issue.  A separate PR dealing with option handling will be prepared later.
+1694750109,737,Marukesu,2023-08-27T20:08:24Z,"> Application: Distinguish when a working directory was explicitly requested (-w option) when an instance is already running in order to allow different behaviour for -t option It is an open question whether the -t option should behave the same as the new-tab action (honor ""follow-last-tab"" setting).
+
+The idea with the rewrite is that working directory isn't a ""real"" option, so it shouldn't cause different behaviour by itself.
+
+> It also fixes a small issue in master where if Terminal is launched with io.elementary.terminal when an instance is already added then a new unrequested tab is added to the first window.
+
+the behaviour of opening a new tab when invoked in a directory without a tab already open is also intentional. the rationale is that any command line invocation is done with the intention of open a tab or window, so it act as a ""weakened"" (it won't create a tab, if one in the current directory already exists) version of `-t`.
+
+if we are going to change the behaviour here, i would prefer that it's to drop the weakened `-t` for assuming a real one."
+1695498851,737,jeremypw,2023-08-28T11:06:25Z,"> The idea with the rewrite is that working directory isn't a ""real"" option,
+
+Not sure what this means.  The `-w` and `-t` options do differ in that the former requires a following URI and the latter does not (it just adds a new default tab)."
+1695515878,737,jeremypw,2023-08-28T11:19:37Z,"> the behaviour of opening a new tab when invoked in a directory without a tab already open is also intentional. the rationale is that any command line invocation is done with the intention of open a tab or window
+
+Again, I do not understand this. The change (and the whole PR) is about not opening *two* tabs when the user would expect only one.  The change from `master` being discussed here is about when Terminal is invoked without *any* options so the user is not requesting a new tab.  Usually it is because the user has forgotten Terminal is already running so it should behave as if the user had just clicked on the dock icon again - i.e. it should just focus the existing window.
+
+"
+1695526752,737,jeremypw,2023-08-28T11:27:31Z,"There is a case for reconsidering whether we need both `-w` and `-t` options or whether they should do the same or different things, bearing in mind we do not want to break existing scripts if we can help it. But I am not sure this PR is the place - I am just trying to make sure Terminal continues to follow the information that the `-h` option gives while fixing the issue of unexpected extra tabs."
+1695542782,737,jeremypw,2023-08-28T11:38:58Z,"Elementary Terminal is currently different from other terminals in that it has a ""follow-last-tab"" setting (unexposed) that is by default `false` so that additional tabs are by default opened at the user's home directory *not* the current directory. This complicates matters considerably. Might be worth discussing whether that setting should continue to be supported or whether we should just emulate other major terminals. But that is for another PR."
+1695556255,737,jeremypw,2023-08-28T11:49:08Z,"> so it act as a ""weakened"" (it won't create a tab, if one in the current directory already exists) version of -t.
+
+This would make commandline invocation different from invocation from the dock or App Menu which both just focus an existing primary window, so I disagree.
+
+Interestingly `gnome-terminal` *always* opens a new window when a primary window exists  even when invoked with no options. `xterm` does the same.  Following that would probably simplify things but would need design team sign off."
+1695939112,737,jeremypw,2023-08-28T15:54:12Z,"@Marukesu I'm going to have to ask you to look at that race issue in the testing of adding tabs I am afraid.  I tried a few things but I do not fully understand the code :disappointed:  Even getting the `n_tabs` directly from `notebook` does not work.  The `callback` is running before `MainWindow` even starts to add the tab.  Looks like `iterate_context` is not blocking for long enough for MainWindow to complete everything needed to add a tab.
+
+UPDATE:  Wait a minute I think I have been misinterpreting the logs - there are two calls to `option ()` within each test and I have been mistaking the output from one as belonging to the other.  I think the problem is due to an unexpected tab being added in the Test environment due to an attempt to restore tabs"
+1695944298,737,jeremypw,2023-08-28T15:57:34Z,Not sure why we're getting the expected tab count in the `--execute` test but not the `new-tab` option test though :shrug: 
+1696044360,737,jeremypw,2023-08-28T17:06:39Z,"So it seems that for each call to `option ()` in the Test environment, the application command_line function gets called *twice*?  Is this intended?  It is not what happens when launching the application on the desktop.  It results in unexpected  numbers of tabs appearing (at least, different from real life)."
+1696067130,737,Marukesu,2023-08-28T17:24:11Z,"yes it does, that is the only way to test the options and actions without having interference of the command line. the first invocation override the default handler, so for the tests, the second invocation appears as if it was the first one.
+
+to be a little more clear:
+```vala
+   var app = new Terminal.Application ();
+   ulong signal_id = app.command_line.connect (() => { // this override the command_line () implementation of Terminal.Application
+        app.disconnect (signal_id); // make the next command_line() call go to the default handler
+        // ...
+```
+
+EDIT: oh, sorry, now i see, you say the second line in the overriden launching, it's needed because some of the test can only be properly tested in a secondary launching (like the new-window test), so it tries to act if the command_line was called with a already existent instance.
+"
+1696153347,737,jeremypw,2023-08-28T18:31:15Z,"I have found a fix for the tests by allowing the test to choose whether or not `command_line` is called with a `null` parameter before the test commandline.  This defaults to ""yes"" but for the ""new-tab"" tests it needs to be ""no"" in order to get the ""expected"" result (i.e. the same as real life).  I havent fully got to the bottom of it but there does seem to be a timing issue when adding a second tab to the existing window in the new tab test."
+1696155777,737,jeremypw,2023-08-28T18:33:07Z,I'll have another look tomorrow - I've been down enough rabbit holes and followed enough red herrings today :stuck_out_tongue_closed_eyes: 
+1785754118,737,jeremypw,2023-10-30T17:50:32Z,"Closing as this has become too complicated/contentious.  I'll try and find a simpler, if more limited, solution to the immediate issue of unwanted tabs being added every time the terminal is launched from the dock."
+458205112,330,jeremypw,2019-01-28T16:39:05Z,@elementary/ux Needs an opinion on whether to hide or disable the menuitem. This does not seem to be covered in the HIG.  I think the general wisdom is to disable rather than hide in most cases?
+458243297,330,cassidyjames,2019-01-28T18:19:39Z,"@jeremypw I am not 100% sure of the context, but I'd say: if the context menu is for something you're clicking on, only showing the menu item when you're clicking on that thing makes sense. i.e. hiding makes more sense than disabling in that case. I think."
+458480185,330,jeremypw,2019-01-29T10:01:39Z,"@cassidyjames I agree it should only appear in a selection context, not when secondary-clicking on the background say.  So it only appear when the selection (or hovered item) is a web address (i.e it currently gets underlined)? That should be doable."
+458480482,330,jeremypw,2019-01-29T10:02:41Z,@Mohelm97 : See UX team ruling on this ^  Will you be able to progress this now? :-)
+572217065,330,jeremypw,2020-01-08T19:21:17Z,I am going to try and progress this PR myself now as it has been left a while.
+572228813,330,jeremypw,2020-01-08T19:50:55Z,"I have combined the two ""open in browser"" actions since they use the same command ultimately (`Gtk.show_uri_on_window`) so there is no explicit control how it is shown and also because it looked odd that when clicking on a uri two different open in browser options were displayed.  Initially the item label changed depending on whether it was expected to use a web browser or a file browser but this was not possible in any elegant way when Granite.AccelLabels are used since their labels are construct only.  Another factor is it seems excessive to have two different keyboard shortcuts and two actions leading to the same code.  Need design team comment on this though."
+572690221,330,jeremypw,2020-01-09T18:26:33Z,Blocked until Granite.AccelLabel supports variable text.
+577592821,330,jeremypw,2020-01-23T09:14:20Z,Variable label now supported in Granite master but leaving blocked until released.
+609004009,330,jeremypw,2020-04-04T09:43:35Z,New release of Granite - unblocking.
+609873689,330,jeremypw,2020-04-06T15:44:01Z,"The latest changes allows opening the current selection in a browser without it needing an explicit scheme.  So you can type e.g. `\home`, select it and press `<Shift><Ctrl>E` to open that directory in the file manager. The selection is not fully validated as a path as far as setting the action enabled is concerned (it must contain a `Path.DIR_SEPARATOR_S`) but invalid paths just do nothing (apart from generate a terminal warning)."
+634554286,330,jeremypw,2020-05-27T09:52:02Z,"@danrabbit  Thanks for the review - I haven't looked at this in a while but ""Open in Web Browser"" should show with schemes such as ""http"" and ""https:"". Most other remote schemes do open in the file manager though - I'll check it out and implement your other suggestions."
+634571625,330,jeremypw,2020-05-27T10:27:03Z,There will be a delay until I can get a system set up that will actually build the latest Terminal :-(
+637668950,330,jeremypw,2020-06-02T16:35:04Z,"Should be OK now - careless mistake.
+
+Are there any other schemes, apart from http and https that should be opened in Web Browser rather than Files?"
+637698629,330,danirabbit,2020-06-02T17:33:22Z,"I can confirm that ""Open in Web Browser"" now shows correctly and works as expected, but it seems that ""Show in File Browser"" is now always insensitive.
+
+I guess in an ideal world we should probably be using `https://valadoc.org/gio-2.0/GLib.AppInfo.get_default_for_uri_scheme.html` and `https://valadoc.org/gio-2.0/GLib.AppInfo.launch_default_for_uri.html` instead of trying to figure out what scheme does what manually"
+638031599,330,jeremypw,2020-06-03T08:01:27Z,"@danrabbit Thanks for the review.  ""Show in File Browser"" should be sensitive if either
+* there is a selection and that selection is a valid path or
+* there is a link with a scheme file:/// under the cursor.
+
+Good idea about `GLib.AppInf.get_default_for_uri_scheme()`.  I'll see what I can do.
+"
+638058670,330,jeremypw,2020-06-03T08:52:57Z,"Using `AppInfo.get_default_for_uri_scheme ()` works but this has raised a number of problems (some of which were already present because this PR uses `Gtk.show_uri_on_window ()` which uses the default app - not just web or file browser).
+
+* If you want the choice to be limited to ""Web Browser"" or ""File Browser"" there seems to be no good way to determine, in all locales, whether the returned app is a Web Browser.
+* Some schemes such as ""ftp"" that we probably want to open in Files will by default open in the Web Browser.
+* Some schemes such as ""mailto://"" that a user might want to open in a web browser if it is a webmail address will open in Mail.
+* Some returned apps e.g. that for ssh:// are neither Web Browser nor File Browser.
+
+If you want to allow other apps and have their name in the menu:
+* Not all apps have a translated name or generic name in all locales and the app name or id may not be meaningful
+
+If we want to stick to a simple Web/File browser choice then we will have to stop using `Gtk.show_uri_on_window ()` and use e.g. `AppInfo.launch_uris ()`"
+638462569,330,danirabbit,2020-06-03T21:08:48Z,"In master, if there is no selection you can still show the pwd in the file browser which is extremely useful.
+
+It's probably not within the scope of Terminal to decide the appropriate app that should be associated with a URI scheme. If we want Files to handle ftp:// schemes, we should probably set that in the default-settings package.
+
+I think the way to account for users wanting to open something other than the default is to provide a full ""Open In"" submenu that would list every app that handles that URI scheme. If we follow the same design scheme as Files, I think this could be a separate pull request since we still show the default at the top level. There's an issue report for this feature: #422 
+
+Can you explain what you mean about app names? I think we should just be able to do something like `""Open in %s"".printf (appinfo.get_display_name ())` right? I believe this is what we do in other ""Open In"" menus"
+639632342,330,jeremypw,2020-06-05T17:00:22Z,"@danrabbit The latest commits should implement opening the current link, selection or working directory in the appropriate default application.  As advised I have used appinfo.get_display_name () for the label.  When the ""Show in "" menu option is not enabled the description falls back to ""Show in Default Application"" as this is what it will do when it is enabled.
+
+For simplicity the content type is guessed from the filename (if necessary).  I am not sure how complex we want to get with this - replicating how Files does it (i.e looking at the actual file attributes offering a way of changing the default), but that can be left for another PR if required."
+639634503,330,jeremypw,2020-06-05T17:03:43Z,Do we want to show an error dialog if the uri fails to open in the default app?
+1044375088,330,jeremypw,2022-02-18T11:31:37Z,Closing as the linked issue has been closed by another PR
+847135658,584,felix-andreas,2021-05-24T15:42:28Z,"Do you know what's the point of [`current_directory_uri_changed`](https://valadoc.org/vte-2.91/Vte.Terminal.current_directory_uri_changed.html), it sounds like a signal which should get emitted when the directory changes, but it seems to never get emitted and calling [`get_current_directory_uri`](https://valadoc.org/vte-2.91/Vte.Terminal.get_current_directory_uri.html) returns `null` on my machine.
+
+Shouldn't it be technically possible to get notified whenever the CWD changes, without relying on continuously polling for it? Similar how `get_shell_location` 
+https://github.com/elementary/terminal/blob/ac1bcc066302044529ae25d76b8ab067e1bf3ff4/src/Widgets/TerminalWidget.vala#L450-L460
+
+use the Linux `/proc/<pid>/cwd` file, should it be possible to set up an watcher using something like [`inotify_add_watch`](https://valadoc.org/linux/Linux.inotify_add_watch.html) ? Or maybe trace the `chdir` syscalls of the child processes?
+"
+847150964,584,jeremypw,2021-05-24T16:06:44Z,"@andreasfelix Thanks for the review!
+I thought I took out `save_open_terminals` - I intended to.  It doesn't seem necessary when updating the labels.  I originally only had the labels update when the user entered `Return` then changed it to `contents_changed` so that if a script changed the cwd it was reflected in the labels.
+
+The updating is throttled by a timeout so I do not think it is particularly expensive.
+
+You are right that a better solution would to be notified of a cwd change rather than reacting to signals that `might` have changed the cwd (would still have to react to adding, removing and switching tabs though).  I did not know how to do that but I'll look into your suggestions."
+847151852,584,jeremypw,2021-05-24T16:08:14Z,Isn't `/proc/` a virtual directory? So I don't know whether you can monitor it.
+847156532,584,felix-andreas,2021-05-24T16:16:08Z,oh yes :/ according to stackoverflow seems like [watching the proc filesystem is not possible.](https://stackoverflow.com/questions/6003830/how-to-monitor-the-change-of-a-processs-working-directory)
+847181554,584,felix-andreas,2021-05-24T16:37:23Z,"IMO, the easiest solution would be to implement `check_cwd_changed` function in the `TerminalWidget`, which emits a `cwd_changed` signal if the CWD has changed.
+
+Then you could register the `t.cwd_changed.connect (schedule_name_check);` and call `current_terminal.check_cwd_changed` every time <kbd>Enter</kbd> is pressed.
+
+I think this way the code would be a little bit more self documenting, because it makes clear that the names has to be checked every time a terminal widget's cwd changes. And if in the future somebody comes up with some `Posix/Linux` magic, they just have to replace the logic of the `TerminalWidget.cwd_changed` signal.
+
+But this way would not catch the case the CWD is changed by a script, but it would be an improvement over how Mate terminal, Gnome terminal or tilix handle it."
+847185999,584,jeremypw,2021-05-24T16:44:48Z,"The last commit reduces the cost of calling `schedule_name_check` rapidly. If two calls arrive within 500mS then the existing timeout just keeps running for another 250+mS.  The call simply performs an int comparison and checks a boolean.
+
+I do not see a lot of advantage in creating a new terminal signal tbh instead of monitoring the existing terminal signals."
+847186000,584,felix-andreas,2021-05-24T16:44:48Z,"If you rather want to cover all cases by using `contents_changed`, I would still move this logic to the `TerminalWidget` and store the `cwd` into an instance variable and emit an `cwd_changed` if the `cwd` changes. This should scale better with a larger number of tabs because the `check_for_tabs_with_same_name` only has to run if one of the `TerminalWidgets` cwd actually changes."
+847190318,584,jeremypw,2021-05-24T16:52:03Z,"But then you have each terminal running code everytime its contents changes instead of MainWindow.  Each terminal would have to connect to and process the `contents_changed` signal instead of MainWindow and *then* emit another signal which MainWindow has to process.
+
+I suppose it might be worth it as `check_for_tabs_with_same_name` is fairly expensive but does not run very often now."
+847193719,584,felix-andreas,2021-05-24T16:58:01Z,Isn't the `contents_changed` a signal of the `TerminalWidget`? To my understanding it gets emitted for each `TerminalWidget` individually and each of them should process only if their contents change. Any isn't it exactly the same in the current state of the PR?
+847194998,584,jeremypw,2021-05-24T17:00:08Z,"`contents_changed` is a signal of `Vte.Terminal`, the TerminalWidget does not do any processing on it currently so would have to connect to maintain a cwd property and decide whether to notify MainWindow.  
+"
+847197425,584,felix-andreas,2021-05-24T17:04:24Z,"Yes, this is what I suggested. But if you don't like that, I could do a separate PR afterwards. The PR is probably still worth merging, as it is already a big improvement over the current state."
+847197479,584,jeremypw,2021-05-24T17:04:29Z,It should be possible for MainWindow to maintain a cwd property on each terminal and ignore signals where it hasn't changed but it would mean calls to `get_shell_location ()` and comparison with the current cwd every time the contents changes - this is more expensive (and more code) than calling `schedule_name_check`. 
+847198844,584,felix-andreas,2021-05-24T17:06:40Z,schedule_name_check calls the get_shell_location for all terminal widgets. so it should be much more expensive than a single call to get_shell_location. at least to my understanding of the code.
+847199309,584,jeremypw,2021-05-24T17:07:30Z,One advantage of your approach is that it could be more responsive - it may not be necessary to throttle updating the labels.  I'll give it a try.
+847220459,584,jeremypw,2021-05-24T17:45:13Z,"I have to admit your way works at least as well and is more responsive :smile: because I removed the throttle.
+
+The only case it doesn't work (and probably the original didnt) is when you drag a tab out of a window - the remaining tab labels are not updated."
+847229278,584,jeremypw,2021-05-24T18:00:37Z,@andreasfelix You might like to look at https://github.com/elementary/code/pull/1050 for comparison.  This uses a different method of disambiguation based on File functions which is a little simpler but in theory could result in one tab name being much longer than the other whereas my method ensures they are the same length.
+847965060,584,jeremypw,2021-05-25T15:22:03Z,Thanks for your patience in collaborating on this! I don't particularly like connecting to `contents-changed` but at least the handler is now fairly inexpensive.
+527714252,386,felix-andreas,2019-09-04T02:35:21Z,"Hi, I would have some suggestions:
+
+1. Why not use the `button_press_event`? I think this would be more in line standard editors.
+2. I have also noticed that this currently breaks the mouse support in vim. Maybe this could be solved by checking if the terminal has a foreground process:
+     ```vala
+     } else if (!has_foreground_process ()) {
+         int p_row, p_col;
+         get_cell_clicked (event, out p_row, out p_col);
+         long ccol, crow;
+         ...
+     }
+     ```
+3. Also when clicking during the blinking animation (particularly noticeable when the cursor is hidden), the cursor first appears at its initial position and then moves to the clicked position. I think this is because the `key_event` resets the visibility of the cursor. I think this is a bit irritating, I would therefore hide the cursor from the beginning of the first `key_event` till the end of the last `key_event`.
+4. Currently when clicking on a row which does not contain any text, the cursor is moved to the last possible location. I think in that case it would be useful to move the cursor only relative to the clicked column. This has the advantage, that if one accidentally clicks the row below the last text containing row, the cursor gets moved to the desired position."
+529432117,386,jeremypw,2019-09-09T11:41:48Z,@andreasfelix Thanks for the review!  I think I used `button-release-event` because I was concerned about interfering with drag-select or drag-n-drop.  Would it solve any problem to use `button-press-event`?  Your other points are good ones - thanks - will address.
+529521823,386,felix-andreas,2019-09-09T15:07:12Z,"> Would it solve any problem to use button-press-event?
+
+No, I just think it is the standard way to move the cursor.
+
+To avoid interfering with drag-select one could use:
+```vala
+if (p_row < remembered_command_start_row) {
+    return false;
+}
+```"
+529855853,386,jeremypw,2019-09-10T09:35:30Z,Not sure why CI is failing for branch - the tests are timing out but this has happened sometimes in master too.
+529868863,386,jeremypw,2019-09-10T10:11:28Z,Seems terminal is not a drag source anyway so I have moved the logic to button-press-event. I have not found an issue yet.
+530019616,386,felix-andreas,2019-09-10T16:36:18Z,"- What is the rational behind `!get_has_selection ()` in `else if (event.button == Gdk.BUTTON_PRIMARY && !get_has_selection () && !has_foreground_process ())`? This makes it necessary to click twice to move the cursor if text is selected.
+- Selecting text above the current line now moves the cursor to the first possible position. This could be ruled out with:
+  ```vala
+  if (p_row < remembered_command_start_row) {
+      return false;
+  }
+  ```
+- Your commit 2dfd129  which turns off the blinking does not fix **3.** anymore.
+
+  **3.** could be fixed by setting the cursor color to the background color before the first `key_event` and set it back to the normal color after the last `key_event`:
+
+  ```vala
+  set_color_cursor (background_color); // <-- make cursor invisible
+  Idle.add (() => { /* wait for button press event to be processed */
+      /* Cursor will move as close as possible to pointer */
+      for (int i = 0; i < n_events; i++) {
+          key_event.time = (uint32)(get_monotonic_time ());
+          key_press_event (key_event);
+      }
+
+      Timeout.add (100, () => { 
+          set_color_cursor (cursor_color); // <-- reset cursor visibility
+          return false;
+      });
+
+      return false;
+  });
+  ```
+  There is probably a better solution than using `Timeout`, but one has to make sure that the `key_events` are already processed! 
+"
+530027991,386,jeremypw,2019-09-10T16:57:59Z,"I tried making the cursor invisible by setting it to background color before but it causes a similar issue when you click just after the cursor blinks on - it immediately disappears again.  Maybe slightly less jarring but not ideal.  Turning blinking off seemed the better solution but none I tried were ideal.
+
+Also if the timeout expires just before the cursor is due to blink off then again the cursor will flash on and off.  I am not sure this issue is worth the extra code complexity tbh."
+530034615,386,jeremypw,2019-09-10T17:14:48Z,I tried the color change method again and it works better your way - I didn't have the timeout when I did it before.  So I have now used it.  I have also taken on board your other suggestions - thanks!
+530172696,386,felix-andreas,2019-09-11T00:42:33Z,"I would have some other minor suggestions. I have already implemented them in https://github.com/andreasfelix/terminal/commit/6fc6025d72b6f073dbd982b036f6bd9c97c2d23b. Feel free to merge them if you agree.
+
+- The last commit makes it not possible to move the cursor for multi line commands. This could be solved by only moving relative to column if the clicked_row is below the last possible row.
+- I think it would be better if `get_cell_clicked` would also return `long` types. Otherwise the values have to be casted back and forth if one passes them to another function of `Vte.Terminal`
+- I would keep ""Turn off blink till the button_release"", as this is also common for text editors. (Check the markdown editor of Github.)
+- I would rename `c_row/c_col` to `current_row/current_col` and `p_row/p_col` to `clicked_row/clicked_col`
+- I would move
+  ```vala
+  Gdk.RGBA background_color;	
+  Gdk.RGBA cursor_color;
+  ```
+  to the top and initialize them at declaration.
+- I would check `event.button == Gdk.BUTTON_PRIMARY` before `event.button ==  Gdk.BUTTON_SECONDARY`
+ 
+
+"
+530276150,386,jeremypw,2019-09-11T08:22:38Z,Sounds good to me - I have merged your changes.
+530294480,386,jeremypw,2019-09-11T09:12:55Z,Somtimes the blink gets turned off until a key is pressed - not sure why - investigating.  Hmm - seems to occur in master as well. Maybe an upstream effect.
+530602301,386,felix-andreas,2019-09-11T23:20:41Z,"- Would maybe better to use 
+  ```vala
+  Gdk.threads_add_idle_full (Priority.LOW, () => {...});
+  ```
+
+  instead of
+
+  ```vala
+  Timeout.add (100, () => {...});
+  ```
+  as this would not require the ""hard-coded"" 100ms value?
+
+- Also when clicking the ""white space"" the cursor should not only move relative to the current col but also move to the last possible row. Otherwise this could lead to unwanted behavior:
+
+  ![move_relative](https://user-images.githubusercontent.com/24651767/64741706-bfb89100-d4f9-11e9-9929-2294526a25b2.gif)
+
+  This could be implemented by synthesizing a `Key.End` press and then moving the cursor relative 
+  within the last line. But this would require an additional await 
+  of the `Key.End` press event, so maybe it is easier/better to just ignore clicks on the ""white space"" with:
+
+  ```vala
+  if (clicked_symbol == 0U) {
+    return false;
+  }
+  ```"
+532309212,386,jeremypw,2019-09-17T16:59:50Z,"I tried synthesising Gdk.Key.End and it works on the first click but there does not seem any (simple, elegant) way of keeping track of the end of the commandline so there were problems on subsequent clicks.  So I have ignored clicks on space as advised.  Also replaced hard-coded Timeout - thanks."
+533086564,386,jeremypw,2019-09-19T11:22:11Z,"After further testing I had to revert trying to be clever when clicking on empty space. It causes problems if the command is edited in the middle and then clicked at the end to continue for example - the cursor cannot be returned to the end (by clicking).  I think it  would be better to accept the original ""brute force"" approach where the cursor moves as far as possible if clicked outside the command as the lesser of two evils.  A refinement can always be submitted later if found."
+533228934,386,felix-andreas,2019-09-19T17:23:29Z,"I also noticed that the condition `clicked_row < remembered_command_start_row` is not sufficient to rule out clicks on old output. This is because the `remembered_command_start_row` contains the position of the row in regard to all rows, while the `clicked_row` value is in regard to all visible rows.
+
+I think `get_cell_clicked` must be adjusted so that it returns the absolute row-number in terms off all rows. This could be down by introducing a new a new variable `int visible_row_start`.
+
+The `get_cell_clicked` could than be adjusted:
+
+```vala
+private void get_cell_clicked (Gdk.EventButton event, out long row, out long col) {
+    row = (long)(event.y / get_char_height ()) + visible_row_start; // <--- add visible row start
+    col = (long)(event.x / get_char_width ());
+}
+```
+
+The most naive approch to keep track of the row-number of the first visible line would be:
+
+```vala
+text_scrolled.connect ((delta) => {
+    visible_row_start += delta;
+});
+```
+
+But this logic breaks down when the window is resized :/
+
+
+"
+536293853,386,jeremypw,2019-09-29T12:15:54Z,"Not sure if its in the guidance yet, but dan and others now recommend using the named boolean constants to end event and source closures for readability/clarity. There is no technical advantage as far as I know,  Clearly, I haven't got used to it yet ;-)"
+536295621,386,jeremypw,2019-09-29T12:33:53Z,I was aware of possible problems caused by scrolling/resizing but wanted to get a basic solution working first.  I am beginning to think that the simplest solution to making terminal behave more like a text view is to have a hidden text view behind it and process all the text there!
+536297272,386,jeremypw,2019-09-29T12:50:32Z,I think I have found a simpler solution for the scrolling/resizing problem.
+541344494,386,jeremypw,2019-10-12T17:19:14Z,Note:  This does not currently work when the commandline is a url as the code launching that url takes priority.  I am not minded to address that in the PR though.
+548472937,386,felix-andreas,2019-10-31T17:02:19Z,"Currently `remembered_command_start_row` is only remembered after the next key press event. This leads to the problem that clicks on output, which should be ignored by 
+
+```vala
+if (clicked_row < remembered_command_start_row) {
+  return Gdk.EVENT_PROPAGATE;
+}
+```
+are registered, if in between the last <kbd>return</kbd> press and following *mouse-click* no other key press occured.
+
+
+I think the most elegant solution would be to remember the `remembered_command_start_row` as soon as the command returns. But this would need a new signal, which gets emitted when the foreground process exits.
+
+A simpler approach would be to call `remember_command_start_position` before doing the comparison:
+
+```vala
+clicked_row < remembered_command_start_row
+```"
+548578687,386,felix-andreas,2019-10-31T21:35:38Z,"As you now update remembered positions when the window is resized, shouldn't it be save to remove the `!resized &&`?
+
+```vala
+public bool has_output () {
+  return !resized && get_last_output ().length > 0;
+}
+```"
+612459187,386,jeremypw,2020-04-11T16:32:24Z,"@andreasfelix Any chance of another look at this? I have incorporated one of your suggestions.  The one about `resized` I have not included, as this PR does not currently touch that code and as far as I can tell it does not fix any issue caused by this PR.  If that is not the case please comment further."
+612522582,386,felix-andreas,2020-04-11T22:03:39Z,"If I remember correctly, the reason I suggested to remove the `resized` check is, because currently there is an issue that the last output cannot be reliably copied if the window was resized. To my understanding this was fixed by your commit 5337b6b, which should make this check unnecessary.
+
+Another thing I noticed: Clicking on the prompt string should not move cursor to the beginning of the command. I often double-click the prompt string to copy the current working directory and this would unintentionally move the cursor to the beginning.
+
+#504 should solve this by checking:
+```vala
+if (
+    clicked_row < remembered_command_start_row
+    || (clicked_row == remembered_command_start_row 
+    && clicked_col < remembered_command_start_col)
+) {
+    return Gdk.EVENT_PROPAGATE;
+}
+```
+
+This should work correctly even for different prompt strings (the PS1 variable). I, for example, have a line break after the current working directory to prevent the line wrapping of longer commands. I made a simple graphic to show what I mean:
+
+![terminal svg](https://user-images.githubusercontent.com/24651767/79055869-b4c10d00-7c50-11ea-9e36-1af7013827bd.png)
+
+The commit https://github.com/elementary/terminal/pull/504/commits/ba92585620cc807c2d975c2ac4a9deb40572c80c has debug logs to check this.
+
+It might be a good idea to make this feature toggle-able and off by default, so more people can test it...
+
+I will use this branch for 1-2 more weeks and then try to give some more feedback. "
+613414664,386,felix-andreas,2020-04-14T12:30:50Z,"Just an idea: I found this [page](http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/x361.html) where it says, that one also can use these escape sequences to move the cursor. 
+
+```vala
+var n_events = (int) delta_cells.abs ();
+for (int i = 0; i < n_events; i++) {
+    feed_child (delta_cells > 0U ? ""\033[C"" : ""\033[D"", 3);
+}
+```
+
+I am not sure if this is actually less hacky than emulating a keypress. At least it is some kind of an interface ...
+
+**Edit:**
+I found another [page](http://ascii-table.com/ansi-escape-sequences.php) which explains it in more detail: `\033` is the `Esc` character in octal notation and `\033[` marks the beginning of the escape sequence. A, B, C and D can be used to move the cursor.
+
+Pressing (or synthesizing) an arrow key actually sends the same sequence to the child process. So it is more or less the same but, cuts out the middleman (key press event). I think should be even possible to save the for-loop by passing a value to the sequence `Esc[ValueA`.
+
+---
+
+I made a PR #504 which fixes the issue when clicking on the command prompt and uses the escape sequence instead of synthesizing the keypress."
+613453470,386,felix-andreas,2020-04-14T13:48:05Z,"I noticed a logical error in `remember_command_start_position`. The position is only remembered if the last key press was the <kbd>return key</kbd> or <kbd>Ctrl+C</kbd>. But there are other possibilities to advance the prompt: For example when triggering the tab-completition by pressing the <kbd>Tab</kbd> key twice or when pressing or <kbd>Ctrl+\\</kbd>.
+
+This leads to the problem, that the `remembered_start_row` is not always up-to-date and therefore not all mouse clicks above the current command prompt are ignored. A more reliable way to save the command_start_col/row is needed!
+
+A (hacky) solution would be to save the current position, then move the cursor to the beginning of the command, storing this position in `remembered_start_row/col` and moving the cursor back to its initial position."
+795130293,386,felix-andreas,2021-03-10T09:14:49Z,@jeremypw why did you close this?
+795605567,386,jeremypw,2021-03-10T15:28:53Z,Spring-cleaning old PRs with no recent progress/interest from reviewers.
+629396009,505,jeremypw,2020-05-15T17:52:12Z,@cassidyjames Could I have a ruling on what the correct behaviour for new tabs is (i.e. default zoom or zoom of current tab)?
+629401158,505,cassidyjames,2020-05-15T18:03:20Z,"@jeremypw Yeah I'm kinda conflicted. I would say, if it's a new tab it should have the default zoom, but we don't have a way to set a default zoom separately so I'm kind of conflicted on this feature in the first place. :sweat_smile:
+
+One thing is that if you're duplicating a tab, we should _probably_ duplicate that tab's zoom level, too?"
+629418511,505,jeremypw,2020-05-15T18:44:19Z,"My feeling is that we should take the zoom level of the current tab both for ""New Tab"" and ""Duplicate Tab"".  I would guess in most cases users would choose a zoom level that is comfortable for them and stick with it for most tabs and only adjust it for certain outputs. "
+629422043,505,jeremypw,2020-05-15T18:51:42Z,"Konsole has seperate zoom per tab but XFce Terminal synchronises the zoom across tabs so ...(*shrug*).  If you think this unlikely to be merged then I'll abandon it and mark the issue ""Design Conflict"".   The respondent seemed quite fired up about it though."
+629436902,505,cassidyjames,2020-05-15T19:25:05Z,"@jeremypw that's a good point that if you set a comfortable default, then we should just continue using that by default for new tabs. And then yeah, if you adjust a specific tab, it shouldn't affect the other open tabs. I am fine with that logic."
+629612347,505,jeremypw,2020-05-16T08:56:38Z,"@cassidyjames  I have implemented using the last active tab zoom as the starting point for new and duplicate tabs and where ""remember-tabs"" is turned off. 
+I have maintained the option to toggle this feature on and off, but now made the default as on (to be confirmed).
+I am still a bit unsure about what the correct action of the ""Default zoom"" button should be.  It is a bit unpredictable at the moment as it uses the ""zoom"" setting which, at the moment, is the zoom level of the active tab when the app was closed.
+Alternatives would be always to use 100% zoom for this button, or to use it to restore the zoom at the moment the menu was opened - i.e. undo zoom changes.
+"
+629655490,505,cassidyjames,2020-05-16T14:34:59Z,"I think the expectation is that it always sets back to 100%, which is what browsers do."
+629680869,505,jeremypw,2020-05-16T17:33:33Z,"@cassidyjames OK, I have implemented that."
+631030816,505,jeremypw,2020-05-19T19:22:09Z,"@cassidyjames OK, the sync-zoom stuff is gone :-)"
+723227884,505,jeremypw,2020-11-06T18:18:34Z,Had to fix weird regression where Terminals crashed if closed immediately after adjusting a tab zoom level.  Not obvious why this did not occur in master as the relevant code had not been changed by this PR.  Seems to be an obscure race where Terminal attempts to save the position of `notebook.current` after it becomes `null` during a delete event.  I guess the new code affected the winner of the race ...
+724572474,505,jeremypw,2020-11-10T09:16:47Z,Need to decide what a suitable max scale should be - just noticed I used 4.0 in one place and 5.0 in another. Suggestions?
+726303104,505,jeremypw,2020-11-12T19:49:29Z,"Yes, as I noted in a previous comment there are some discrepancies in the minimum and maximum zoom levels set in different places and asked what the best values would be.  Once UX team have adjudicated on that I'll ensure these values are consistently applied."
+726860848,505,jeremypw,2020-11-13T16:28:42Z,I have decided to make a choice for zoom range myself - it is now 0.25 - 4.0 which seems more than sufficient to me.
+1785335122,742,ldrahnik,2023-10-30T14:26:41Z,">Changing the default font with scroll does not change settings because at the moment the Terminal Widget changes the font directly. You need to change the scroll handler to activate the relevant window action instead. 
+
+https://github.com/elementary/terminal/pull/742/commits/8b126dd31bf1c43c8461938b48245b3967c38e53 
+
+> I suggest you split the save_opened_terminals function up so that you can change the zooms and uris settings independently to save unnecessary work being done.
+
+https://github.com/elementary/terminal/pull/742/commits/24ce4cc781da0c79e634cc0ff484c14c62d95942"
+1785815472,742,ldrahnik,2023-10-30T18:30:34Z,"> Adding another signal to the terminal widget is not the best solution - you can just activate the appropriate action in the scroll handler instead of calling increment_size and decrement_size. This can be done with code like
+window.get_simple_action (MainWindow.ACTION_ZOOM_FONT_IN).activate (null); (other examples of this pattern are already used in the code)
+
+https://github.com/elementary/terminal/pull/742/commits/0a0d06c9c9f4263deddfbefa450788166df8331e"
+1785879946,742,ldrahnik,2023-10-30T19:13:56Z,"> You seem to have repeated a lot of code in save_open_terminals_with_zooms? Can you just call the split functions?
+
+https://github.com/elementary/terminal/pull/742/commits/2574910eb4aea85e98ff250682aac87b780b85b5
+
+Maybe would be a better solution to make again one function but with bool value `save_zooms` to avoid duplicated cycles though opened terminals.
+
+I think I processed all notes. Thank you for reviewing."
+1786153868,742,ldrahnik,2023-10-30T22:36:39Z,"https://github.com/elementary/terminal/pull/742/commits/db5843a0f0b84f6eda90e4a710dc0a000459d116
+
+Handle the situation when is opened first terminal, then second one, second one is closed and then is laptop rebooted. Without this code would be saved tabs and tab-zooms from second terminal but should be from first one."
+1787270804,742,jeremypw,2023-10-31T13:55:59Z,@ldrahnik I am fine with you merging the saving functions back into one with an extra parameter. 
+1787472693,742,ldrahnik,2023-10-31T15:38:06Z,"@jeremypw Refactored to one function but with 2 bool parameters because I realized I do not know how to do that with only 1 - 1. state save only tabs, 2. state save only zooms, 3. state save both"
+1787480138,742,jeremypw,2023-10-31T15:42:04Z,It could be done with an enum as a parameter but probably not worth it in this case.
+1788932342,742,jeremypw,2023-11-01T13:12:20Z,"@ldrahnik One small thing I noticed - `save_opened_terminals ()` get called before `current_terminal` is set leading to the critical warning  `gdouble vte_terminal_get_font_scale)VteTerminal*): assertion VTE_IS_TERMINAL(terminal) failed`  (MainWindow lin 1361)
+
+Other than that it seems to work well now!"
+1788957338,742,ldrahnik,2023-11-01T13:27:53Z,"> One small thing I noticed - save_opened_terminals () get called before current_terminal is set leading to the critical warning gdouble vte_terminal_get_font_scale)VteTerminal*): assertion VTE_IS_TERMINAL(terminal) failed (MainWindow lin 1361)
+
+https://github.com/elementary/terminal/pull/742/commits/2e059a23f0201c09caa4a23617d9488c4438e7bc"
+1789324524,742,jeremypw,2023-11-01T17:03:22Z,Need to fix CI workflow (or override) before can be merged.
+1789459189,742,jeremypw,2023-11-01T18:35:51Z,@ldrahnik I have pushed a PR to merge into this one that should fix the unit testing issue for now. The unit tests should probably be rewritten/extended to take continuous saving (or not) into account but that is complicated so can be left for another PR.
+1789615779,742,ldrahnik,2023-11-01T20:18:00Z,@jeremypw Merged.
+696420046,542,sebastianlay,2020-09-21T22:50:09Z,"Hey! Thanks a lot for your review. I implemented almost all of your suggestions, see my comments above. 
+
+> I agree that the long combobox here is pretty unweildy. Perhaps instead of trying to include as many styles as we can find, it would be better to have some kind of import mechanism and stick with the same 3 default styles for now. Perhaps in the interest of getting this feature merged more quickly, we should reduce the scope of this branch to only supporting a single custom style and we can expand in later follow-up branches
+
+I would _really_ like to include at least some predefined styles. I am pretty sure that many people would like to customize their terminal at least a little bit. On the other hand I assume that not all of these people (myself included) would put in the effort to enter an existing style color by color or even create a completely custom style from the ground up. Maybe reducing the number of styles to the 10-20 most popular (by some measure) styles would be a good compromise?
+
+> I think a major interaction issue we have here is that if you ever switch away to another style, your custom style gets wiped. This seems like it would be pretty frustrating for someone who switches between styles. I imagine we should probably persist custom styles in gsettings. Maybe with a ""styles"" child schema, even if we only support saving one custom style for now
+
+Yeah, I am a bit torn about that. My thinking was that most people are not creating styles from the ground up and instead start with one of the existing styles and apply some minor tweaks to their liking. The way it is currently implemented allows that while also allowing the creation of a completely new style. I am not sure how we would allow both use cases if we would save the custom style. I am open to ideas! "
+700305756,542,danirabbit,2020-09-28T21:56:10Z,"@sebastianlay Hey sorry it took a while to follow up with a review here! This is looking really good. I think we can probably just try to get something in and iterate on it as we go.
+
+> I would really like to include at least some predefined styles
+
+At the very least we need to make sure we actually have permission to redistribute any inluded styles. It doesn't look like the `Gogh` repo contains any licensing information and several of these styles do not have a license, so they should be removed unless you'd like to contact the authors and ask them to publish a license. There are also several styles included that don't pass the contrast check, so I imagine we should remove those as well."
+701688935,542,sebastianlay,2020-09-30T22:55:23Z,"@danrabbit Hey, you are right. I trimmed the list down to 24 styles (including our three default and the one custom) and checked the licenses for the remaining ones:
+
+- 3024 | https://github.com/idleberg/3024.tmTheme | Public Domain
+- Dracula | https://github.com/dracula/dracula-theme | MIT
+- Gruvbox | https://github.com/morhetz/gruvbox | MIT
+- Monokai | https://github.com/stephenway/monokai.terminal | MIT
+- Nord | https://github.com/arcticicestudio/nord | MIT
+- Solarized | https://github.com/altercation/solarized | MIT
+- Spacegray | https://github.com/kkga/spacegray | MIT
+- Summerfruit | https://github.com/cscorley/base16-summerfruit-scheme | MIT
+- Tomorrow | https://github.com/chriskempson/tomorrow-theme | MIT
+
+If I understand it correctly, the MIT license should be compatible with the LGPL from this repo here, right? I am just not sure what the right place for the above list would be. Some sort of CREDITS file?"
+701729223,542,Conan-Kudo,2020-10-01T01:12:10Z,"For vendoring third-party styles into this codebase, a reference to the style, the commit it came from, and a copy of the license needs to be included for each vendored style.
+
+You probably will want to make those styles able to be read from configuration files that are installed into somewhere in `/usr/share` so that the appropriate documentation can be included along with the style configurations."
+701731336,542,Conan-Kudo,2020-10-01T01:18:57Z,"To give a bit more detail of how _I_ suggest doing this:
+
+* Break out the theme configurations into something like `/usr/share/io.elementary.terminal/themes/<theme>/` directory
+* In that directory, a `theme.toml` and `LICENSE` file would be present.
+* The `theme.toml` file would include the actual style configuration and fields indicating where it was sourced from if it comes from somewhere else.
+* The `LICENSE` file would be a verbatim copy of the license text from the original source. If the style is unique to this codebase, then this file can be omitted and the `theme.toml` can indicate that it's an original theme."
+740832159,542,danirabbit,2020-12-08T18:43:01Z,"Hey @sebastianlay, since this seems to have gotten a bit stuck on the licensing bit would you be interested in merging a version of this without the color schemes so we can get this feature in and then bring back some pre-loaded color schemes in a future branch?"
+753309115,542,sebastianlay,2021-01-01T12:11:35Z,"> Hey @sebastianlay, since this seems to have gotten a bit stuck on the licensing bit would you be interested in merging a version of this without the color schemes so we can get this feature in and then bring back some pre-loaded color schemes in a future branch?
+
+That sounds like a good idea. I will give the suggestions by @Conan-Kudo a shot and if it takes me too long I will reduce the merge request to the custom color scheme."
+780064481,542,sebastianlay,2021-02-16T19:25:51Z,"Okay, I will close this in favor of #552"
+341184099,160,jeremypw,2017-11-01T17:46:21Z,I think it is simpler to bind the zoom property of the settings to the zoom_factor property of the TerminalWidget.
+341185169,160,Thalexander,2017-11-01T17:49:42Z,Would that not force all terminals to have the same zoom level?
+341186041,160,danirabbit,2017-11-01T17:52:33Z,"Do we think it would make sense for each tab to have its own zoom level? I think this makes sense as a global setting, personally. Go go gadget @elementary/ux "
+341193658,160,jeremypw,2017-11-01T18:17:34Z,"If you use bidirectional binding then the zoom-factors would be the same in each terminal.  You could use a SET binding flag and load the initial zoom-factor to allow individial adjustment.  Then the saved factor would be whichever was changed last. This is what Files does at the moment.
+
+To save individual zoom-factors is more complicated ..."
+341194544,160,jeremypw,2017-11-01T18:20:45Z,As the content of the terminals is only text then having differing font sizes in different terminals does not make much sense to me.
+341206673,160,Thalexander,2017-11-01T19:02:30Z,Okay the zoom level is now shared between terminals.
+341209418,160,jeremypw,2017-11-01T19:12:46Z,"OK, ignore last review - I didn't realise you were still working."
+341212591,160,Thalexander,2017-11-01T19:25:06Z,"The Idle add to correct the font seems really dodgy, but it needs it to work as the font is not defined until after construction... Is there a better way to handle that?"
+341758907,160,jeremypw,2017-11-03T16:39:02Z,"This is better, but does not protect against stupid numbers being entered directly into the setting using dconf-editor or the command-line.  It could be argued that if users want to be stupid, let them, provided the app does not crash (and it doesnt - the text just disappears).  However, I cannot really see the disadvantage of concentrating the range checking in one place.
+
+I agree that 40% and 250% are realistic usable limits on a standard dpi screen.  I do not have hidpi but I guess modifying these by a factor of two (20% and 500%) seems reasonable to cover this."
+341937158,160,Thalexander,2017-11-04T23:23:27Z,"I've moved the range checking to the set function, I added a 0.01 offset to the range checking due to floating point numbers."
+316138785,125,danirabbit,2017-07-18T17:34:55Z,Can you explain what the intended change here is? Is there an issue that this is intended to resolve?
+316178706,125,UladRH,2017-07-18T19:54:28Z,"Unfortunately my knowledge is not very broad and I can make a mistake (if I have not already done that :) )
+
+In the terminal widget (vte, gtk or the other, I'm not sure) have their own code to insert text from the clipboard by pressing the middle mouse button. Because of this, you can insert non-secure commands without warning. This can be fixed by own 'middle mouse button pressing' signal handler for paste.
+
+I tested better and realized that my solution does not work on the restored tabs. I think that the beautiful solution will require a little refactoring (what I'm afraid and decided not to do so as not to spoil the existing code)."
+316438536,125,UladRH,2017-07-19T16:15:06Z,"I have carefully read code of the widgets. Gtk.Container automatically destroys the child widget. To avoid this, the child widget should be removed.
+
+My solution should fix #45, #88, #94, and links in restored tabs (they were not clickable)"
+317891015,125,UladRH,2017-07-25T22:24:46Z,I should revert 9a1ceb83ff1bd3cba2e28cfefe659914b66bb0f2 in this branch and create new pull request with this commit in new branch?
+317894822,125,donadigo,2017-07-25T22:45:41Z,@LightSunrider yeah it would be ideal.
+322396862,125,UladRH,2017-08-15T07:32:04Z,Can you review my changes? They are incorrect or incomplete?
+322431152,125,donadigo,2017-08-15T10:13:46Z,"Ups, sorry, I forgot I reviewed this before. I will review it today / tomorrow. I removed the Incomplete label."
+323031930,125,UladRH,2017-08-17T10:32:50Z,Thank you for your comments. I fixed it.
+332500752,125,UladRH,2017-09-27T12:11:18Z,Fixed. All right now?
+2182392701,760,jeremypw,2024-06-21T09:37:06Z,"Outstanding issue is a transparent gap between the tab bar and the header bar through which the desktop shows:
+
+
+![Screenshot from 2024-06-21 10 33 00](https://github.com/elementary/terminal/assets/10513844/c8ae2913-e53a-46fe-bb2a-a6b0badf4e6d)
+
+This occurs on X and on Wayland,  but does not occur in Files and Code which have very similar widgets.
+
+@danirabbit Is this a styling issue or a difference in coding that I can't see?
+"
+2182422983,760,jeremypw,2024-06-21T09:56:09Z,"@danirabbit The problem seems to be due to the ""terminal-window"" styleclass previously applied to the grid containing the header and view.  I have removed that class for now.  I am not sure what it did or how to fix it."
+2183454753,760,danirabbit,2024-06-21T20:57:04Z,@jeremypw proposed a fix here :) https://github.com/elementary/terminal/pull/761
+2186477381,760,jeremypw,2024-06-24T12:35:08Z,"@leolost2605 Yes, you are right - TerminalWidgets are not being destroyed when tabs are closed.  I had similar issues a long time ago with Files widgets and ended up just disconnecting the signals before closing.  I'll see if I can find a better way here."
+2186539817,760,leolost2605,2024-06-24T13:05:48Z,"@jeremypw for the terminal_widget you can use the instance that's always passed in signal handlers (so something like `terminal_widget.child_exited.connect ((instance, any_other_variables_that_are_passed_to_the_signal_handler, ...) => {` which might be enough to break the cycle? Atleast if the terminal widgets lifetime doesn't depend on `this`. If it does then the program local variable is still an issue so maybe add a property in the terminal widget for it? I'm not at all in codebase though so I'm not sure whether that makes any sense here :)"
+2186547930,760,leolost2605,2024-06-24T13:09:44Z,"I'm currently trying to write the logics behind this down maybe for inclusion in docs.vala.dev and for me to better understand it since it seems to be a pretty big problem especially in widget hierarchies so I'll leave it here might be completely wrong though :)
+
+> A word on vala memory management with callbacks.
+
+> 
+> With signals:
+> If local variables are used inside signals vala will ref the current this (see glib.signal.connect_object, which is used if no local variables are used vs. glib.signal.connect_data_full which is used if local variables are used). This can cause memory leaks because of reference cycles if the signal is not manually disconnected and the lifetime of the object that the signal was connected to depends on the this lifetime. This is for example the case if the this is a widget and we add another widget to it and connect to a signal of that widget. This is also the case if the object where the signal was connected to itself is a local variable and used within the lambda. The latter case can be easily mitigated by using the instance that will always be given as an (optional) first argument to the signal handler instead of the local variable.
+> 
+> TLDR: If you don't know what you are doing try to avoid using local variables in lambdas.
+> 
+> For other callbacks individual cases have to be looked at. Here it might be worth looking at the c code and what code vala generates. For example
+> ```
+> 
+> public class Immortal : Object {
+>     public GTK.SortListModel sorted_items;
+> 
+>     construct {
+>         var items = new ListStore (typeof(SomeItemClass));
+> 	var sorter = new GTK.CustomSorter (sort_func);
+>         sorted_items = new GTK.SortListModel (items, sorter);
+>     }
+> 
+>     private int sort_func (Object? obj1, Object? obj2) {
+> 	//Sort this stuff
+>         return 0;
+>     }
+> }
+> ```
+> If you use this class in you GTK App for example to display a list and then the user navigates somewhere else and the list should be destroyed and freed. Then this class will never be freed even if e.g. the widget that holds a reference on this will be freed. This is because the sorter ""holds"" a reference on this and we hold a reference on it (via the sorted_items model). To break this cycle we can add a method
+> ```
+>     public void cleanup () {
+>         sorted_items = null;
+>     }
+> ```
+> which should be called by the destructor of the class that uses this class (e.g. the listview that displays our items)."
+2187072660,760,jeremypw,2024-06-24T17:31:49Z,"@Marukesu This branch breaks some of the tests (although in reality it behaves OK).  I have been unable to find out what is going wrong.  It appears to be a timing thing for the ""execute"" test - the number of tabs gets tested *before* the context iteration (?).  Putting debug messages in the code indicates that 5 tabs are indeed added by MainWindow but the test only sees one tab.
+
+I changed the closing down code in order to make the other tests run.
+
+If you have time I would be grateful for your input/investigation/fix :smile:"
+2187077654,760,jeremypw,2024-06-24T17:34:48Z,@leolost2605  For now I have used disconnection of terminal widget signals before closing in order for them to be destroyed.  If you have a more elegant way please let me know.  Unfortunately some tests stopped working after doing that for obscure reasons.  I have asked @Marukesu for help.
+2187762192,760,Marukesu,2024-06-25T01:41:41Z,"some things:
+
+1. TerminalWidget.program_string is never set, so `--execute` is broken (this is the reason for the test failure).
+
+2. Vte.Terminal.child_exited will be called if the TabView is destroyed with tab opens (happens with the shutdown signal during the tests) and the close_page call inside it will cause a segfault, a extra `tw.tab.child == tw.parent` check should stop it from occurring.
+
+3. The Idle block during the `selected-page` notify is unnecessary and setting the tab tooltip there causes the `action/new-window` test to fail, it can be removed since the tooltip is already set during the tab construction and when the cwd changes.
+
+4. `title = current_terminal.current_working_directory` is a regression as it doesn't respect the user/program defined title."
+2189396388,760,jeremypw,2024-06-25T16:22:04Z,"@Marukesu Thanks for your helpful comments - I have tried to implement them.  After those changes, the `action-quit` test was still not working (timing out) so I have have made some further changes to `tests/Application.vala` that do allow it to pass.  However, as you have a much deeper knowledge of what is going on these tests I would be grateful for your input.
+
+With regard to the window title, it now tracks the current terminal `window-title` property (read only). Is that what is intended?"
+2189401483,760,jeremypw,2024-06-25T16:24:24Z,@Marukesu Just noticed that the test pass in two of the builds but not in the development-target build. I have not idea why (It pass locally on OS8)
+2258770966,760,jeremypw,2024-07-30T16:39:42Z,"@Marukesu Is this OK to merge now, do you think?"
+2259289605,760,ryonakano,2024-07-30T22:07:18Z,@jeremypw Thank you for this! Could you add `src/Widgets/TerminalView.vala` to POTFILES so that we can translate menu items?
+2260850923,760,jeremypw,2024-07-31T15:55:27Z,"@ryonakano Done! Sorry - I always forget to do that :frowning_face: 
+"
+1256207327,687,hollyschilling,2022-09-23T13:23:31Z,@jeremypw What linter and config is being used?
+1256534594,687,jeremypw,2022-09-23T18:24:35Z,@hollyschilling The linter is `vala-lint` with the default configuration. You can download and install locally from https://github.com/vala-lang/vala-lint.  You can then check you code locally before committing.
+1256536717,687,jeremypw,2022-09-23T18:27:14Z,"Further info on elementary code style, which the linter enforces can be found here: https://docs.elementary.io/develop/writing-apps/code-style
+
+There should probably be info about linting locally there but as yet it has not been added."
+1256786524,687,hollyschilling,2022-09-23T23:10:46Z,"I'm sorry to keep bugging you for simple questions, but I'm having an error with the linting that I can't understand. Specifically, I received and error stating: 
+
+```
+  117.26    error   Expected variable name in underscore_convention   naming-convention
+```
+
+The referenced line of code is `bool initialFound = next_search ();`. I can't understand why this declaration would be preceded with an underscore. For context, the line is in a try block, in a lambda, in the constructor. What is the rule that is triggering this to get that error?
+"
+1256862351,687,lenemter,2022-09-24T05:07:24Z,"@hollyschilling in Vala variables are named using snake_case, and `initialFound` should be `initial_found`"
+1257170668,687,jeremypw,2022-09-25T11:13:50Z,"A side-effect of this change is that if, after the search, the terminal produces output containing the search term then the navigation buttons remain insensitive even if the cyclic search button is toggled.  The search term has to be modified or re-entered in order to initiate a new search.  A more convenient way of refreshing the search would be good. At least if the cyclic search button is toggled then the sensitivity of the navigation buttons should be revisited."
+1257210372,687,hollyschilling,2022-09-25T14:40:28Z,"I completely agree that this is potentially undesirable behavior. Is there an event emitted from the terminal that would indicate that additional content has been added? 
+
+There are a few such edge cases that are not handled well. I feel that adding messaging to indicate that the end of search has been reached would be appropriate."
+1257235506,687,jeremypw,2022-09-25T17:05:22Z,"> Is there an event emitted from the terminal that would indicate that additional content has been added?
+
+There is `Vte.Terminal.content-changed` signal.  But you may need to throttle that so that a large number of searches are not performed unnecessarily when the content is changing rapidly.  Maybe better leave that for another PR."
+2419238898,687,jeremypw,2024-10-17T11:13:00Z,I looked into completing this but found that because of the way the terminal widget does search one hit at a time (unlike Code which searches for all hits within scope) it is extremely difficult/impossible to set the search arrow sensitivities correctly all the time.  I do not think it is worth spending more time on it tbh.
+508175626,265,jeremypw,2019-07-03T17:00:14Z,@donadigo Fixed :-)
+512778795,265,jeremypw,2019-07-18T11:33:12Z,@donadigo Is this OK now?
+515671522,265,jeremypw,2019-07-27T09:49:52Z,@donadigo I have removed the unused parameter.
+518181999,265,sharifzadesina,2019-08-05T10:36:16Z,@danrabbit Can you please check this PR?
+570900275,265,yozachar,2020-01-05T11:00:39Z,"Yesterday I got an update...<br>
+![Screenshot from 2020-01-04 11-39-18[1]][1]<br>
+Now terminal behaves oddly: <br>
+Settings:
+ - Follow last tab is off
+ - Remember tabs is off
+
+Result:
+ - Opens two tabs on launch from anywhere: (including Slingshot, Plank & Shortcut <kbd>Super</kbd>+<kbd>T</kbd>)
+  - Sometimes the duplicate tab header / title is just a **`.`** (see the pictures below)
+opened from plank
+![Screenshot from 2020-01-05 16-20-39](https://user-images.githubusercontent.com/38415384/71778718-56dcb380-2fd7-11ea-936d-8d96ae91e7e9.png)
+opened from directory
+![Screenshot from 2020-01-04 23-05-34](https://user-images.githubusercontent.com/38415384/71778709-34e33100-2fd7-11ea-8555-e50b76ef52c9.png)
+
+I hope this can help in improvement of the fix....
+
+ [1]: https://user-images.githubusercontent.com/38415384/71778624-39f3b080-2fd6-11ea-9f35-a7c9836ce75b.png
+
+
+"
+572061857,265,yozachar,2020-01-08T13:48:27Z,"> Yesterday I got an update...
+> 
+> ![Screenshot from 2020-01-04 11-39-181](https://user-images.githubusercontent.com/38415384/71778624-39f3b080-2fd6-11ea-9f35-a7c9836ce75b.png)
+> 
+> Now terminal behaves oddly:
+> 
+> Settings:
+> 
+>     * Follow last tab is off
+> 
+>     * Remember tabs is off
+> 
+> 
+> Result:
+> 
+>     * Opens two tabs on launch from anywhere: (including Slingshot, Plank & Shortcut Super+T)
+> 
+>     * Sometimes the duplicate tab header / title is just a **`.`** (see the pictures below)
+>       opened from plank
+>       ![Screenshot from 2020-01-05 16-20-39](https://user-images.githubusercontent.com/38415384/71778718-56dcb380-2fd7-11ea-936d-8d96ae91e7e9.png)
+>       opened from directory
+>       ![Screenshot from 2020-01-04 23-05-34](https://user-images.githubusercontent.com/38415384/71778709-34e33100-2fd7-11ea-8555-e50b76ef52c9.png)
+> 
+> 
+> I hope this can help in improvement of the fix....
+
+Oh and on more thing (you guys might have already figured out) opening from a file does not open a duplicate tab but instead opens a tab at home:
+
+First tab opened at correct location:
+![Screenshot from 2020-01-08 19-15-41](https://user-images.githubusercontent.com/38415384/71982800-5ea48e00-324b-11ea-8c36-50da9836f1a1.png)
+Second tab opened at Home:
+![Screenshot from 2020-01-08 19-15-28](https://user-images.githubusercontent.com/38415384/71982799-5ea48e00-324b-11ea-9eb9-09d6ba59d546.png)
+"
+572133182,265,danirabbit,2020-01-08T15:55:09Z,Seems like Adam was good with this branch and I can confirm that it's behaving as expected. Merging :) Thanks for the fix!
+573281617,265,yozachar,2020-01-11T04:53:04Z,"> Seems like Adam was good with this branch and I can confirm that it's behaving as expected. Merging :) Thanks for the fix!
+
+Kudos! guys 🎉 ... I just got an update... its fixed! 
+Thanks a lot!"
+1172439896,662,jeremypw,2022-07-01T15:02:54Z,"![Screenshot from 2022-07-01 15 55 48](https://user-images.githubusercontent.com/10513844/176919293-858aa0a8-4183-4a97-b2d6-c519e3c1671c.png)
+
+![Screenshot from 2022-07-01 16 02 16](https://user-images.githubusercontent.com/10513844/176920085-24fa7e67-2a5b-4940-b1fd-e5759e926126.png)
+
+
+"
+1172446238,662,jeremypw,2022-07-01T15:08:23Z,"@danrabbit I would appreciate your comments on this. I added the extra labels as it didn't seem obvious to a new user why there were two very similar color buttons with only one label.
+
+The main flaw with this is that it is not possible to save a custom theme permanently - if you switch back to a builtin theme it overwrites your custom theme and you cannot return to it without rebuilding it.  It might be better to fix that in a new PR as there is more than one possible solution - e.g. a new setting or a file in the user home."
+1172457701,662,jeremypw,2022-07-01T15:20:07Z,I see from the prior art in #418 that no-one else thinks the extra labels are necessary so I'll remove if required.
+1172458487,662,jeremypw,2022-07-01T15:21:06Z,There are also some possible extra refinements like using palette colors for foreground/background but that can be done in another PR. 
+1172666190,662,danirabbit,2022-07-01T19:47:16Z,I think we should solve the issue of persisting the custom palette before exposing this toggle so that we don't have an immediately broken feature. We should probably make sure that the `palette` setting is only used to store values for the custom theme and that Terminal is loading the palette for built-in themes from the Theme class and not from gsettings
+1172894573,662,jeremypw,2022-07-02T13:00:00Z,"Yeh, that makes sense."
+1173047752,662,jeremypw,2022-07-03T09:40:22Z,"@danrabbit  After merging master and making relevant changes, the custom theme now persists. I have moved the ""Color Palette"" header to before the background/foreground buttons because although the palette strictly speaking does not include these, to the average user they are just some more color settings.  I have also changed the reset button to reset the foreground/background/cursor colors for the same reason.
+
+Can importing/saving custom themes be left for a later PR, if required?"
+1175397252,662,jeremypw,2022-07-05T18:57:23Z,I have implemented your suggestion re fallback palette as it simplifies the code and the issue of possible invalid colors in the settings (presumably due to manual editing) is unlikely.  We now fallback to a default palette if *any* of the custom colors are invalid rather than replacing only the invalid color.
+1176493531,662,jeremypw,2022-07-06T17:29:46Z,"Ok, so you want to keep correcting individual colors; I'll revert to that. I just thought that this pretty unlikely to be required in practice so simplified it. I guess if we implementing importing customs themes it raises the risk of invalid colors being imported."
+595194792,486,jeremypw,2020-03-05T12:01:45Z,"Congratulations on making your first contribution to elementary!   If you put ""Fixes #nnn"" in the description then the related issue is automatlically closed if the PR is merged into master.  I have done this for you.
+
+I have made a few small code style points but a larger issue is that this does not work for processes that intercepts keystrokes and button presses on the terminal widget (I tried with htop although that has its own quit method). One possible solution would be to put the terminate process menuitem in the tab menu."
+597138226,486,jeremypw,2020-03-10T15:08:13Z,"I see you have moved the terminate process menuitem to the app menu rather than the tab menu.  The problem with this is that there is not a direct connection between that menu and the tab to which the option applies.  I think it would be more intuitive to have it in the tab menu (right-click on the tab of the relevant terminal).  Also you need to make sure the option appears (or is only sensitive) when there is a process to terminate.
+
+I'm going to flag this for UX team input with regard to the optimum placement of the option."
+597151449,486,jeremypw,2020-03-10T15:32:26Z,"In order to add an item to the tab menu you will need to connect to the ""popped-up"" signal of the tab menu.  As the tab is associated with the terminal after the terminal is created, you need to do this in MainWindow::create_tab (). For example:
+
+```
+            term.tab.menu.popped_up.connect (() => {
+                if (term.has_foreground_process ()) {
+                    var item = .... //Create the menuitem here
+                    item.show_all ();
+                    item.sensitive = true;
+                    term.tab.menu.append (item);
+                }
+            });
+```
+
+Ideally the menu item label should include the name of the process to be terminated but that is not so easily obtained."
+597161133,486,danirabbit,2020-03-10T15:49:37Z,"I'd also like to mention @elementary/ux here for some additional thought on if a dialog is necessary here. We've never had a dialog when the user terminates a process using the keyboard shortcut.
+
+My gut reaction is that if we feel like the menuitem needs a dialog then the keyboard shortcut should as well. We warn when closing a tab about running process because of possible unintended consequences. But if a user is intentionally terminating a process, I'm not certain that it makes sense to ask if they're sure."
+597167986,486,jeremypw,2020-03-10T16:02:11Z,Another issue I noticed was that if you terminal a process such as `htop` then the terminal is not cleared and behaves differently to a normal terminal in that (e.g.) scrolling on it injects characters.  We probably want to keep any output of the process and subsequent input should (a) not overwrite the process output and (b) behave normally.
+738134339,486,jeremypw,2020-12-03T16:52:12Z,@franciol Hi!  Are you still interested in working on this?
+738137218,486,jeremypw,2020-12-03T16:56:44Z,"Re: Having a dialog, I guess we can assume anyone running a process in the terminal probably knows what they are doing so probably need less hand holding that someone using a graphical app?"
+738302792,486,franciol,2020-12-03T20:58:11Z,"> @franciol Hi! Are you still interested in working on this?
+
+Hi @jeremypw! Right now i can't work on this. Maybe on 2 weeks i can look at it...."
+841387165,486,jeremypw,2021-05-14T17:16:30Z,"Converting to draft as there are outstanding issues, conflicts and no recent activity. "
+1044378817,486,jeremypw,2022-02-18T11:35:27Z,Closing due to age and lack of activity
+299653401,87,cassidyjames,2017-05-06T17:10:25Z,"I still have to pull this and try it out, but from reading the comments and glancing through the code, I do have a thought:
+
+I'm unsure that disambiguation with `(1)`, `(2)`, etc. when the tabs are the exact same path is needed or wanted. If I duplicate a tab, I already have a spatial disambiguation of the tabs: their position on the tab bar. In this case, the location is actually identical, so I'd expect the labels to be identical. As soon as one of those tabs runs a command, we replace the title with with command run, so that helps track the state of the tab as well.
+
+The point of disambiguation is to prevent someone from thinking two _different_ directories are the same, not to make every tab globally unique."
+299653867,87,jeremypw,2017-05-06T17:19:00Z,"OK, I can easily pull out that feature."
+299655881,87,cassidyjames,2017-05-06T17:53:29Z,"Other than the `(1)` `(2)` thing, I think the behavior is an improvement. There are potentially some weird-ish edge cases, but I don't think they're blockers at all."
+299728870,87,jeremypw,2017-05-07T19:32:25Z,I have changed the variable names as advised and made a slight improvement to the disambiguation function (removing an unnecessary parameter).  I noticed a bug while testing but it turned out to be present in trunk.  I'll raise an issue (if not already there)
+2453508350,798,teamcons,2024-11-03T17:43:47Z,"This is pretty much this. My apologies - @jeremypw pretty much mentioned there was no official supported mean to toggle it back, and for once i thought it was easy enough to offer.
+
+I am quite new to all this, and not so sure about the lint - I only touched the one file.
+
+![Bildschirmfoto von 2024-11-03 18 41 28](https://github.com/user-attachments/assets/e75e3935-b773-4ccd-b9d3-b5da545db7cd)
+"
+2453512106,798,jeremypw,2024-11-03T17:57:14Z,"Code looks good!  To be picky, the unsafe dialog also now appears with ""doas"" in the command and (will) also work with dropped text so a more general description would be something like
+`Show a warning dialog before pasting or dropping text that may be trying to gain administrative access or which contains multiple commands.`   Might be a bit too verbose though.  @danirabbit thoughts?"
+2453514002,798,teamcons,2024-11-03T18:03:53Z,"Valid nitpick.
+To be transparent, i went with the description from Pantheon-Tweaks, which expose the setting.
+
+Would ""inserting"" work instead of ""pasting or dropping"" ? It isnt typed manually but ""inserted""
+Maybe instead of ""commands that may be trying to gain administrative access"" that would be ""administration commands"" ? Since doas and sudo are used pretty much for administration - you dont really go anywhere in administration without.
+
+""Show a warning dialog when inserting administration commands or multiple commands at once""
+"
+2453516913,798,jeremypw,2024-11-03T18:13:36Z,"> Would ""inserting"" work instead of ""pasting or dropping"" ?  
+
+""Inserting"" was my first choice but I was worried that the reader might think the dialog would appear when entering administrative commands by typing as well.  Its probably OK together with TRANSLATORS note to make it clear that it only means pasting or dropping."
+2453518266,798,danirabbit,2024-11-03T18:17:58Z,"I think it would be better to use ""paste"" than ""insert"" personally. A dnd operation could still be considered a ""paste"" but I think ""insert"" implies typing would also trigger it"
+2453518772,798,danirabbit,2024-11-03T18:19:38Z,"""Administrative commands"" could be good. I kinda like that! Seems concise but clear"
+2453519103,798,jeremypw,2024-11-03T18:20:54Z,"Another possibility is to use the word ""privileged""."
+2454279133,798,teamcons,2024-11-04T10:05:40Z,"My first Pull Request :')
+
+(sorry i know adding a toggle is the easiest thing in the world but i am proud)"
+1884751121,743,jeremypw,2024-01-10T12:24:09Z,Fixing CI ...
+1891015848,743,jeremypw,2024-01-14T17:44:14Z,"@Marukesu  Thanks for the detailed review.  I have tried to address your comments.  I have reduced the scope of this PR to not include path abbreviations.  This will be addressed in a separate PR.  
+
+If the behaviour is now as expected, please feel free to push a commit rearranging the code as you would like."
+1891024160,743,jeremypw,2024-01-14T18:19:42Z,I have now pushed a possible fix for the relative path issue.  After this commit both `io.elementary.terminal -w ../src` and `io.elementary.terminal --working-directory=../src` behave as expected.
+525828816,397,jeremypw,2019-08-28T16:48:36Z,"@Philip-Scott OK, thanks for the review - I'll not merge for now."
+554767447,397,jeremypw,2019-11-17T17:26:06Z,@Philip-Scott Any chance of a re-review? :-)
+869456461,602,jeremypw,2021-06-28T07:50:26Z,@Marukesu You do not seem to have fixed the tab label regression when no custom prompt?
+869857514,602,Marukesu,2021-06-28T17:06:02Z,"> You do not seem to have fixed the tab label regression when no custom prompt?
+
+I think i misunderstand you review. as i said before, the `window_title` is the same of the prompt because `.bashrc` set both the same by default, and i don't think it's a regression but what this PR do (use a xterm title if we have one). However, if it was about the label and title be the same, i can update the PR fixing that."
+874269537,602,jeremypw,2021-07-05T18:18:49Z,"> However, if it was about the label and title be the same, i can update the PR fixing that.
+
+This PR should only change the appearance of Terminal sufficient only to fix the linked issue - that is the setting a custom window title from the command-line.  It should not change the appearance in any other way.  If you feel Terminal behaves incorrectly in another way then you should raise another issue about that.  You are right that Terminal does not show tab labels the same way as e.g. Mate Terminal but that is, I think, by design."
+874294419,602,Marukesu,2021-07-05T19:27:16Z,"> This PR should only change the appearance of Terminal sufficient only to fix the linked issue - that is the setting a custom window title from the command-line.
+
+i did it this way because was how it worked before #584 when there was a title."
+914465810,602,jeremypw,2021-09-07T16:50:53Z,@Marukesu Sorry for the delay in re-reviewing.  I think this is now acceptable subject to resolution of the conflicts.
+914467239,602,jeremypw,2021-09-07T16:53:10Z,Note: I had to use `echo -ne '\033]2;this works\007'` to get the title to change - your issue did not use the `-e` flag - perhaps your shell is different? 
+914498924,602,Marukesu,2021-09-07T17:42:54Z,"> Note: I had to use `echo -ne '\033]2;this works\007'` to get the title to change - your issue did not use the `-e` flag - perhaps your shell is different? 
+
+
+Yeah, I'm using zsh and echo apply the escape characters automatically here, while bash needs the `-e` flag for that."
+614342287,504,felix-andreas,2020-04-16T00:14:55Z,"The last commit fixes an issue, where it was possible to lock the `cursor_blink_mode` to `OFF` when clicking very fast. This was because the `cursor_blink_mode` was restored in the button_release event. When two `button_press` events where processed in a row, the `previous_cursor_blink_mode` was set to `OFF`, which effectively locks the `cursor_blink_mode` to `OFF`. The solution is to make `previous_cursor_blink_mode` a local variable and restore it together with the `cursor_color`.
+
+Another issue was that `Gdk.threads_add_idle_full` does not wait for `feed_child`, so one has revert to a hard-coded 50ms second timeout. IMO this is still a lesser ""evil""..."
+614519031,504,jeremypw,2020-04-16T09:08:24Z,"OK, I'll see if I can get it to work otherwise will merge as is.  I am beginning to wonder whether the whole PR is going to get too hacky to get approved anyway :-( .  A Vte terminal is not designed to be used like a text editor I guess."
+614544284,504,felix-andreas,2020-04-16T09:55:38Z,"But is it really that hacky?
+
+**Challenge:**
+1. Get the clicked cell in a reliable way.
+2. Move the cursor by *delta* cells.
+
+**Implementation:**
+
+1. The `get_cell_clicked` uses the `vadjustment` method of the `Gtk.Scrollable` to determine the clicked cell. I see no hack there.
+
+2. To my understanding the escape sequences are the official ""API"" to move the cursor in a terminal. So I would argue that this is also not a hack, it's just a weird ""API"".
+
+The only thing that is a bit hacky is the code that avoids the flickering of the cursor. But the flickering is not specific to the click implementation. The flickering is always there, it is just more visible because the cursor is moved multiple positions at once. It for example also occurs when pressing the <kbd>Home</kbd> or <kbd>End</kbd> keys to move the cursor. One could simply leave this code out and accept the flickering. But as there is a reliable way to avoid it, I think it is reasonable to keep it."
+614546407,504,felix-andreas,2020-04-16T09:59:36Z,"I think the last outstanding problem is, that the current way of getting the `command_start_row/col` values (which are necessary to ignore clicks on output) is not super reliable. But this is also a general problem and not specific to this PR..."
+614560009,504,felix-andreas,2020-04-16T10:25:03Z,"I removed the `Idle.add`, which to my understanding should no longer be necessary, as the cursor is not moved via `key_press_events` anymore. Revert this commit if I am wrong."
+614568263,504,felix-andreas,2020-04-16T10:39:37Z,"The last commit uses the `allow_hyperlink` to ignore clicks when window was not focused. It think this is necessary, because otherwise the cursor gets moved if one copies a command from somewhere and then focuses the terminal. Maybe the variable should be renamed to `is_focused` or something if we also use it here."
+614571840,504,jeremypw,2020-04-16T10:45:42Z,"> But is it really that hacky?
+
+Well, its up to reviewers like tintou/danrabbit to decide that ultimately (referring to #386).  Once we are happy with it we should request a review from them."
+614574710,504,jeremypw,2020-04-16T10:51:18Z,Thanks for all your work on this anyway!
+753030033,556,etkaar,2020-12-31T19:13:39Z,"@cassidyjames The problem is that I fear that people (like me) would permanently disable the UnsafePasteDialog for the `sudo ...` paste, but then the warning for the multiline pastes would be disabled too, which may be unwanted. I think in the most cases you want to paste your sudo command, but not a multiline command, so it makes sense to seperate it.
+
+<strike>Regarding the warning message: Since a newline on the end alone would lead to an execution (not necessarily of multiple commands), what do you think of using **The pasted text contains newline characters and may be unintentionally executed** instead?</strike> **EDIT:** I noticed it is only the title of the dialog, do you think we should change that at all from **Multiline Paste Blocked**? The text already gives an explanation. However, you're right, it would be more consistent with the UnsafePasteDialog."
+753581426,556,etkaar,2021-01-03T07:50:02Z,@cassidyjames I did now commit your suggestion regarding the text.
+855282057,556,jeremypw,2021-06-05T19:01:42Z,Failing lint test - install io.elementary.vala-lint  from https://github.com/vala-lang/vala-lint and run `io.elementary.vala-lint -d <root folder>` to locate the problems.
+855283149,556,etkaar,2021-06-05T19:10:46Z,"You're free to take over this PR, unfortunately it is unlikely that I have time to fix that this year."
+855302872,556,jeremypw,2021-06-05T22:13:58Z,"@etkaar  OK, thanks for letting us know. I'll try and finish it off sometime.  Thanks for the contribution.
+ :smile:"
+858972743,556,cassidyjames,2021-06-10T19:40:00Z,"@etkaar @jeremypw I've created a PR based on this branch at https://github.com/elementary/terminal/pull/595 that does the same thing while keeping them under one setting. I can see a small reason to keep them separate, but I think the intent was always to group various ""unsafe"" pastes under one setting—especially if we want to add a GUI setting for it later."
+1884600726,753,jeremypw,2024-01-10T10:41:47Z,"@Marukesu Thanks for the suggestion - can it be left for another PR? The current version of epiphay in 7.1 only has a ""maximise"" button in the headerbar.  It does have a ""fullscreen""button in the AppMenu though."
+1890463808,753,Marukesu,2024-01-13T13:49:09Z,"@jeremypw you already implemented my suggestion. a fullscreen button in the menu would be good indeed, but that can be left to another PR."
+396074324,266,Shnatsel,2018-06-10T19:17:46Z,"Interesting. Does this mean that Ctrl+C stops the foreground process if there is one, and copies if there is none?
+
+How does this interact with Ctrl+C used to clear the current line in bash?"
+396074452,266,voldyman,2018-06-10T19:19:38Z,"But it will break the workflow for anyone who doesn’t use vim.
+
+The mental model went from
+
+* use ctrl-c/v top copy-paste
+
+To
+
+* ctrl-c/v only works in the shell
+
+Which people will translate into ctrl-c/v works sometimes"
+396076363,266,jeremypw,2018-06-10T19:46:25Z,I suspected this might be too simplistic.  Maybe if TerminalWindow processes keystrokes *after* the foreground process? Then if the foreground process does not consume it will work normally.  A new setting should be avoided if possible.
+396198404,266,jeremypw,2018-06-11T10:32:16Z,"It seems reasonable to me that when a foreground process is running the user expects keystrokes to interact with that, not the shell, and behave accordingly.  Whether Ctrl+C copies or not will depend on what the process if and whether there is anything selected.  In the Terminal (without a foreground process), Ctrl+C will copy if there is a selection, otherwise it will be passed the shell and (in the case of bash) clear the line (and end any foreground process). Again, it seems reasonable that if there is a selection, the user expects keystrokes to  interact with that."
+396207585,266,jeremypw,2018-06-11T11:12:01Z,"Any actual examples of where a foreground process is running in the shell (not a launched gui) and the user would expect keystrokes to be handled by Terminal would be useful.
+
+If Terminal processes keystrokes *after* the shell then various behaviours such as <Alt>+[1-8] to change tab no longer work, (because the shell processes them) so I do not think that is a viable solution.
+
+If it helps, I can make this PR apply *only* to `<Ctrl>+v` (as mentioned in the issue description)."
+396228628,266,Shnatsel,2018-06-11T12:37:35Z,">  In the Terminal (without a foreground process), Ctrl+C will copy if there is a selection, otherwise it will be passed the shell and (in the case of bash) clear the line (and end any foreground process)
+
+Sadly, this behavior is still immensely confusing because it's easy to select some text in a scrolling terminal and forget about it. No selected text is visible (because not all of shell log fits on the screen), but Ctrl+C still inexplicably refuses to clear the line."
+396230680,266,Shnatsel,2018-06-11T12:45:35Z,"> If it helps, I can make this PR apply only to Ctrl+v (as mentioned in the issue description).
+
+Actually no, it doesn't. There are cases when I want to paste into foreground process - mostly text input promts (SSH key generation and lots of others), text editors such as nano, etc."
+396275218,266,jeremypw,2018-06-11T15:01:43Z,"Note that this PR does not suppress` <Ctrl>+v` - it is passed onto the foreground process.  There if the foreground process supports pasting with this key combination it should still work.  It is questionable whether Terminal should interfere with the UI of other processes although I can see the consistency argument.  If the foreground process/shell swallows `<Ctrl>+v` it will not be possible for Terminal to act on it afterwards anyway.
+
+Is Vim the only example of a foreground process that uses`<Ctrl>+v` for something other than paste?  If so I doubt it is justified exposing the natural-paste setting in the UI.
+
+I suppose, theoretically Terminal could check whether the foreground process is Vim and pass on `<Ctrl>-v` only in that case - but that is unlikely to be approved."
+396277823,266,jeremypw,2018-06-11T15:09:16Z,I have confirmed that `nano` at least swallows `<Ctrl>+v` so I am coming to the conclusion there is no solution that will please everyone.
+448706082,266,jeremypw,2018-12-19T18:57:11Z,There does not seem to be any clear conclusion regarding this PR so I will close it for now.  Feel free to reopen - I will not delete the branch for a while.
+448729721,266,Shnatsel,2018-12-19T20:16:22Z,"I feel the only proper solution is to copy text on selecting it (and clearly communicating that the text was copied), dropping the selection after copying, and not special-casing Ctrl+C key combination."
+452623377,266,fabiopicchi,2019-01-09T09:09:00Z,"> Note that this PR does not suppress` <Ctrl>+v` - it is passed onto the foreground process. There if the foreground process supports pasting with this key combination it should still work. It is questionable whether Terminal should interfere with the UI of other processes although I can see the consistency argument. If the foreground process/shell swallows `<Ctrl>+v` it will not be possible for Terminal to act on it afterwards anyway.
+> 
+> Is Vim the only example of a foreground process that uses`<Ctrl>+v` for something other than paste? If so I doubt it is justified exposing the natural-paste setting in the UI.
+> 
+> I suppose, theoretically Terminal could check whether the foreground process is Vim and pass on `<Ctrl>-v` only in that case - but that is unlikely to be approved.
+
+I feel that this is the best solution even though `nano` swallows `<Ctrl>+v`. `nano`, `vim` and terminals have been around for years and they exist before the `<Ctrl>+v` convention for pasting. I understand that people not familiar with terminals would enjoy the ability to intuitively copy and paste text but I would argue that they would definitely not use `vim` or even `nano`.
+
+Furthermore, terminals in Windows definitely do not use the `<Ctrl>+c` `<Ctrl>+v` shortcuts for copying and pasting. I think Cygwin uses `<Shift> + <Insert>` and who know what cmd uses (I still right click the application menu and go to Edit > Paste).
+
+Finally, the gnome terminal uses `<Ctrl>+<Shift>+v` for pasting and it works nicely overall. Never came across a situation where it was a problem. You can even use it inside vim instead of configuring it to read data from the clipboard and using the cumbersome `""+p`."
+851993424,590,felix-andreas,2021-06-01T09:53:55Z,"Is it save to remove these lines? As far as I understand [this setting is ignored now](https://developer.gnome.org/gtk3/stable/GtkSettings.html#GtkSettings--gtk-menu-bar-accel).
+
+https://github.com/elementary/terminal/blob/7c970414b8a811e2985ec6a0d2e9ebc289ae0fe3/src/MainWindow.vala#L191-L193"
+852020449,590,jeremypw,2021-06-01T10:39:26Z,I would stick to the stated scope of the PR tbh if you want a quick merge.
+852021558,590,jeremypw,2021-06-01T10:41:25Z,Have you looked into replacing the `spawn_sync ()` function? (see my comment on Slack). I couldn't get `spawn_async ()` to work - looks like the `.vapi` is wrong.
+852041331,590,felix-andreas,2021-06-01T11:14:31Z,"> I would stick to the stated scope of the PR tbh if you want a quick merge.
+
+The `gtk_settings.gtk_menu_bar_accel` also throws a deprecation warning, therefore I considered it to be the same scope.
+"
+852044412,590,felix-andreas,2021-06-01T11:20:17Z,"> Have you looked into replacing the `spawn_sync ()` function? (see my comment on Slack). I couldn't get `spawn_async ()` to work - looks like the `.vapi` is wrong.
+
+tbh I intentionally left that out because I haven't used async in vala before. It works a bit different than in python, js or rust, the languages I happen to know :D
+
+I am only in the community slack. I suppose there is another one, but I am not part of it. So I couldn't see you comment."
+852316575,590,danirabbit,2021-06-01T17:33:22Z,@andreasfelix I would be happy to send you an invite to the contributor slack. If you want to DM me on the community slack or have an email address I can send an invite link to. I can't seem to find you on the community slack
+2450053976,794,teamcons,2024-10-31T14:38:43Z,"The issue was marked critical, but the PR seems out of date - Any ETA for merging ?"
+2451635622,794,jeremypw,2024-11-01T10:10:48Z,"I marked it critical because the issue has theoretical security implications, but its not a new issue.  I guess folks are focused on getting OS8 released atm.  "
+2453495670,794,jeremypw,2024-11-03T16:57:40Z,"@ryonakano Oops! Thanks for spotting that.  Now fixed.  It occurred to me that if unsafe paste alert is turned off in the dialog, there is no way of turning it back on through the UI.  Am I right?  If so that needs fixing but in another PR."
+2453505309,794,jeremypw,2024-11-03T17:31:51Z,"I noticed that this PR was pasting the stripped text into the terminal whereas in master, the text was refetched from the clipboard. Now the stripped text is only used for the dialog message as before.  "
+2453511575,794,teamcons,2024-11-03T17:55:04Z,"> @ryonakano Oops! Thanks for spotting that. Now fixed. It occurred to me that if unsafe paste alert is turned off in the dialog, there is no way of turning it back on through the UI. Am I right? If so that needs fixing but in another PR.
+
+following your comment i did a PR for that.
+Pantheon-tweaks always offered that option, im not sure why there was no toggle-back in first instance.
+"
+516600939,390,fabiozaramella,2019-07-30T21:22:22Z,"@cassidyjames This makes the text much more readable.
+Has a decision been reached about this?"
+535776934,390,cassidyjames,2019-09-27T04:04:47Z,"Now that the neutral GTK style has been shipping for a while, it'd be great to get the Terminal to match. Right now it's off and it feels weird imho."
+538614398,390,cassidyjames,2019-10-05T04:09:23Z,"> LGTM, does this need more UX discussion?
+
+Since we've merged the stylesheet changes and this makes Terminal match, I think we're good. :smile: "
+456621367,349,Philip-Scott,2019-01-23T00:41:04Z,"I'm also -1 on removing the `remove-tabs` setting.... Seems like it's something that would be useful and not behind the Privacy settings. Maybe keep the same behavior that was before, and use the privacy setting as an override :) "
+456659610,349,Philip-Scott,2019-01-23T03:48:11Z,Maybe using this could replace it :) https://github.com/elementary/granite/pull/257
+456764381,349,jeremypw,2019-01-23T11:16:17Z,"@Philip-Scott :  Thanks for the helpful review :-) It would make sense to use the Granite function so I'll block this till that is merged.  I take your point that our own ""remember-tabs"" setting could still be useful to stop this behaviour even if the privacy setting allowed it."
+458214138,349,jeremypw,2019-01-28T17:01:05Z,Need to wait for latest granite to be used by Travis for this to pass CI.
+428055839,299,neur0manc,2018-10-09T04:29:17Z,"I removed the changes to the po files. I'm not sure why they made the CI fail, though."
+428226195,299,cassidyjames,2018-10-09T14:58:00Z,"@ls42 it looks like CI is failing in master right now, so it's not your branch that's doing it. "
+428245916,299,neur0manc,2018-10-09T15:49:17Z,">  Thanks for the contribution
+
+You're very welcome. I hope I can get involved even more, I really enjoy using elementaryOS and hope it really takes off (number-of-happy-users-wise)!"
+505524419,382,jeremypw,2019-06-25T16:38:10Z,"This works as expected from the code - thanks.
+
+There is a question over where the menu should pop up;
+
+* At one corner (as in this PR)
+* At the pointer (as in e.g. Mate Terminal or Files)
+* At the cursor (as in Code)
+* Somewhere else
+
+Popping up at the cursor seems most logical for a text based app, although a little harder to achieve.
+
+I'll flag this for comment from @elementary/ux 
+"
+505532760,382,cassidyjames,2019-06-25T16:59:49Z,"I agree text-cursor seems the most ideal, but I'm also not that opposed to on the mouse pointer or corner of the app."
+505592119,382,jeremypw,2019-06-25T19:38:21Z,Further investigation indicates that this is only a problem if you popup the meny at scale_factor = 1 and then change the scale_factor to 2 using the interactive debugger without restarting the program.  So it may not be a serious problem in real life.
+505593373,382,jeremypw,2019-06-25T19:41:57Z,"Here is a way to pop the menu up at the cursor:
+```
+    /* Popup context menu below cursor position */
+    long col, row;
+    current_terminal.get_cursor_position (out col, out row);
+    var cell_width = current_terminal.get_char_width ();
+    var cell_height = current_terminal.get_char_height ();
+    var rect_window = current_terminal.get_window ();
+
+    Gdk.Rectangle rect = {(int)(col * cell_width),
+                          (int)(row * cell_height),
+                          (int)cell_width,
+                          (int)cell_height};
+
+    menu.popup_at_rect (rect_window, rect, Gdk.Gravity.SOUTH_WEST, Gdk.Gravity.NORTH_WEST, e);
+```
+```"
+505717219,382,jeremyvaartjes,2019-06-26T04:51:37Z,"I made the change you have suggested. I was originally worried that putting it on the terminal carrot would make the menu not work when you scroll the window, but it just causes the terminal to scroll to the carrot which is good. One issue I did pick up is that the positioning stops working properly when the ""clear"" command is used, the menu is just placed at the bottom of the window. Probably not a big issue though since it is still tied to the window."
+505953763,382,jeremypw,2019-06-26T16:41:20Z,The positioning is also off if the Menu key is pressed while a child process is running (e.g. man).  I am not sure whether the context menu should be shown at all in this situation (although right-click still shows it).
+505960059,382,jeremypw,2019-06-26T16:58:52Z,"I think the problem with the `clear` command may be an upstream issue with vte-2.91 library.  The row number returned by `get_cursor_position ()` is not updated even thought the cursor clearly moves.  Even after typing some more characters the result is not updated.  If this is the case, then the best we can do is make sure the menu is not displayed outside the terminal window.
+
+On further investigation it is not really an upstream issue - the clear command just scrolls the window and the row position includes lines scrolled off the top of the screen."
+505977508,382,jeremypw,2019-06-26T17:47:15Z,"You can fix the `clear` issue like this:
+```
+        var cell_width = current_terminal.get_char_width ();
+        var cell_height = current_terminal.get_char_height ();
+        var rect_window = current_terminal.get_window ();
+        var vadj_val = current_terminal.get_vadjustment ().get_value ();
+
+        Gdk.Rectangle rect = {(int)(col * cell_width),
+                              (int)((row - vadj_val) * cell_height),
+                              (int)cell_width,
+                              (int)cell_height};
+
+        menu.popup_at_rect (rect_window,
+                            rect,
+                            Gdk.Gravity.SOUTH_WEST,
+                            Gdk.Gravity.NORTH_WEST,
+                            e);
+```"
+505979001,382,jeremypw,2019-06-26T17:51:30Z,This also fixes the child process issue except that if the cursor is at the bottom of the screen then the menu does not flip or slide to keep within the window.  However that is also an issue in master so need not be fixed here.
+563348975,431,tintou,2019-12-09T17:38:33Z,I haven't tested this branch yet but I have concerns that it might break the copy paste when space actually matters (let's say editing something with nano) so I don't think that it's worth the cost if that's true.
+696741677,431,jeremypw,2020-09-22T14:01:11Z,"I would suggest at least reverting this to ""Draft"" as there are some possible problems."
+1526050861,699,jeremypw,2023-04-27T17:10:47Z,@Marukesu This seems like a good idea especially as `MainWindow.vala` is larger than I would like.  Could you fix the conflicts please?
+1606231007,699,Marukesu,2023-06-25T19:32:46Z,"@jeremypw, sorry for the delay in rebasing this, should be good to review.
+
+don't know what caused the CI error after the rebase, but with the `--print-errorlogs` option, it should be more easy to know what test case failed in the future."
+1607841385,699,jeremypw,2023-06-26T16:40:11Z,Despite the coding technicalities there do not seem to be any regressions in operation.
+1645457275,699,jeremypw,2023-07-21T11:48:42Z,@Marukesu Another regression with this is that the font scale is not set individually on each tab.
+1645771614,699,Marukesu,2023-07-21T15:34:45Z,"I'm tempted to revert the ActionGroup change for now, the widget won't be as self-contained as i would like, but would still make this a good start in reducing the MainWindow scope."
+1645776546,699,jeremypw,2023-07-21T15:38:17Z,Yes two smaller PRs would be easier to review.
+965082747,638,jeremypw,2021-11-10T12:25:33Z,"Is it necessary to add another dependency (especially X11 specific)?  Is using ""get_server_time"" essential? "
+967745300,638,igordsm,2021-11-13T00:38:59Z,@jeremypw Unfortunately it seems `get_server_time` is essential. Apparently `present_with_time` needs a timestamp to solve focus stealing and the only timestamp I passed to it that worked was this one. Using regular datetime functions did not work and I found an answer in SO that linked to this function. 
+981555688,638,jeremypw,2021-11-29T11:40:29Z,Might be worth delaying trying to fix this until https://github.com/elementary/notifications/issues/153 is fixed. It should not be necessary to add that extra dependency.
+2322984561,638,jeremypw,2024-08-31T17:36:09Z,Need to find a solution that works on Wayland.
+2326415689,638,jeremypw,2024-09-03T12:37:15Z,"@Marukesu  I think a dependency on `gdk-wayland-3.0` may be required to make it work under Wayland.  This should not be necessary under Gtk4, so maybe better to wait for the Gtk4 port to land to fix Wayland?   If so, maybe this can be merged so that it at least works on OS7.1 and in ""Compatability Mode""."
+2331816871,638,Marukesu,2024-09-05T14:21:03Z,"I think it should be fine for what the notification sever can do right now.
+
+We really need to have the Gtk Notification interface implemented there to have the true timestamp of the event, but that can be done later."
+312473479,119,vjr,2017-07-02T06:20:06Z,@cassidyjames good point about the multi screen thing. this commit https://github.com/elementary/terminal/pull/119/commits/a0c6f57f30706f2e153972436b46bbd91286e164 should address it by changing the calls of `Gdk.Screen.width ()` (which gets the default screen dimensions) to call `get_screen ().get_height ()` since this should return the screen on which the current window resides. How does that look? Note the existing code here (for centering the window) might have multi screen issue for the same code usage: https://github.com/elementary/terminal/blob/master/src/PantheonTerminalWindow.vala#L335
+312474682,119,cassidyjames,2017-07-02T06:57:51Z,@vjr that sounds better! I'll have to take a look on a HiDPI display and a few different resolutions to make sure this works well.
+312476513,119,vjr,2017-07-02T07:49:36Z,"OK this branch is now ""ready for review"" , there's a known centering problem for multi display filed as a separate issue #121 which I'll try to work on shortly, if I can set up multi display for myself."
+312478957,119,vjr,2017-07-02T08:52:22Z,"I was able to get a multi monitor setup by connecting my TV and the latest commit https://github.com/elementary/terminal/pull/119/commits/04dc0a7a1d149f429776953b5ee77d65e932553d should also address issue #121 so please test and let me know. It is working for me in my basic tests (opening first run, resizing and moving, then reopening) for hidpi, lodpi, single and dual monitor."
+313580614,119,vjr,2017-07-07T03:53:30Z,"Thank you @cassidyjames . FYI I also tested on 3 computers with HiDPI, multi monitor and 1080p and 1280x800 displays and all seem to look good to me :-) Looking forward to the code review."
+359171559,196,jeremypw,2018-01-20T13:28:55Z,"OK, fair enough."
+552118492,423,alice-mkh,2019-11-09T17:06:57Z,"While the PR fixes it if you don't change hidden settings, it still won't work if you select a custom font. Though unlike Code, Terminal doesn't implement zooming via that preference. So, I wonder if this font should be special-cased to be applied even if a custom font is used."
+554770222,423,jeremypw,2019-11-17T18:00:12Z,"@danrabbit Do we need to have a separate font setting for Terminal, especially as it is not exposed in the UI?  Otherwise we would have to hard-code a check the specific name of the system monospace font against that used to conceal text."
+554776812,423,alice-mkh,2019-11-17T19:17:16Z,"Rebased, also moved system gsettings creation into `Application` to match the existing ones."
+554776896,423,alice-mkh,2019-11-17T19:18:10Z,"Oh wait, actually pushed the correct one now."
+555219201,423,danirabbit,2019-11-18T21:33:32Z,"@jeremypw I'm not sure I 100% understand the question, but the system monospace font is also used in Code, for example, so I don't think a Terminal-specific setting makes sense necessarily"
+555240211,423,alice-mkh,2019-11-18T22:32:17Z,"Wel, Code has a setting. And it's even exposed in the UI and is also used for zooming. Terminal has a setting too, but it's only in gsettings.
+
+If you change that setting, conceal text won't work even with this fix, because, well, you explicitly requested a different font. So maybe that setting can just be removed? Otherwise Terminal will have to hardcode the redacted font to use it even if a custom font is selected."
+555442596,423,jeremypw,2019-11-19T10:32:23Z,"@danrabbit OK, so the setting `io.elementary.terminal.settings.font` could be removed and the system monospace font always used?  Otherwise, for consistency we should expose the custom font setting in the UI, like Code, and hack around the redacted font issue."
+567635162,423,alice-mkh,2019-12-19T19:44:49Z,Added a line to appdata changelog.
+737847910,477,jeremypw,2020-12-03T10:27:28Z,"On way of testing this is to create this script in a directory other than your home directory:
+```
+#!/bin/bash
+
+echo ""Hello World!""
+echo My current working directory is: $PWD
+sleep 5s
+```
+
+Navigate to this script in Files and choose ""Open in ... Terminal"" from the context menu.
+
+With master the script runs with the home directory as the PWD.  With this PR the script runs with the directory where the script is located as the PWD."
+738882651,477,jeremypw,2020-12-04T16:34:56Z,"I believe the message `[GLib] setenv()/putenv() are not thread-safe and should not be used after threads are created` that is printed before and after any output from the command is due to an upstream bug.
+"
+1044372427,477,jeremypw,2022-02-18T11:28:54Z,Closing due to age. A new PR may be submitted later.
+844163542,578,jeremypw,2021-05-19T14:32:16Z,Best to wait for the warning dialog to be merged before merging this as it is easier to accidentally trigger a shortcut.
+844271932,578,jeremypw,2021-05-19T16:33:42Z,What do you feel about supporting `F5` as a shortcut for this (cf Files and Epiphany)?
+844303268,578,felix-andreas,2021-05-19T17:12:40Z,"Sure, if the symmetry with Files and Epiphany is intended, adding <kbd>F5</kbd> as alternative shortcut seams reasonable. I included it with the last commit. But this should probably not up to me to decide that :D
+
+I still find the symmetry somewhat misleading, because Files and Epiphany update/reload a given resource, while this action resets/restarts the shell.
+
+On concern is also that this action/shortcut could be misused to ""just clear"" the terminal screen."
+844309513,578,jeremypw,2021-05-19T17:21:05Z,"Yes, I see what you are saying - that is why I was unsure about using ""Reload"" for the menuitem :thinking: "
+844312170,578,jeremypw,2021-05-19T17:24:33Z,"The current shortcut `<Ctrl><Shift>R` is very similar to `<Ctrl>R` used in Files for the ""Refresh"" action so there could still be confusion."
+844318485,578,jeremypw,2021-05-19T17:32:49Z,What about `<Ctrl>D` - this is used to exit the current shell anyway except it does not work natively when a process is running.
+844330658,578,felix-andreas,2021-05-19T17:48:28Z,"As far as I understand bash interprets <kbd>Ctrl</kbd><kbd>D</kbd> as the forth Unicode character End of Transmission (because **D** is the forth letter in the alphabet). I am not sure if this counts as a ""real"" shortcut. And in other command line programs like ""cat"" or ""netcat"" it can also be used to end the current input, but it does not exit the process. So I think <kbd>Ctrl</kbd><kbd>D</kbd> cannot be thought of as a universal exit shortcut.
+
+In my opinion the <kbd>Shift</kbd><kbd>Ctrl</kbd><kbd>R</kbd> and <kbd>F5</kbd> shortcuts are fine, as it is conceptually somewhat similarity with reloading the browser or refreshing Files. IMO only the word ""Reload"" is misleading here.
+
+But this is of course up to the @elementary/ux to decide that."
+844358798,578,jeremypw,2021-05-19T18:25:49Z,"OK, let's wait for their input."
+880911114,578,danirabbit,2021-07-15T18:14:14Z,This looks like a 0 diff since we merged in the other branch with accel labels that included this
+953975801,633,KeironO,2021-10-28T15:49:54Z,I've added a check and made values hex based as to fall inline with other stylesheets.
+954908015,633,KeironO,2021-10-29T17:12:13Z,"@jeremypw thank you for the review. I need to familiarise myself a little bit better with the eOS coding style, I've only just found the relevant documentation online for it."
+958897580,633,jeremypw,2021-11-03T10:49:53Z,@KeironO The logic here is still faulty and the opacity does not change until the settings are changed.  Would you like me to push a fix?
+1095225332,633,jeremypw,2022-04-11T15:46:16Z,Looks like this PR would not be necessary if #552  were progressed.
+1178010462,633,danirabbit,2022-07-07T17:59:54Z,Hasn't had an update in a long time and now conflicts. Superseded by https://github.com/elementary/terminal/pull/670
+1114184156,658,jeremypw,2022-05-01T09:33:01Z,"Terminal can already be closed with `Alt + F4`, `Ctrl + D` and `Shift + Ctrl + W`.  See https://www.codesansar.com/linux/shortcuts-open-close-terminal.htm
+
+However, I can see that for consistency with `gnome-terminal` there is a case for adding another shortcut.
+"
+1114185557,658,jeremypw,2022-05-01T09:41:09Z,I think you need to check for ongoing child processes and also to save the app state before closing.  See handler for the delete event.
+1114720334,658,SkiF12,2022-05-02T10:53:42Z,"Fixed your comments, thank you for remarks. Ctrl + shift + w and ctrl + D close only one tab. This shortcut allows to close all tabs.  "
+1115091052,658,jeremypw,2022-05-02T16:24:25Z,"Ah yes, sorry - I only had one tab open when I tried those shortcuts so the window closed as well."
+1115227874,658,jeremypw,2022-05-02T18:33:59Z,"@SkiF12 I have fixed a small lint error so that CI passes.  You can check for lint locally by installing `vala-lint` from https://github.com/vala-lang/vala-lint.
+"
+1435734917,702,jeremypw,2023-02-18T18:31:25Z,"@Marukesu I do not pretend to understand every aspect of this PR but it looks good and the test framework is impressive. However, when I install and run it from a different terminal app (I've tried XTerm and Blackbox) using no parameters, I get an immediate crash. The backtrace is :
+
+```
+Thread 1 ""io.elementary.t"" received signal SIGSEGV, Segmentation fault.
+0x0000555555571c17 in __lambda5_ (self=0x5555555e21c0, id=0x555555eb8e00 ""0"", process=0x5555555f4620 ""gdb io.elementary.terminal"", exit_status=0) at ../src/Application.vala:120
+120	                    if (terminal.terminal_id == id) {
+(gdb) bt
+#0  0x0000555555571c17 in __lambda5_
+    (self=0x5555555e21c0, id=0x555555eb8e00 ""0"", process=0x5555555f4620 ""gdb io.elementary.terminal"", exit_status=0) at ../src/Application.vala:120
+#1  0x0000555555572122 in ___lambda5__terminal_dbus_finished_processPython Exception <class 'ValueError'>: Variable 'static_fundamental_type_nodes' not found.
+
+    (_sender=, terminal_id=0x555555eb8e00 ""0"", process=0x5555555f4620 ""gdb io.elementary.terminal"", exit_status=0, self=0x5555555e21c0) at ../src/Application.vala:111
+#2  0x0000555555573d2e in g_cclosure_user_marshal_VOID__STRING_STRING_INT
+    (closure=0x555555601110, return_value=0x0, n_param_values=4, param_values=0x7fffffffd5d0, invocation_hint=0x7fffffffd550, marshal_data=0x0) at ../src/DBus.vala:22
+#3  0x00007ffff7e17d2f in g_closure_invoke () at /lib/x86_64-linux-gnu/libgobject-2.0.so.0
+#4  0x00007ffff7e33c36 in  () at /lib/x86_64-linux-gnu/libgobject-2.0.so.0
+#5  0x00007ffff7e35614 in g_signal_emit_valist () at /lib/x86_64-linux-gnu/libgobject-2.0.so.0
+#6  0x00007ffff7e35863 in g_signal_emit () at /lib/x86_64-linux-gnu/libgobject-2.0.so.0
+#7  0x0000555555573c46 in terminal_dbus_process_finishedPython Exception <class 'ValueError'>: Variable 'static_fundamental_type_nodes' not found.
+
+    (self=, terminal_id=0x555555ebc3f0 ""0"", process=0x555555dbbd50 ""gdb io.elementary.terminal"", exit_--Type <RET> for more, q to quit, c to continue without paging--
+status=0, error=0x7fffffffd920) at ../src/DBus.vala:30
+#8  0x0000555555574805 in _dbus_terminal_dbus_process_finishedPython Exception <class 'ValueError'>: Variable 'static_fundamental_type_nodes' not found.
+
+    (self=, _parameters_=0x7fffdc010a60, invocation=0x555555ec4ec0)
+    at /home/jeremyw/Documents/Elementary/terminal/build/DBus.c:537
+#9  0x0000555555574997 in terminal_dbus_dbus_interface_method_call
+    (connection=0x7fffe400b020, sender=0x7fffdc011bd0 "":1.136"", object_path=0x7fffdc011f60 ""/io/elementary/terminal"", interface_name=0x7fffdc011f10 ""io.elementary.terminal"", method_name=0x7fffdc006790 ""ProcessFinished"", parameters=0x7fffdc010a60, invocation=0x555555ec4ec0, user_data=0x5555555fdc80)
+    at /home/jeremyw/Documents/Elementary/terminal/build/DBus.c:570
+#10 0x00007ffff7d34bfe in  () at /lib/x86_64-linux-gnu/libgio-2.0.so.0
+#11 0x00007ffff7eb8c44 in g_main_context_dispatch () at /lib/x86_64-linux-gnu/libglib-2.0.so.0
+#12 0x00007ffff7f0d6c8 in  () at /lib/x86_64-linux-gnu/libglib-2.0.so.0
+#13 0x00007ffff7eb63e3 in g_main_context_iteration () at /lib/x86_64-linux-gnu/libglib-2.0.so.0
+#14 0x00007ffff7d0bfb5 in g_application_run () at /lib/x86_64-linux-gnu/libgio-2.0.so.0
+#15 0x0000555555573aab in _vala_main (args=0x7fffffffde28, args_length1=1)
+--Type <RET> for more, q to quit, c to continue without paging--
+    at ../src/Application.vala:227
+#16 0x0000555555573af8 in main (argc=1, argv=0x7fffffffde28) at ../src/Application.vala:226
+(gdb) 
+```
+"
+1435735766,702,jeremypw,2023-02-18T18:35:44Z,Putting a null check in `\src\Application.vala` line 120 stops the crash at least.
+1435739827,702,jeremypw,2023-02-18T18:56:44Z,"Other observations so far when launching from `gnome-terminal` after compiling in the null check to stop crash:
+
+* Using the `-h` works as expected and does not launch `io.elementary.terminal`.
+* Using the `-v` option in a different terminal app opens `io.elementary.terminal` as well as returning the version . This does not happen with master branch. Moreover, a new tab is opened at the current directory in addition to restoring saved tabs.
+* Using `-n` and `-t` works as master. See issue `#498` which persists
+*  Using `-n` and `-t` (when an instance of `io.elementary.terminal` already running) works as master 
+* Using `-w` works as master. Also restores saves tabs
+* Using `-w` in combination with `-n` or `-t` works as master. "
+1435743700,702,jeremypw,2023-02-18T19:14:35Z,"* Using`-e` flag works the same as in master, additional arguments ignored unless preceded by further flags
+* Using `--execute=` flag works if there is no space after `=`. If there is a space then the app opens but no tab is created and no error message given.  This differs from master, which gives a warning about spaces both in the launching terminal and in an additional tab in the launched terminal.
+"
+1435751745,702,jeremypw,2023-02-18T19:28:26Z,As far as tested so far the `-x` flag works the same as master.  Further testing will be done later.
+1435758943,702,Marukesu,2023-02-18T20:07:28Z,"@jeremypw the last commits should fix opening the terminal without arguments and the -v argument not returning. i would like to add test cases for them too, but i couldn't find a way to do that right now.
+
+> Using `-n` and `-t` works as master. See issue #498 which persists
+
+about #498, it's out of scope for this PR. The issue is that the restoration code will create a tab in the home directory if no tab is to be restored. I'm working in cleanup this code and fix it in another branch.
+
+> Using `--execute=` flag works if there is no space after `=`. If there is a space then the app opens but no tab is created and no error message given. This differs from master, which gives a warning about spaces both in the launching terminal and in an additional tab in the launched terminal.
+
+the new code ignores `-e` and `-x` if they are a empty line arguments. i don't really think crating a new tab with a warning is the best way to warn the user about it, we could either print a warning and return while in the local handling, or show a error dialog/notification if empty lines was sent to the primary instance."
+1436024814,702,jeremypw,2023-02-19T15:58:35Z,"@Marukesu 
+> about https://github.com/elementary/terminal/issues/498, it's out of scope for this PR. The issue is that the restoration code will create a tab in the home directory if no tab is to be restored. I'm working in cleanup this code and fix it in another branch.
+
+That's fine, I wasn't expecting it to be fixed in this PR.
+
+> the new code ignores -e and -x if they are a empty line arguments. i don't really think crating a new tab with a warning is the best way to warn the user about it, we could either print a warning and return while in the local handling, or show a error dialog/notification if empty lines was sent to the primary instance.
+
+I agree that creating a new tab is not necessary. Either a printed warning or a notification depending on means of  calling would be good.
+
+"
+1436027587,702,jeremypw,2023-02-19T16:09:15Z,"While `io.elementary.terminal -w ~/Music` works, `io.elementary.terminal --working-directory=~/Music` does not.  However the same happens in master.  `io.elementary.terminal --working-directory=/home/<username>/Music` does work."
+1436031582,702,jeremypw,2023-02-19T16:26:00Z,There is a slight difference between master and PR regarding the `-x` flag.  Running `io.elementary.terminal -x ls` from a directory other the home directory results in a new tab containing a listing of the current directory with this PR but with master it results in a listing of the home directory.  I think the behaviour of this PR is more correct.
+2569160048,836,jeremypw,2025-01-03T12:37:01Z,Nice use of `git grep` - I was not familiar with that. 
+395981547,263,davidmhewitt,2018-06-09T16:24:27Z,Does this still allow terminal applications that need the escape key (like vim) to function?
+395981971,263,davidmhewitt,2018-06-09T16:28:59Z,"Apologies, that should have been something I could have tested myself. I can confirm that this pretty much breaks Vim (making it even harder to exit :stuck_out_tongue: ) and presumably anything else that needs the escape key."
+395982226,263,jeremypw,2018-06-09T16:31:52Z,"OK, thanks - I should have thought of that - I thought it was too easy!.  I'll see if it can be fixed."
+395986722,263,Djaler,2018-06-09T17:43:11Z,I don't think audible feedback is necessary in this case
+458481691,263,jeremypw,2019-01-29T10:06:33Z,@elementary/ux  What is the ruling on whether an audible feedback is needed when a key press is ignored?
+458483408,263,jeremypw,2019-01-29T10:12:12Z,"I guess that in any case it should honor the ""event sounds"" setting."
+458630966,263,cassidyjames,2019-01-29T17:28:35Z,"@jeremypw we don't have strong conventions/written rules here as far as I know. I do think any time a keypress is ignored when it would normally perform some action it should `Gdk.beep ()`, and that does respect the event sounds setting automatically."
+498752124,263,jeremypw,2019-06-04T16:46:09Z,Withdrawing as no consensus as to whether this is correct approach after nearly a year.
+428691669,262,cassidyjames,2018-10-10T18:59:19Z,"This seems to work as expected UX-wise, and is an awesome feature! I think it's fine that there's not a confirmation that it was copied, as copying doesn't usually show any sort of confirmation. Same with scrolling to the top and not highlighting the selection: I think this behavior is fine.
+
+Assuming the command was on one line should _probably_ be fixed before this is merged, though."
+439509645,262,jeremypw,2018-11-16T19:59:08Z,"Oops - I forgot the request to fix the multiline command limitation - feel free to revert if desired.  I'll have a look at this asap. As I recall it was not straight forward.  It may be simpler to restrict it to only copying the output, not the command."
+500078245,375,ryonakano,2019-06-08T00:42:15Z,"I'm not sure whether this should be done in this PR, and this is a correct solution, but checking the window is fullscreen or not first will also fix #377.
+
+```diff
+diff --git a/src/MainWindow.vala b/src/MainWindow.vala
+index 65f7bbb..e8f8949 100644
+--- a/src/MainWindow.vala
++++ b/src/MainWindow.vala
+@@ -699,10 +699,10 @@ namespace PantheonTerminal {
+                     return false;
+ 
+                 /* Save window state */
+-                if (is_maximized) {
+-                    PantheonTerminal.TerminalApp.saved_state.set_enum (""window-state"", 1);
+-                } else if ((get_window ().get_state () & Gdk.WindowState.FULLSCREEN) != 0) {
++                if ((get_window ().get_state () & Gdk.WindowState.FULLSCREEN) != 0) {
+                     PantheonTerminal.TerminalApp.saved_state.set_enum (""window-state"", 2);
++                } else if (is_maximized) {
++                    PantheonTerminal.TerminalApp.saved_state.set_enum (""window-state"", 1);
+                 } else {
+                     PantheonTerminal.TerminalApp.saved_state.set_enum (""window-state"", 0);
+ ```
+"
+500080610,375,danirabbit,2019-06-08T01:09:14Z,@ryonakano thanks for the tip! Fixed
+573351078,461,jeremypw,2020-01-11T20:22:18Z,"Really need a complete review, overhaul of code related to opening new windows to see whether it can be simplified while still dealing with all different circumstances. Or at least made clearer."
+578178917,461,jakubklos77,2020-01-24T15:32:02Z,"Unforunately not even this fix makes it good again. There are multiple issues.
+
+1. The app tries to match an existing tab for the given workdir. If it finds it it simply switches to that tab instead of creating a new tab. Suppose the already existing tab is running some command (top or whatever under /tmp). You start as 
+`io.pantheon.terminal -e ls -w /tmp`
+The app will switch to the tab with the ""top"" command running and nothing happens. 
+This is bad a needs to be fixed
+
+Either, validate if the tab is running an ongoing command and if it is then create a new tab.
+If not, then switch to the tab and run the command.
+
+2. Suppose you want to open the same path in multiple tabs. Currently this is not possible.
+One tab is running ""/tmp""
+You start this
+`io.pantheon.terminal -w /tmp`
+The existing tab is used
+
+So I guess we need a new argument to force a new tab (-t) just like we have a new window.
+This would at least make it possible to preserve some old compatibility
+
+Obviously, we want to work with the same window with multiple tabs. Using multiple windows is not the issue here.
+
+It was all somewhat working in the previous version.
+What do you think?"
+578261851,461,jeremypw,2020-01-24T19:12:48Z,"@jakubklos77 Thanks for review!  This PR is only meant to fix issues when using the `-e` and `-x` flags raised in #460 (and not cause any regressions).  
+
+(1) I do agree that a tab that is running a process should be omitted from duplicate checking but I don't think Terminal ever did that so perhaps should be put in a separate PR.
+
+(2) Regarding forcing opening a duplicate tab from the commandline, again this might be useful to someone but is a bit of a corner case unless a process is running in which it would be addressed by fixing point (1). The behaviour of the master branch is also to not open duplicate tabs so this should be the subject of a separate issue/branch.
+
+When you say it ""was all somewhat working"" what version are you comparing this PR with?"
+578384610,461,jakubklos77,2020-01-25T07:25:10Z,"@jeremypw Thank you for your response. Yes, I kind of thought it would have to be new PRs. 
+
+I was not referring to any specific version, but the behavior. In some older version (1 month and more) I don't think any existing tabs were matched and always a new one was created.
+
+Anyway, I am new to the code and made some changes and it works ok. I can push those PRs. How hard and how long does it take to get those PRs merged to the master? (I don't have much experience so I am asking). 
+
+Thank you again"
+578528507,461,jeremypw,2020-01-26T18:19:33Z,"@jakubklos77 Good to hear you are starting to contribute code!  The time it can take for PRs to get reviewed, approved and merged varies enormously from hours to more than a year (if ever).  It depends on how many changes are made, how critical they are and how easy to understand/test/review.  That is why it is a good idea to make as few substantive changes as possible in each PR (something I do not always achieve!) and explain/comment them well.  It also depends on how much of their time each of the relatively small number of reviewers can devote on any particular point in their lives and on which day(s).  So patience is sometimes required."
+578616734,461,jakubklos77,2020-01-27T07:03:31Z,"@jeremypw Understood, thank you."
+578776154,461,jakubklos77,2020-01-27T14:34:22Z,"@jeremypw Made a small fix 
+https://github.com/elementary/terminal/pull/476
+"
+774177454,461,jeremypw,2021-02-05T17:34:32Z,Timed out.
+1472358023,710,jeremypw,2023-03-16T17:00:35Z,@Marukesu #709 is merged - a conflict needs to be resolved.
+1498026786,710,Marukesu,2023-04-05T19:46:11Z,"@jeremypw testing locally, the CI was falling because of the Idle in `on_switch_page()` in the MainWindow class. #720 should fix it."
+1498040134,710,jeremypw,2023-04-05T19:57:40Z,"For me it was failing in the ""quit"" action test.  I tried to fix it but failed.  We could always leave that test out and fix it later if necesssary."
+1498889360,710,jeremypw,2023-04-06T11:04:57Z,"#720 now merged  ... but CI still failing :disappointed:   However, CI passed locally :man_shrugging: "
+1499587418,710,jeremypw,2023-04-06T20:30:16Z,"Hmm, contrary to my previous diagnosis the CI is (now) failing on the ""new-window"" action test. See #723 "
+1499647021,710,Marukesu,2023-04-06T21:24:10Z,"> Hmm, contrary to my previous diagnosis the CI is (now) failing on the ""new-window"" action test. See #723
+
+the new-window test is fine, `GLib.Test.skip()` don't return by itself, so the assertion in the quit test got triggered."
+1570532508,730,danirabbit,2023-05-31T16:16:22Z,Is there a reason why the man page is in packaging instead of in the main source?
+1570602534,730,jeremypw,2023-05-31T17:07:51Z,I am not sure of the technicalities but the source man page file seems to get compressed before getting put in `usr\share\man\man1` .  There may be other requirements for `man` to work properly? It seems simpler for `deb` to handle it.  Is there an advantage in putting it in main source? The flatpaks I've tested do not seem to install man pages anyway.
+1570614752,730,danirabbit,2023-05-31T17:18:03Z,"No idea, I was just curious if this was a legacy thing and if it might effect, for example, distribution on Fedora for us to have this in packaging"
+1570619399,730,tintou,2023-05-31T17:21:58Z,"It used to be more difficult (especially with cmake), but now meson [supports it natively](https://mesonbuild.com/Reference-manual_functions.html#install_man) so we can bring it back to the main repo "
+1570669126,730,jeremypw,2023-05-31T17:57:17Z,"Ah, I wasnt aware of the native meson support so using that makes sense to lessen deb specific stuff."
+1570721861,730,jeremypw,2023-05-31T18:35:46Z,Just tried out the meson install_man function and it works as expected (not compressing the file) but if there is a compressed file already installed by deb present then that is shown by preference.  Not sure what to do about that.
+1570801590,730,jmgibson1981,2023-05-31T19:21:18Z,"if you used my patch I'm happy that I could contribute but I failed was half asleep. forgot to add the proper -- commands for the new options in the page. Posting fix for my first patch if needed, unless you caught it.
+
+```--- manpageupdate	2023-05-31 12:22:06.518553741 -0700
++++ new.io.elementary.terminal.1	2023-05-31 12:17:19.082819021 -0700
+@@ -13,13 +13,13 @@
+ .BR \-h "", "" \-\-help
+ Show help message and exit
+ .TP
+-.BR \-n "", "" \-\-help
++.BR \-n "", "" \-\-newwindow
+ Forces a new window
+ .TP
+-.BR \-t "", "" \-\-help
++.BR \-t "", "" \-\-newtab
+ Forces a new tab
+ .TP
+-.BR \-m "", "" \-\-minimized
++.BR \-m "", "" \-\-help
+ Starts terminal in a minimized state
+ .TP
+ .BR \-v "", "" \-\-version"
+1571204527,730,eli-schwartz,2023-06-01T01:50:55Z,"> Just tried out the meson install_man function and it works as expected (not compressing the file) but if there is a compressed file already installed by deb present then that is shown by preference. Not sure what to do about that.
+
+If you installed the software with a deb, you should update it with a deb and that will update the compressed file installed by the deb."
+2276754233,769,danirabbit,2024-08-08T22:11:24Z,@jeremypw proposed https://github.com/elementary/terminal/pull/770 to merge into this branch. Fixes missing accels
+2334592660,786,Marukesu,2024-09-06T18:19:20Z,"For Gtk4, the idea was to use `Gtk.Widget.add_binding_signal()` to handle the shortcuts and remove the action.
+
+In the SettingsPopover, you can use a GLib.SignalGroup to connect the buttons to the `{decrease,increase}_font_size` signals in the Vte.Terminal."
+2334653884,786,jeremypw,2024-09-06T19:03:33Z,"@Marukesu This is mainly to decrease the diff between the Gtk3 and Gtk4 versions by using code that works in both.  After the initial port then the Gtk4 version can be improved to use unique features of Gtk4.  However, it may not be worth having the intermediate step in this case?"
+2336777320,786,jeremypw,2024-09-08T18:17:39Z,@danirabbit Do you recommend going straight to using `add_binding_signal` in the Gtk4 port or have this intermediate step?
+2341934405,786,danirabbit,2024-09-10T20:16:56Z,"@jeremypw I'm not actually familiar with `add_binding_signal` or `GLib.SignalGroup` so I'm not sure I can give a meaningful opinion on what would be the easier path forward, sorry! So far what's in the main port branch isn't terribly difficult to review so either would probably be fine?"
+2344162773,786,jeremypw,2024-09-11T16:47:59Z,@jeremypw Me neither but it looks like you can move a set of signal bindings in one instance of a class to another instance in one go. Could be useful - otherwise you would have to bind to each terminal separately if you were to use signals instead of an action.
+2344202322,786,danirabbit,2024-09-11T16:58:46Z,"Since neither of us are familiar with the new method, let's move forward with this way and then we can revisit it in the future"
+2344306540,786,jeremypw,2024-09-11T17:42:59Z,@danirabbit Just realized there is a much easier way to do this!  I forgot that SettingsPopover already has a reference to the current terminal via its terminal_binding_group so we can just call its functions directly. I'll close this and propose a better PR.
+2508646042,813,lenemter,2024-11-29T20:40:58Z,"@danirabbit we don't support withdrawing notifications yet, do we? https://github.com/elementary/wingpanel-indicator-notifications/issues/204"
+2508650892,813,danirabbit,2024-11-29T20:45:43Z,"@lenemter [we do](https://github.com/elementary/wingpanel-indicator-notifications/commit/3d12554509ea25db9de756ead9ab0a63b7991cbf), but it doesn't work across sessions yet. So if you restart in between it won't get cleared because the notification IDs I think aren't restored"
+2517686878,813,jeremypw,2024-12-04T15:02:14Z,"Shouldn't we remove the ""process-completed"" tab icon as well when tab is focussed?"
+2517800191,813,jeremypw,2024-12-04T15:35:40Z,"@danirabbit  Works within same session.  Not sure if you want to fix the icon issue, which is kind of related, in this PR or later.  Do you want to wait for cross-session ability too?  I am willing to approve if not."
+356566041,190,jeremypw,2018-01-10T10:46:25Z,"There may be a better solution, but if you insert a terminal message in `save_opened_terminals ()`, you will see that it is called twice every time you add or remove a terminal.  If you do not change `schedule_name_check ()`, you probably do not need to save opened terminals both in `new_tab ()` and in `on_new_tab_added ()` (indirectly) for example.
+
+Can you give an example of a case where the state is not saved unless you make these calls everywhere you have?"
+356568748,190,jeremypw,2018-01-10T10:57:25Z,I would also point out that saving the tab order is not an inherent function of disambiguating the tab names and therefore should be be called there by default - only when the name is actually changed.
+358687379,190,Thalexander,2018-01-18T15:46:58Z,"Schedule name check is called when the name of the window changes, which likely means the location has changed so in order to update the saved state when terminals change location it needs to be called, it could be moved back to the signal handler but then loses the timeout that is probably useful in cases."
+358697656,190,jeremypw,2018-01-18T16:17:58Z,"OK, that seems reasonable - I'll approve now - thanks."
+352293842,180,donadigo,2017-12-17T23:15:12Z,"Cannot compile on Juno:
+```
+/home/donadigo/Projects/terminal-execute-parameter/src/PantheonTerminalWindow.vala:597.40-597.61: error: Argument 1: Cannot convert from `void PantheonTerminal.PantheonTerminalWindow.update_context_menu_cb (Gtk.Clipboard, Gdk.Atom[])' to `void Gtk.ClipboardTargetsReceivedFunc (Gtk.Clipboard, Gdk.Atom[]?)'
+            clipboard.request_targets (update_context_menu_cb);
+```
+
+I don't think this is really a problem with this branch."
+356357290,180,jeremypw,2018-01-09T17:36:03Z,Failure to compile on Juno due to a line unchanged by this PR therefore should not block review/merge.
+356701202,180,danirabbit,2018-01-10T18:56:04Z,Looks like this branch should be building on Juno again due to fixes in master :)
+364413401,180,jeremypw,2018-02-09T11:50:26Z,"This is not connected to any particular issue and I did not notice any difference in behaviour when executing apps from the command with the -e flag.  As far as I recall, this was just to simplify the code by only having one function to launch processes."
+391032863,180,jeremypw,2018-05-22T15:24:30Z,Not essential
+394847439,253,Djaler,2018-06-05T20:23:29Z,"Now it works good, except ""Search"". Looks like it even not exists in pot and po. So, can you also update them?"
+394848544,253,leonardo-lemos,2018-06-05T20:27:19Z,"@Djaler Yes, I can, but not in this PR."
+679512373,533,cassidyjames,2020-08-25T03:25:18Z,I feel like there may be a conflict with VTE stuff here? But I'm not sure. We should probably document what we consider reserved…
+680058787,533,jeremypw,2020-08-25T14:26:43Z,"`<Ctrl>Tab` does not *seem* to do anything different from `Tab` in Vte.Terminal, but I am not sure. "
+670174548,527,cassidyjames,2020-08-06T20:25:40Z,"Hrm, this feels really weird to me. Maybe because the padding is not even all the way around? But it feels like the sides are way too padded inside the terminal view itself."
+670192562,527,danirabbit,2020-08-06T21:07:43Z,"Yeah I can't see a way to pad the top and bottom without it affecting the scroll area which looks weird.
+
+Maybe see if it grows on you. I could settle for 6px or 9px too. But the current padding is just so little "
+671524481,527,cassidyjames,2020-08-10T18:46:23Z,"Currently experimenting with `6px 12px` plus an undershoot.
+
+![Screenshot from 2020-08-10 12 13 10](https://user-images.githubusercontent.com/611168/89818681-6db42d00-db07-11ea-8444-09f8a36a2b27.png)
+
+For the undershoot to look right, you have to make sure it ends with the opaque color 6px from the end, so something like this:
+
+```css
+vte-terminal {
+    padding: 6px 12px;
+}
+
+undershoot.top {
+    background: linear-gradient(
+        rgb(55, 55, 55) 6px,
+        rgba(55, 55, 55, 0) calc(50% + 6px)
+    );
+}
+
+undershoot.bottom {
+    background: linear-gradient(
+        rgba(55, 55, 55, 0) calc(50% - 6px),
+        rgb(55, 55, 55) calc(100% - 6px)
+    );
+}
+```
+
+This does mean you lose the translucency on the undershoot, but it's subtle enough I think it would be fine. Another alternative would be to drop translucency from the Terminal altogether, but I don't think that's strictly necessary for this. We also have to consider how to get these values (i.e. `rgb(55, 55, 55)` or whatever the background color is) into CSS and keep them in sync when changing color schemes."
+758110135,557,jeremypw,2021-01-11T17:39:39Z,"Need input from design team as to whether the value of this function justifies lengthening the menu. (Note, the same functionality can be achieved by pressing `<Shift><Ctrl>C` + `<Shift><Ctrl>V`)."
+758112076,557,etkaar,2021-01-11T17:43:03Z,"> (Note, the same functionality can be achieved by pressing `<Shift><Ctrl>C` + `<Shift><Ctrl>V`).
+
+Unfortunately this is not fast enough. However, what I would really prefer would be `<Ctrl><RightClick>` (or something similar) instead of `<Shift><Ctrl>X`, but I was not sure if that is possible.
+
+"
+758112279,557,jeremypw,2021-01-11T17:43:26Z,Also `<Shift><Ctrl>X` might be expected to cut the selected text (although this could only work on an uncompleted command)
+914519283,557,felix-andreas,2021-09-07T18:15:04Z,"> Unfortunately this is not fast enough. However, what I would really prefer would be `<Ctrl><RightClick>` (or something similar) instead of `<Shift><Ctrl>X`, but I was not sure if that is possible.
+
+There is already middle-click-paste to paste with current selection with the mouse (can be enabled under *Settings -> Mouse & Touchpad -> Clicking -> Middle Click Paste*). This works in all applications, not only terminal. 
+
+There is also the <kbd>Shift</kbd> <kbd>Insert</kbd> shortcut which pastes the current selection. I think this is implemented by VTE."
+914528429,557,jeremypw,2021-09-07T18:31:07Z,"I can confirm `<Shift>Insert` works in Terminal to paste the current selection into the commandline.
+
+@etkaar Are you content for this PR to be closed in view of the above comments?"
+914575986,557,etkaar,2021-09-07T19:42:02Z,"Yes, the PR can be closed :)"
+439502008,264,cassidyjames,2018-11-16T19:32:02Z,"I'm not sure about the specific shortcut, but I like the idea and direction here. I think the listed limitations are fine."
+439521875,264,leonardo-lemos,2018-11-16T20:45:33Z,"@jeremypw Can you resolve conflicts, please?"
+440249282,264,jeremypw,2018-11-20T12:01:42Z,@leonardo-lemos Conflicts resolved.
+1718926894,264,calderov,2023-09-14T07:40:27Z,"Is there a way to disable the <Alt>Up shortcut? It conflicts with the Micro editor default shortcut to move lines around, so we can assume other apps may be impacted too. It would be nice if this feature could be turned off or at least the shortcut could be changed."
+1727374228,264,jeremypw,2023-09-20T09:50:51Z,"@calderov Would you mind opening a request issue regarding this?  It is kind of related to #215 but it might be possible to special case this or change the shortcut to something else.
+
+Am I right in thinking Micro runs in the Terminal like e.g. `nano`?  It would make sense to disable the shortcut when there is a foreground process anyway."
+1950073714,264,cshaa,2024-02-17T12:42:51Z,"This hardcoded shortcut really bothers me. I have Alt+Up bound to `cd ..` in my setup, but there is currently no way to make it work in io.elementary.terminal. I might be forced to change to a different terminal emulator :cc
+Which would be a pitty, because I otherwise like elementary's terminal a lot"
+1950246821,264,jeremypw,2024-02-17T16:15:51Z,"I found this on StackOverFlow (https://stackoverflow.com/questions/17212643/how-to-scroll-back-the-terminal-to-where-the-last-command-was-given):
+
+> VTE based terminals, such as e.g. GNOME Terminal, GNOME Console, Xfce4 Terminal, Terminator, Tilix, Guake and more, will support this feature with the forthcoming GNOME 46 (VTE 0.76) release in March 2024.
+
+>The hotkey is hardcoded for the time being, it's Ctrl+Shift+Left and Ctrl+Shift+Right.
+
+>Under the hood, VTE uses the quasi-standard OSC 133 shell integration escape sequences to see where the prompts are, like several other terminals already do.
+
+So it may be possible to discontinue implementing this shortcut ourselves in future. Meanwhile it would be possible to change it to Gnome Terminal's choice  (although there is always a possibility that someone will have customised those)."
+2282180420,772,jeremypw,2024-08-10T15:04:39Z,Should ZoomOverlay widget be merged into MainWindow now thereby losing a Gtk.Bin?
+2294214597,772,danirabbit,2024-08-16T20:41:44Z,@jeremypw sorry thought I responded to this. What do you think about using Granite.Overlaybar for this? https://github.com/elementary/terminal/pull/773
+2294798739,772,jeremypw,2024-08-17T08:53:20Z,@danirabbit Looks like it would be appropriate - thanks.  Is Granite-7 available on OS7.1 though? 
+2294888858,772,danirabbit,2024-08-17T15:19:31Z,@jeremypw it is! But granite-7 is just for gtk4 apps. This uses overlay bar from granite 6
+2295193873,772,jeremypw,2024-08-18T09:29:46Z,"OK, sorry for the confusion.  I think we would still have to use markup to get 24pt text though? Are you OK with that size? I feel it needs to be more prominent than default text size if displayed over text."
+2295207224,772,jeremypw,2024-08-18T10:14:01Z,@danirabbit  I changed it to Granite.OverlayBar but then noticed you had already pushed a new PR!  The main difference is that the size and position of the overlaid widget is not controllable so the vision of the OP cannot be realized.  However using the native Granite widget has the advantage of being consistent with the Files appearance when file items are selected.  Also fewer code lines.
+2345831729,788,jeremypw,2024-09-12T10:08:56Z,Confirmed that the changes made in the Gtk4 branch are not needed here and not worth backporting so closing. Sorry for the confusion.
+2346826566,788,jeremypw,2024-09-12T17:10:13Z,Looks like I misdiagnosed the problem with the Gtk4 port - we do not need to maintain `control_pressed` and `shift_pressed` variables there either.   But we do have to handle the native mode of copy-paste as well.  Just leaving it to the Vte.Terminal like we do here does not work.
+2450048716,777,teamcons,2024-10-31T14:36:32Z,Any ETA for merging this bugfix ? The PR seems stale
+2453417989,777,jeremypw,2024-11-03T12:53:55Z,@ryonakano Thanks for the review. I have now addressed your comments.
+2454822324,777,teamcons,2024-11-04T14:11:57Z,"_**YES**_
+Thank you !!!!"
+308667302,95,jeremypw,2017-06-15T08:39:06Z,Conflicted merge resolved but needs retesting to check for regressions as it was not straightforward.
+313650836,95,jeremypw,2017-07-07T10:53:44Z,High priority assigned as it is associated with a crash under some circumstances.
+318863769,95,donadigo,2017-07-29T22:25:42Z,Those issues were resolved by a much simpler fix in https://github.com/elementary/terminal/pull/126. Closing.
+386049721,234,jlnr,2018-05-02T17:05:31Z,"I don't think `-w` windows should behave differently from other terminal windows wrt. saving tabs. If I open my only terminal window via Files, I would still expect it to store its tabs. Likewise, if I open a second terminal window via Plank and close the first one, I would expect the second window to save its tabs when I turn off the computer. I think that is how it works in browsers too."
+386060368,234,jeremypw,2018-05-02T17:39:47Z,"I am concerned that if, for example, you normally open Terminal with a default set of tabs (potentially a significant number) and then temporarily open a single tab in another window from Files, (which uses the -w parameter) while you have no other Terminal window open, then when you close the window you will lose all your default tabs, possibly unexpectedly, and have to set them all up again.
+
+I think at least for second windows or windows from Files, you should have to confirm overwriting the saved tab set.
+
+Needs UX team input.
+
+"
+386075268,234,jlnr,2018-05-02T18:27:29Z,"Ah, I see. When launching Terminal from Files, you could prevent that issue by restoring the previous Terminal window first, and then showing the Files directory either in a new Terminal window, or in a new tab in the existing window (again, similar to how browser tabs work). That way the `-w` window would never run in the absence of the main window, and it would then be up to the user which window they close first.
+
+I feel like state restoration <-> tab management might be worth a chapter in the Human Interface Guidelines :) (also thinking about Files + Epiphany)"
+395520672,234,danirabbit,2018-06-07T18:31:27Z,"I think I agree with @jlnr that the best solution might be to assume a single-window workflow and restore tabs unless there is already another window open
+
+@cassidyjames thoughts?"
+395833530,234,jeremypw,2018-06-08T17:36:15Z,I guess the smart thing to do in that case would be to check whether any of the restored tabs match the requested path and if so not to open another tab at that uri?  Otherwise #245 would not be fixed.
+396070198,234,jeremypw,2018-06-10T18:22:23Z,New PR submitted addressing only #245.  Other issue closed.
+444933700,333,jeremypw,2018-12-06T16:26:56Z,"I would question whether this should be implemented (or not) in each relevant elementary app (e.g. Code, Files) separately or whether it should be implemented (in a way that can be overridden) in Granite.Widgets.DynamicNotebook?"
+444962636,333,Mohelm97,2018-12-06T17:43:14Z,"I think it would be better to add it over the DynamicNotebook, But quite not sure, Like why they added the shortcut for travelling between tabs here rather than the DynamicNotebook?"
+458207433,333,jeremypw,2019-01-28T16:44:48Z,"On reflection, I think there are problems implementing actions within Granite itself so the PR's approach is probably OK."
+458208019,333,jeremypw,2019-01-28T16:46:12Z,"@Mohelm97 Would you like to fix the conflict so that this PR can be progressed, thanks :-)"
+458545263,333,Mohelm97,2019-01-29T13:47:02Z,"@jeremypw Cool, I will do it soon :D "
+464346228,333,Mohelm97,2019-02-16T13:16:22Z,"@jeremypw It's ready now :D
+I think I've done something stupid with fixing the conflicts, If so please tell me I will recreate the brach :$"
+515799301,391,fabiozaramella,2019-07-28T22:09:32Z,"I don't know...in my opinion the neutral dark style of your previous branch is better for the eyes, and not only it is coherent with dark style across the OS but it also better matches Terminal icon.
+This one looks too blue-greenish."
+515799936,391,cassidyjames,2019-07-28T22:18:24Z,"@fabiozaramella we use Solarized Dark in Code for syntax highlighting, and we were chatting about aligning the developer tools to use solarized for their dark styles. The neutral dark is a good default for the stylesheet since it affect content-creation and editing apps like Photos and video editors, but that's less of a big deal with developer tools.
+
+I imagine we'd also update the Terminal icon to match, like we did with the Code icon and Solarized Light."
+516057129,391,fabiozaramella,2019-07-29T16:11:26Z,"@cassidyjames Well, if Solarized (both light and dark) is going to be the default style for developer tools I'm perfectly ok with this.  
+
+My only concern is coherence across different apps. For example, this will require to update not only Terminal icon but also dark UI for Code (at the moment only the text view uses the solarized dark color scheme) and... if Terminal and Code then get a Solarized dark UI their light counterparts, with default grey decorations, will look odd, wouldn't they?"
+516073150,391,cassidyjames,2019-07-29T16:56:22Z,"@fabiozaramella It’s _almost_ like this is a draft PR to experiment with things! 😜️ Yes, there are a lot of implications and we’ll need to decide what the scope is. I’m just pushing this up here in a draft PR instead of keeping it to myself on my machine."
+516109010,391,danirabbit,2019-07-29T18:29:08Z,"This way too blue, I don't like it"
+530541391,391,cassidyjames,2019-09-11T19:58:42Z,Closing as it was an experiment but I don't see it getting merged
+838914338,468,jeremypw,2021-05-11T17:57:18Z,"@eGust  In order to shorten the review list, I am converting this to draft as there are conflicts, outstanding issues and no recent activity.  Is this something you still have time to work on?"
+1044378060,468,jeremypw,2022-02-18T11:34:39Z,Closing due to age and lack of response
+686176431,537,rafaelcorsi,2020-09-03T01:25:12Z,"> This works, but I think we should really fix `start_terminal_with_terminal_directory (string? directory)` and/or the functions it calls so that they behave correctly with a `null` working directory. Otherwise the parameter should be changed to `string directory` so that this function requires a non-null working directory.
+
+Hi @jeremypw! I think I did what you suggest, but ould not check on master because `libhandy-1` . I checked on the last version before this dependence was introduced. "
+686589066,537,jeremypw,2020-09-03T15:57:36Z,"@rafaelcorsi Yes, what I am doing is to develop on Ubuntu Focal, pulling things from the elementary focal repositories as required.  This is OK as long as your not working on styling issues.  Otherwise you probably need to install the prerelease version of elementary Odin on a VM."
+774148247,537,jeremypw,2021-02-05T16:44:46Z,@rafaelcorsi Sorry for the slow review.  Are you still able to work on this?
+841385858,537,jeremypw,2021-05-14T17:14:02Z,Closing as no response to last question.
+942458042,571,jeremypw,2021-10-13T16:07:34Z,"@elsiehupp Thanks for having a go at this!  I am not sure a fully capable Terminal is possible in a Flatpak as it is often used for low-level tinkering with the host system.  See for example the following extract of the Flatpak documentation:
+
+> As mentioned above the host option does not actually provide complete access to the host filesystem. The main rules are:
+
+> These directories are blacklisted: /lib, /lib32, /lib64, /bin, /sbin, /usr, /boot, /root, /tmp, /etc, /app, /run, /proc, /sys, /dev, /var
+Exceptions from the blacklist: /run/media
+These directories are mounted under /var/run/host: /etc, /usr
+The reason many of the directories are blacklisted is because they already exist in the sandbox such as /usr or are not usable in the sandbox.
+
+There are probably other limitations imposed by the sandbox but I am not an expert in Flatpak.  
+
+I do not know whether it would be useful (or even possible) to have a separate ""Demo"" or ""Lite"" version of Terminal.  Needs input from the project leaders on that. "
+942609642,571,danirabbit,2021-10-13T18:42:45Z,My inclination is that Terminal is not a good candidate for Flatpak since it would be so limited for the things it's most suited for
+942667303,571,elsiehupp,2021-10-13T19:53:15Z,"Yes. This was more of a proof of concept than anything else, and I didn’t really test it thoroughly at the time. Mainly I used it as an opportunity to learn how to do Flatpak packaging. FWIW you could comment on Issue #541, as well, since that was my impetus for doing this. Also feel free to close this PR if it doesn’t seem like something worth pursuing (considering the limitations you’ve explained above)."
+942670638,571,elsiehupp,2021-10-13T19:57:12Z,"Regarding the limitations: it may still be worth shipping some sort of sandboxed terminal as a developer tool at some point, but the existing terminal application probably isn’t suitable for that purpose in its current manifestation. (i.e. I could imagine a fork of some of this code being useful within an IDE, if that doesn’t exist already.)"
+943262728,571,jeremypw,2021-10-14T11:20:49Z,"Code does have a terminal plugin (derived directly from vte-91 not Terminal) and at some point Code is intended to be released as a Flatpak I understand so issues of operating a terminal in a sandbox will have to be addressed there (if the plugin is kept).
+
+Looks like danrabbit has already closed the linked issue so I will close this PR.  Thanks again for taking an interest though."
+943333096,571,elsiehupp,2021-10-14T13:01:10Z,"FWIW the reason I was interested in this initially is that Elementary Terminal has a number of conveniences that GNOME Terminal lacks, and I wanted to use it on Debian, but I just switched from Debian to Elementary OS because my GNOME installation bricked itself, and I just didn’t want to deal with the massive flexibility of Debian (and the resulting ease of bricking one’s installation) anymore.
+
+So basically the conveniences of Elementary Terminal might be nice to have elsewhere, though I have yet to try Elementary Code."
+1233325905,680,jeremypw,2022-08-31T19:16:08Z,"OK, thanks for the review - I'll rethink it."
+1235785360,680,jeremypw,2022-09-02T18:17:21Z,">  It also seems like we'll get issue reports about not being able to create or switch tabs while a command is running.
+
+You can always create a new tab or switch tabs with the mouse.  If we allow the foreground process to receive all key presses first (which seems necessary to fix the issue) then there is likely to be this issue, especially if the process eats the key event."
+1235788118,680,jeremypw,2022-09-02T18:20:49Z,@danrabbit One solution may be to special case certain key combinations such as those that switch tabs or create a new tab?  These would not be passed to the foreground process.  Let me know which actions should be special cased and I'll try and implement it.
+1235789847,680,jeremypw,2022-09-02T18:23:06Z,It doesnt really make sense to perform a search on a tab that has a foreground process so it seems reasonable to make the searchbar insensitive when such a tab is focused?
+2233932017,680,jeremypw,2024-07-17T18:08:28Z,Closing as linked issue has been closed.
+1837556867,751,jeremypw,2023-12-03T18:13:29Z,How near are we to switching to Gtk4? Would it be better to leave this until switch is imminent so degradation of UI is minimised?
+1837570376,751,Marukesu,2023-12-03T19:05:46Z,"> How near are we to switching to Gtk4?
+
+We don't have the Gtk4 version of VTE in jammy, so it would need to wait for once we are ""done"" with releases for OS 7.
+
+> Would it be better to leave this until switch is imminent so degradation of UI is minimised?
+
+I'm fine in waiting for it, this part of code won't have much changes, if any, until there."
+1838570484,751,jeremypw,2023-12-04T12:51:00Z,Adding blocked label - waiting for Gtk4 version of Vte.
+2264351911,751,danirabbit,2024-08-02T01:57:29Z,"It seems like we can manually add accelerators with `set_attribute_value (""accel"", accel_string_goes_here);`"
+2267524350,751,jeremypw,2024-08-04T12:23:08Z,"Looks like the context menu is broken in master at the moment, so it might be better to proceed with this.  Might be possible work around the accelerator issue. I'll look into it."
+2313613194,751,danirabbit,2024-08-27T21:29:33Z,Closing since #769 was merged
+2334817350,785,danirabbit,2024-09-06T21:12:06Z,Fixed! Dunno why I thought `theme` was an object and not a string here but this seems to work perfectly
+313649884,105,jeremypw,2017-07-07T10:48:19Z,Added medium priority label as it is associated with broken functionality under some circumstances.
+314597302,105,donadigo,2017-07-11T23:10:36Z,I believe we shouldn't do things like this. This could lead to some unwanted behaviour. In theory returning `false` should pass the event further to the terminal widget itself.
+314733159,105,jeremypw,2017-07-12T10:57:57Z,"Seeking a more elegant solution. 
+
+Just putting 
+> return current_terminal.key_event (e);
+
+at the end of the keyhandler blocks effect of F11 and may cause other regressions."
+314823328,105,jeremypw,2017-07-12T16:27:32Z,Withdrawing since better solution submitted by donadigo.
+314825813,105,jeremypw,2017-07-12T16:36:54Z,PR closed in favour of fix-F10-key
+355265518,189,jeremypw,2018-01-04T12:01:04Z,Has conflicts.
+356571449,189,jeremypw,2018-01-10T11:08:29Z,"This behaves differently to Files - which does not restore tabs even if the new window is the first window to be opened (using Plank ""New Window"" option).  I am not sure which is the desired behaviour but there should be consistency.  Needs design team input on this point.
+
+Incidentally Scratch/Core restores tabs in both cases but crashes if initially launched from Plank ""New WIndow""."
+356571947,189,jeremypw,2018-01-10T11:10:55Z,Another issue is that if the New Window is the last one to be closed then the original saved opened tabs are lost.  Again I am not sure what the desired behaviour is.
+356572982,189,jeremypw,2018-01-10T11:15:39Z,"On reflection, I feel that the behaviour of this branch regarding Plank is correct.  The other issue can be left for another PR if change is desired. "
+321057467,129,donadigo,2017-08-08T19:29:14Z,@artemanufrij it looks like you either didn't checkout or haven't restarted the terminal after compiling and installing.
+321069800,129,artemanufrij,2017-08-08T20:18:51Z,"@donadigo you are right. _started terminal from terminal_ :confused: 
+but, checkbox looks still like it has a margin
+![unbenannt](https://user-images.githubusercontent.com/16517095/29092686-80261d0e-7c87-11e7-92f2-32a5fba1fe10.png)
+"
+321070227,129,danirabbit,2017-08-08T20:20:30Z,"This is going to happen on Gtk 3.18 and nothing you can really do about it because the box-shadow is considered part of the allocation. In 3.22, shadows can be outside the allocation so that's why it's aligned on Juno but not Loki"
+339070557,157,danirabbit,2017-10-24T17:34:12Z,"~~I was having trouble keeping the menu from breaking in my other branch so I just left those ones alone for now. I’ll come back to them once I figure out how to keep it from breaking 😬~~
+
+Ah I misunderstood. Yeah the way this is constructed seems very weird. There's a lot of room for improvement here for sure. It seems that adding these accelerators in the construct block causes issues because PantheonTerminalApp seems to not be compatible with Gtk.Application"
+339079160,157,jeremypw,2017-10-24T18:03:02Z,"In Files, the popup menu actions are handled separately by the widget (AbstractDirectoryView) not the window.  You are probably right to leave that to another branch as it needs some significant refactoring."
+564215549,432,cassidyjames,2019-12-10T19:49:46Z,"From @danrabbit's branch's additions:
+
+![image (1)](https://user-images.githubusercontent.com/611168/70563453-82d95600-1b4b-11ea-88e3-4695cc5f98cf.png)
+"
+564227531,432,cassidyjames,2019-12-10T20:16:54Z,"Shorter copy:
+
+![screenshot](https://user-images.githubusercontent.com/611168/70565844-2fb5d200-1b50-11ea-8aa5-ab697038e63a.png)
+
+"
+571470964,447,robn,2020-01-07T07:32:30Z,"From #446:
+
+> The get_last_window () function's name no longer reflects its actual action - it does not always return the last window, even if there is one. As it is a private function I think it would be safe enough to rename it and maybe pass the option as a parameter in case the function needs to be used to get the last window anyway. You could then create the new window in this function and return it instead of the callers having to test the result and then create a new window.
+
+I started looking into this and it looks like there's a lot wrong with how windows are selected/created in response to options. I'll stick a pin in the PR and send some cleanups and through that sort all this out before coming back to this one."
+571551720,447,jeremypw,2020-01-07T11:38:59Z,@robn  Please do not let the scope of the PR increase unnecessarily as it will delay approval and merging.
+571572148,447,robn,2020-01-07T12:47:13Z,"Alright, then I won't bother refactoring at all, and will just make sure restored tabs are handled properly. The rest I'll save for other PRs. "
+571759848,447,robn,2020-01-07T20:35:21Z,"Ok, that's the simplest implementation of `-n` I know how to do. Have at it!"
+565583098,435,danirabbit,2019-12-13T19:46:23Z,"Wow summing delta is way more elegant than the solution I came up with elsewhere. Definitely gonna steal that!
+
+One thing is that it doesn't look like this updates the zoom level in the menu :)"
+565624230,435,jeremypw,2019-12-13T22:00:08Z,Oops - forgot about updating the menu - thanks.  This was more or less cut and pasted from Files code.
+727235003,547,jeremypw,2020-11-14T16:57:12Z,"Hm, Gtk.EventControllerKey could be useful in other projects (e.g. Files) as well I think :thinking: "
+727236676,547,tintou,2020-11-14T17:09:45Z,"@jeremypw yes, it is the future way to handle events and has been backported to GTK3 so that the transition to GTK4 can be prepared ( https://developer.gnome.org/gtk4/unstable/gtk-migrating-3-to-4.html#id-1.7.4.3.14 )"
+727238895,547,jeremypw,2020-11-14T17:26:40Z,"AFAICT, the key press event is not actually reaching the EventControllerKey.key_pressed controller :disappointed:  "
+727246831,547,tintou,2020-11-14T18:25:48Z,"It indeed only work if the widget has focus which isn't the case here, closing in favor of another solution."
+1095218690,552,jeremypw,2022-04-11T15:43:20Z,@danrabbit Is this something you would like to push ahead with? If so it would make other PRs like #633 redundant.
+1095236175,552,jeremypw,2022-04-11T15:54:00Z,This would probably also affect PRs #546 and #630.
+1095302251,552,danirabbit,2022-04-11T16:56:50Z,"Yeah if someone else wants to pick this up, feel free! I just haven't been able to revisit it for a while.
+
+Since this is a pretty big branch, it probably makes sense to try to break it up into smaller cleanups that can be merged before adding full color scheme support"
+1176508286,552,jeremypw,2022-07-06T17:47:20Z,@danrabbit Can this PR be closed now?
+1176523838,552,danirabbit,2022-07-06T18:06:18Z,Yes definitely
+844267632,580,jeremypw,2021-05-19T16:28:31Z,"There is this: https://github.com/elementary/granite/pull/236 which, hopefully can be extended to include the tab context menus"
+884726665,580,jakubklos77,2021-07-22T08:03:04Z,"Hello,
+the f44d189 commit is too much. It interferes with basic terminal functionality. You cannot press F5 in Midnight Commander anymore and there are other downsides as well. Isn't it enough to have the Ctrl+Shift+R to Reload?"
+884742054,580,jeremypw,2021-07-22T08:30:20Z,`F5` was implemented to match the `Reload` action shortcut in Files.  We should probably ignore it when a foreground process like Midnight Commander is running.
+884758239,580,jakubklos77,2021-07-22T08:59:54Z,"Yes, that would be nice. Thank you"
+851557855,589,felix-andreas,2021-05-31T15:23:34Z,I honestly don't understand how this caused the margin to be set on the terminal window...
+851564569,589,felix-andreas,2021-05-31T15:36:26Z,"Looking at the generated `MainWindow.c` it looks like 
+```vala
+var color_grid = new Gtk.Grid () {
+    column_homogeneous = true,
+    margin_start = margin_end = 12,
+    margin_bottom = 6
+};
+```
+
+gets compiled to
+
+```c
+#line 426 ""../src/MainWindow.vala""
+gtk_widget_set_margin_end ((GtkWidget*) self, 12); // <-- sets margin on self which is the TerminalMainWindow
+_tmp69_ = (GtkGrid*) gtk_grid_new ();
+gtk_grid_set_column_homogeneous (_tmp69_, TRUE);
+gtk_widget_set_margin_start ((GtkWidget*) _tmp69_, 12);
+gtk_widget_set_margin_bottom ((GtkWidget*) _tmp69_, 6);
+g_object_ref_sink (_tmp69_);
+```
+
+While
+```vala
+var color_grid = new Gtk.Grid () {
+    column_homogeneous = true,
+    margin_start = 12,
+    margin_end = 12,
+    margin_bottom = 6
+};
+```
+
+gets compiled to 
+
+```c
+#line 426 ""../src/MainWindow.vala""
+_tmp69_ = (GtkGrid*) gtk_grid_new ();
+gtk_grid_set_column_homogeneous (_tmp69_, TRUE);
+gtk_widget_set_margin_start ((GtkWidget*) _tmp69_, 12);
+gtk_widget_set_margin_end ((GtkWidget*) _tmp69_, 12); // <-- sets margin on _tmp69 which is the GtkGrid
+gtk_widget_set_margin_bottom ((GtkWidget*) _tmp69_, 6);
+g_object_ref_sink (_tmp69_);
+color_grid = _tmp69_;
+```
+
+
+"
+851565794,589,tintou,2021-05-31T15:39:02Z,That's https://gitlab.gnome.org/GNOME/vala/-/issues/1137
+851570670,589,felix-andreas,2021-05-31T15:49:42Z,"ok I understand.  `margin_start = margin_end = 12` is interpreted as `margin_start = (margin_end = 12)` where `(margin_end = 12)` sets the margin on the `MainWindow`.
+
+
+"
+1780784002,740,jeremypw,2023-10-26T09:50:27Z,Thanks for the improvements :smile:
+356820502,193,danirabbit,2018-01-11T04:19:57Z,But what’s the goal of having the build system alter these files? It seems like making things complicated for no gain 
+356824352,193,codygarver,2018-01-11T04:50:10Z,"The unnecessary complication is that this project is using 2 config files to accomplish what 1 could do, but I'd guess that's because this pre-dates the easy way being known or possible. That's not done in any of the other projects.
+
+The goal is the same as any other variable in code, centralize repetitious info and re-use it efficiently. I think it also helps readability because just seeing ""io.elementary.terminal"" all over the place doesn't give the same context as `EXEC_NAME` and `GETTEXT_NAME`, because you know what that's talking about."
+356825403,193,codygarver,2018-01-11T04:58:12Z,"It's also making it a vapi instead of just a config.vala, which makes it overcomplicated."
+359936797,204,Thalexander,2018-01-23T21:29:14Z,"I have done so, although I am noticing some unusual cursor behaviour with this. I am not sure if that is because of this commit or if it just makes it more visible."
+360072202,204,jeremypw,2018-01-24T09:31:39Z,This effect can be fixed by grabbing focus in an Idle loop rather than immediately inside the signal handler.
+543336711,417,stsdc,2019-10-17T19:57:17Z,"The idea of theming is good. I think that Terminal should have the ability to apply user defined styles. But fresh, after install Terminal is OK with 3 initial themes."
+543339049,417,redian23,2019-10-17T20:03:36Z,"""But fresh, after install Terminal is OK with 3 initial themes.""
+What do you mean??"
+543899071,417,stsdc,2019-10-18T19:23:36Z,@redian23 I just think that Terminal doesn't need more themes. But needs mechanism that allows to add custom themes e.g. using dotfiles
+544020094,417,ryonakano,2019-10-19T00:19:37Z,"> I just think that Terminal doesn't need more themes. But needs mechanism that allows to add custom themes e.g. using dotfiles
+
+We've already had a ticket for that, see #418.
+"
+540103822,404,jeremypw,2019-10-09T17:26:47Z,@cassidyjames It was only working on fast clicks - if button release occurred more than 20ms after press then the hyperlink was followed.  I have pushed an improved solution that works on any length click and also works if the focus is changed using the keyboard (e.g. `<Alt><Tab>`)
+570959963,446,robn,2020-01-05T23:37:05Z,"FYI, I am not expecting this to be merged, but I'm using it until #440 is fixed, and maybe someone else will find it useful."
+571091135,446,jeremypw,2020-01-06T10:40:54Z,When this is installed you can create a custom shortcut which uses the new flag and reassigns `Super + T` to get the behaviour you want.
+571335721,446,robn,2020-01-06T22:05:14Z,"Closed by mistaked, reopened as #447."
+572157176,448,jeremypw,2020-01-08T16:49:11Z,"@robn  Please could you resolve the conflict with master, thanks.  Also need to add some new release info to `data/io.elementary.terminal.appdata.xml.in`, under ""Other updates"" I guess."
+573287003,448,robn,2020-01-11T06:18:55Z,Rebased onto master/5.5.1.
+629407256,448,jeremypw,2020-05-15T18:17:18Z,@robn  Please could you give a test case that produces different results in master in this PR?  
+696755343,448,jeremypw,2020-09-22T14:23:04Z,Closing as master seems to already work correctly and no counter-examples given.  Please feel free to reopen.
+721398502,546,cassidyjames,2020-11-03T22:05:07Z,"The way to save and restore color schemes was pretty wild to follow, but this works within that—probably in a terrible way—to get this working at least. The behavior can be considered, and then we should probably clean a lot of the color scheme stuff up…
+
+Feedback and help cleaning it up very welcome!"
+721400957,546,cassidyjames,2020-11-03T22:11:41Z,Ah found some more bad things that I need to fix. :sweat_smile: 
+765648446,546,cassidyjames,2021-01-22T19:53:53Z,"I think this could use some refactoring still to be more clear, but it's _almost_ fully-functional. The one case I am still not handling is when `follow-system-style` is off and the style is mis-matched with the system, then `follow-system-style` is toggled on; for some reason, the background of the VTE is not updated to match."
+1176523180,546,jeremypw,2022-07-06T18:05:32Z,@danrabbit I attempted to merge master into this PR but I think it might be easier to start from scratch since substantial changes have been made to theme handling. Do you agree?

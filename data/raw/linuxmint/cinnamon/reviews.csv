@@ -1,0 +1,132 @@
+id,pr_number,user,submitted_at,state,body
+166224461,7944,germanfr,2018-10-18T18:03:07Z,COMMENTED,
+166323247,7944,jaszhix,2018-10-18T22:38:37Z,COMMENTED,
+166385947,7944,germanfr,2018-10-19T05:50:43Z,COMMENTED,
+166395677,7944,jaszhix,2018-10-19T06:47:50Z,COMMENTED,
+166639247,7944,germanfr,2018-10-19T18:14:06Z,COMMENTED,
+166653898,7944,jaszhix,2018-10-19T18:55:09Z,COMMENTED,
+166671676,7944,germanfr,2018-10-19T19:48:26Z,COMMENTED,
+166677941,7944,jaszhix,2018-10-19T20:07:30Z,COMMENTED,
+166743107,7944,germanfr,2018-10-20T08:46:55Z,COMMENTED,
+166743387,7944,jaszhix,2018-10-20T08:58:10Z,COMMENTED,
+166743593,7944,germanfr,2018-10-20T09:05:08Z,COMMENTED,
+166743690,7944,jaszhix,2018-10-20T09:08:44Z,COMMENTED,
+166743847,7944,germanfr,2018-10-20T09:14:44Z,COMMENTED,
+81474194,6993,leigh123linux,2017-12-06T10:23:59Z,COMMENTED,"I think libnm should have a minimum required version as it silently fails on F25 
+
+https://github.com/linuxmint/Cinnamon/issues/7122"
+211582946,8428,jaszhix,2019-03-07T03:25:58Z,COMMENTED,"Hi @brownsr, I was seeing if I could test this with Cinnamenu, and it appears to only show the desktop wallpaper. I'm applying this to the `popup-menu-content` class (only one that seemed to show the bump map), and opacifying every actor underneath.
+
+![image](https://user-images.githubusercontent.com/6859057/53929176-740cc280-4052-11e9-814d-2b731f6f6c96.png)
+
+> Speeds seem fine with no noticeable speed penalty unless a large blur count is put in for test purposes.
+
+I'm also concerned about performance. My initial impression with no effects applied to CSS is performance is regressing and window rendering becomes further out of sync with the cursor. This is noticeable for me on my Xeon/Nvidia desktop I do most benchmarking on.
+
+I am applying this on top of master + linuxmint/muffin#410 + linuxmint/muffin#397 + #8269 + #8300. At least the first issue might be a base branch cause, but at the same time could also be Cinnamenu's actor hierarchy, so not sure but can test more this weekend, along with some compositing benchmarks. When returning to Cinnamon without this PR applied, I can only describe it as ""much snappier""."
+218099749,8428,brownsr,2019-03-24T20:23:55Z,COMMENTED,
+218099758,8428,brownsr,2019-03-24T20:24:04Z,COMMENTED,
+218099798,8428,brownsr,2019-03-24T20:24:54Z,COMMENTED,
+218100896,8428,brownsr,2019-03-24T20:48:41Z,COMMENTED,
+218101337,8428,brownsr,2019-03-24T20:59:26Z,COMMENTED,
+218101384,8428,brownsr,2019-03-24T21:00:29Z,COMMENTED,
+218101599,8428,brownsr,2019-03-24T21:05:18Z,COMMENTED,
+218102076,8428,brownsr,2019-03-24T21:16:25Z,COMMENTED,
+218102251,8428,brownsr,2019-03-24T21:21:12Z,COMMENTED,
+223572436,8428,jaszhix,2019-04-07T08:53:40Z,COMMENTED,
+223572546,8428,jaszhix,2019-04-07T08:56:29Z,COMMENTED,
+223572584,8428,jaszhix,2019-04-07T08:57:28Z,COMMENTED,
+223572835,8428,jaszhix,2019-04-07T09:04:26Z,COMMENTED,
+238591183,8428,brownsr,2019-05-16T19:24:05Z,COMMENTED,
+86052308,7149,Odyseus,2017-12-31T19:13:25Z,COMMENTED,
+86054197,7149,Odyseus,2017-12-31T22:50:12Z,COMMENTED,
+86070251,7149,Odyseus,2018-01-01T22:01:31Z,COMMENTED,
+86270550,7149,collinss,2018-01-02T23:25:34Z,COMMENTED,
+86270859,7149,collinss,2018-01-02T23:27:22Z,COMMENTED,
+86271253,7149,collinss,2018-01-02T23:29:47Z,COMMENTED,
+86274908,7149,collinss,2018-01-02T23:57:45Z,COMMENTED,
+86281189,7149,Odyseus,2018-01-03T00:54:56Z,COMMENTED,
+86285680,7149,collinss,2018-01-03T01:46:49Z,COMMENTED,
+86289728,7149,Odyseus,2018-01-03T02:52:19Z,COMMENTED,
+86292417,7149,collinss,2018-01-03T03:31:30Z,COMMENTED,
+86292634,7149,collinss,2018-01-03T03:35:23Z,COMMENTED,
+86292648,7149,collinss,2018-01-03T03:35:36Z,COMMENTED,
+86496581,7149,Odyseus,2018-01-03T21:30:23Z,COMMENTED,
+86516869,7149,collinss,2018-01-03T23:00:32Z,COMMENTED,
+86531212,7149,Odyseus,2018-01-04T00:38:55Z,COMMENTED,
+318047236,8617,eli-schwartz,2019-11-17T21:54:18Z,CHANGES_REQUESTED,
+319760565,8617,software-artificer,2019-11-20T11:08:10Z,COMMENTED,
+321617629,8617,eli-schwartz,2019-11-22T15:22:21Z,COMMENTED,
+93856334,7255,germanfr,2018-02-04T20:11:59Z,COMMENTED,
+93856938,7255,JosephMcc,2018-02-04T20:31:30Z,COMMENTED,
+93857791,7255,germanfr,2018-02-04T20:58:32Z,COMMENTED,
+314662244,8884,mtwebster,2019-11-11T01:40:49Z,COMMENTED,
+314662898,8884,mtwebster,2019-11-11T01:45:38Z,COMMENTED,
+314663008,8884,mtwebster,2019-11-11T01:46:24Z,COMMENTED,
+188884882,8251,jaszhix,2019-01-03T01:56:32Z,COMMENTED,
+189073448,8251,Curly060,2019-01-03T16:05:23Z,COMMENTED,
+189074008,8251,Curly060,2019-01-03T16:06:40Z,COMMENTED,
+189169006,8251,jaszhix,2019-01-03T20:23:39Z,COMMENTED,
+189169723,8251,jaszhix,2019-01-03T20:25:59Z,COMMENTED,
+189260635,8251,LingMan,2019-01-04T04:26:28Z,COMMENTED,
+189260876,8251,LingMan,2019-01-04T04:29:44Z,COMMENTED,
+189608774,8251,Curly060,2019-01-05T21:12:09Z,COMMENTED,
+190945292,8251,Curly060,2019-01-09T21:25:33Z,COMMENTED,
+196852841,8251,LingMan,2019-01-28T00:41:22Z,COMMENTED,
+197294446,8251,Curly060,2019-01-28T22:33:22Z,COMMENTED,
+35268220,6486,jaszhix,2017-04-28T03:21:27Z,CHANGES_REQUESTED,
+112886088,7376,collinss,2018-04-17T16:16:56Z,APPROVED,"Looks good. I've tested, and everything seems to work ok."
+113009548,7376,claudiux,2018-04-17T21:43:39Z,COMMENTED,
+113014998,7376,claudiux,2018-04-17T21:51:49Z,COMMENTED,
+113050915,7376,collinss,2018-04-18T01:18:05Z,COMMENTED,
+113196929,7376,claudiux,2018-04-18T12:34:29Z,COMMENTED,
+293897150,8873,JosephMcc,2019-09-26T17:49:42Z,COMMENTED,
+294111915,8873,norbusan,2019-09-27T04:46:57Z,COMMENTED,
+299358080,8873,Odyseus,2019-10-09T12:02:48Z,COMMENTED,
+299488519,8873,norbusan,2019-10-09T15:11:54Z,COMMENTED,
+299498418,8873,Odyseus,2019-10-09T15:24:51Z,COMMENTED,
+299503763,8873,norbusan,2019-10-09T15:31:57Z,COMMENTED,
+299523346,8873,Odyseus,2019-10-09T15:59:40Z,COMMENTED,
+299764330,8873,norbusan,2019-10-10T00:20:19Z,COMMENTED,
+1169647352,11228,rcalixte,2022-11-06T20:22:20Z,COMMENTED,Just throwing in my two cents here... I think this was fine after the rebase and that this last commit can be dropped.
+341917969,8988,mtwebster,2020-01-13T15:18:33Z,COMMENTED,
+341918422,8988,mtwebster,2020-01-13T15:19:12Z,COMMENTED,
+342097000,8988,claudiux,2020-01-13T19:50:43Z,COMMENTED,
+342126075,8988,mtwebster,2020-01-13T20:44:19Z,COMMENTED,
+482991877,9559,Cobinja,2020-09-04T22:17:04Z,COMMENTED,
+482994189,9559,bomdia,2020-09-04T22:26:04Z,COMMENTED,
+482994621,9559,bomdia,2020-09-04T22:27:50Z,COMMENTED,
+483009190,9559,Cobinja,2020-09-04T23:40:37Z,COMMENTED,"Ah, sry, I didn't see the space. Guess I need new glasses 🙂"
+501555210,9559,NikoKrause,2020-10-03T15:52:24Z,COMMENTED,
+1425601560,11664,anaximeno,2023-05-14T21:03:13Z,COMMENTED,
+1425608480,11664,rcalixte,2023-05-14T21:50:56Z,COMMENTED,
+1425610843,11664,rcalixte,2023-05-14T22:16:32Z,COMMENTED,
+194418643,8314,Odyseus,2019-01-21T00:44:52Z,COMMENTED,"Hello, @itzexor.
+
+I have been testing your PR for a couple of days now. I found a couple of issues, but you smoothed them out in your last two commits. I can certainly see an average of **50%** reduction in applet loading times and category selection also feels *lighter*.
+
+I only have one issue to report and a couple of observations."
+195303474,8314,itzexor,2019-01-23T00:53:42Z,COMMENTED,This commit ` menu applet: simplify refreshing recents` is quite misleading since the rebase - recent refreshing has been simplified on master and this was rebased on top.
+196153529,8314,Odyseus,2019-01-24T17:22:22Z,COMMENTED,"Hello, @itzexor.
+
+A little suggestion to improve the context menu logic.
+
+#### Current behaviour
+
+Attempting to open the context menu of any button with right click while another context menu is opened requires two clicks on a button. One to close the previously opened menu, and another to open the desired menu.
+
+#### Proposed behaviour
+
+Attempting to open the context menu of any button while another context menu is opened should close the opened menu and at the same time open the context menu of the clicked button.
+
+I managed to achieve the proposed behaviour with the following changes:"
+106729470,7395,jaszhix,2018-03-25T13:15:23Z,COMMENTED,
+122434528,7395,marcus-lundgren,2018-05-23T05:09:25Z,COMMENTED,
+122435454,7395,marcus-lundgren,2018-05-23T05:16:20Z,COMMENTED,
+122560014,7395,Tak,2018-05-23T12:30:38Z,COMMENTED,
+122621384,7395,marcus-lundgren,2018-05-23T14:47:48Z,COMMENTED,
+667888722,10043,ItzSwirlz,2021-05-25T14:20:06Z,COMMENTED,a few things to look at:
+672426797,10043,mtwebster,2021-05-31T15:58:44Z,COMMENTED,
+672427083,10043,mtwebster,2021-05-31T15:59:18Z,COMMENTED,
+673254634,10043,mtwebster,2021-06-01T15:55:52Z,COMMENTED,
+674325269,10043,ItzSwirlz,2021-06-02T15:01:36Z,COMMENTED,

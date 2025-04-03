@@ -1,0 +1,323 @@
+id,pr_number,user,created_at,body
+2408106090,634,awoo-civ,2024-10-11T20:51:54Z,"Style: 
+- `if(limit.getType().equals(""altitude"")){` -> `if (limit.getType().equals(""altitude"")) {`
+- `public void onEnable(){` -> `public void onEnable() {`
+- `public static BuildLimitsConfig generate (` -> `public static BuildLimitsConfig generate(`
+
+etc."
+2183350524,550,MrJeremyFisher,2024-06-21T19:41:41Z,"As a semi-related side note, I have 1.21 working [here](https://github.com/MrJeremyFisher/Civ/tree/1.21) and will create a PR for it once Paper marks 1.21 as stable."
+2183356345,550,Protonull,2024-06-21T19:45:12Z,"Question, why Gradle 8.5 instead of 8.8?"
+2183358451,550,MrJeremyFisher,2024-06-21T19:47:05Z,I think because it was complaining that 8.5 was the minimum viable version so that's what I went with.
+2187634388,550,Protonull,2024-06-24T23:38:18Z,Might be worth going through and undoing the formatting though as this is an extremely contentful PR and it's hard to review the PR.
+2187867710,550,MrJeremyFisher,2024-06-25T03:07:24Z,"Managed to get rid of a lot of it, will keep at it. IntelliJ is remarkably frustrating to deal with regarding this, I can't seem to find a way to completely disable every autoformatter that it's using."
+2187872423,550,Protonull,2024-06-25T03:11:24Z,"> Managed to get rid of a lot of it, will keep at it. IntelliJ is remarkably frustrating to deal with regarding this, I can't seem to find a way to completely disable every autoformatter that it's using.
+
+Hmmm, try going to `Settings -> Tools -> Actions on Save` and basically unticking everything. You don't really want these things to happen unless it's your own project anyway, or the project's style is *strictly* enforced, otherwise you'll just get diff-hell :P"
+2187888488,550,MrJeremyFisher,2024-06-25T03:16:01Z,Never had any of them checked. I think it's that all the plugins have different styles and IntelliJ isn't sure what to stick to. Mostly it's that they use spaces vs. tabs for indentation or have different rules about line wrapping and whatnot. Even forcing it to not format .java files still has it make some changes for some reason (eg removing indents on empty lines is apparently not formatting).
+2239317791,550,AngrySoundTech,2024-07-19T14:32:01Z,"> Might be worth going through and undoing the formatting though as this is an extremely contentful PR and it's hard to review the PR.
+
+Worth noting that Github has an ""Ignore whitespace changes"" in the review menu if you're not already aware"
+2308371052,606,kickylol,2024-08-24T12:04:04Z,"all the changes listed above seem to be working fine now, but somebody testing it themselves would be appreciated"
+2405288277,606,RedDevel2,2024-10-10T14:39:19Z,Was this ready? 
+2452615472,606,okx-code,2024-11-01T21:27:51Z,closing as abandoned
+2014089671,383,okx-code,2024-03-22T00:13:50Z,You can use `NamedTextColor.RED` instead of an RGB colour. It can also be provided as an argument in `Component.text`
+2014098251,383,awoo-civ,2024-03-22T00:23:59Z,🎉 
+2014102503,383,okx-code,2024-03-22T00:29:22Z,Could you do the confirmation without an underscore?
+2014483518,383,drekamor,2024-03-22T07:10:23Z,"> Could you do the confirmation without an underscore?
+
+Sure. I just wasn't sure whether the command uses greedy string or normal string arguments. I'll look into it "
+2015550690,383,drekamor,2024-03-22T17:19:04Z,@okx-code I removed underscores from the message but I'm not sure whether the command takes a normal string argument or a greedy string
+2015552295,383,okx-code,2024-03-22T17:19:53Z,Have you tested it?
+2015559610,383,drekamor,2024-03-22T17:24:16Z,"Not yet, need to build the plugin"
+2015642371,383,drekamor,2024-03-22T18:05:37Z,"@okx-code 
+![image](https://github.com/CivMC/Civ/assets/121772241/03b1e767-a332-42a5-a6d5-6c79cfbda3ce)
+tested, seems to be working"
+2015993446,383,awoo-civ,2024-03-22T21:57:16Z,"@drekamor Hmm, perhaps `/nldg CONFIRM DELETION` should be enclosed in quotes, i.e. `Type '/nldg CONFIRM DELETION  test' within 15 seconds.` Should help disambiguate between the string that is to be typed and the rest of the sentence.
+"
+2015994805,383,drekamor,2024-03-22T21:58:56Z,"> @drekamor Hmm, perhaps `/nldg CONFIRM DELETION` should be enclosed in quotes, i.e. `Type '/nldg CONFIRM DELETION test' within 15 seconds.`. Should help disambiguate between the string that is to be typed and the rest of the sentence.
+
+Was thinking about that as well. I'll add them"
+2015996777,383,MrJeremyFisher,2024-03-22T22:01:15Z,Imo the message shouldn't mention snitches and bastions as Citadel doesn't need to be run with Bastion and Jukealert and it won't necessarily be on other servers.
+2016003237,383,awoo-civ,2024-03-22T22:08:21Z,"That's up to the admins I suppose, but personally I'm vehemently against supporting anything other than the needs of CivMC if it requires *any* sacrifices."
+1962212294,319,RedDevel2,2024-02-24T01:56:32Z,"On testing it now never shows banned players in /ep showall
+The button to switch, always says ""Currently turned on"" no matter if you switch it.
+Likewise the chat message always says ""Banned pearls toggled off"" whenever you click the switch. 
+
+Also the /ep showall command now itself has a cooldown? I doubt that's supposed to be a thing. "
+1962217234,319,MrJeremyFisher,2024-02-24T02:12:41Z,I think the logic for the pearl toggle is backwards
+1962270492,319,okx-code,2024-02-24T06:08:34Z,Should be fixed now
+1962341337,319,walkersgaming,2024-02-24T12:06:56Z,"I'm not sure that should've been changed, as the variable hadn't been updated with the toggle change, hence it was inverted "
+2229860870,564,MrJeremyFisher,2024-07-16T02:02:28Z,Addresses #372 
+2414694252,564,okx-code,2024-10-15T18:11:07Z,@MrJeremyFisher could you fix the merge conflicts here please? Then we can get this merged
+2546894931,564,MrJeremyFisher,2024-12-16T21:51:13Z,"Resolved, I think."
+2585327826,564,okx-code,2025-01-11T16:37:31Z,This only seems to work the second time I get on a horse. The first time it's still at half a heart.
+2585327984,564,okx-code,2025-01-11T16:38:01Z,You're also using this.hideItemMeta instead of this.hideHealth
+2585336054,564,MrJeremyFisher,2025-01-11T16:56:50Z,Are you on ProtocolLib 5.2.0?
+2585339675,564,okx-code,2025-01-11T16:57:49Z,"No, I'm on ProtocolLib 5.3.0-SNAPSHOT-732"
+2586069781,564,MrJeremyFisher,2025-01-13T02:34:10Z,"Ok, 5.3.0 doesn't officially support 1.21.3. Not sure what live is running but it should be on 5.4.0 for this and the other parts of AttrHider to work correctly. I bumped the dependency to 5.3.0 because 5.4.0 isn't yet available on https://repo.dmulloy2.net/repository/public/ but everything works fine as long as you run 5.4.0. Will fix merge conflicts in a sec"
+2586075122,564,MrJeremyFisher,2025-01-13T02:42:23Z,"Wow, oops, not sure how I did that"
+2070728205,397,MrJeremyFisher,2024-04-22T19:18:48Z,This also fixes the protection not applying to things like stripping copper as that doesn't fire the `BlockBreakEvent`.
+2452614240,397,okx-code,2024-11-01T21:26:44Z,closing as abandoned
+2452617084,397,MrJeremyFisher,2024-11-01T21:29:23Z,Why? 
+2452617936,397,okx-code,2024-11-01T21:30:12Z,You didn't respond to the review comments for two weeks
+2452619894,397,MrJeremyFisher,2024-11-01T21:31:51Z,"You didn't respond to the PR for 7 months. Please give me at least that long, I don't have the time for civ dev right now."
+2452620756,397,okx-code,2024-11-01T21:32:41Z,Feel free to open a new PR when you're ready
+2452661469,397,drekamor,2024-11-01T22:15:42Z,that's just mean
+2452674428,397,Protonull,2024-11-01T22:31:57Z,"> You didn't respond to the PR for 7 months. Please give me at least that long, I don't have the time for civ dev right now.
+
+Yup, the expectation is always on the other. They can ghost you for 7 months, but you not pushing a requested commit within a fortnight? Closed. Bye. Try again."
+2452675679,397,okx-code,2024-11-01T22:33:39Z,"It just helps me keep the PRs organised, closing the PR takes it off the list"
+2453009122,397,Diet-Cola,2024-11-02T14:31:50Z,Doesnt only checking the item in the players hand defeat the purpose of this pr?
+2453009685,397,okx-code,2024-11-02T14:33:54Z,"Either way this PR still looks at the item in the player's hand to see the damage, even if that's not the item actually damaged. I think we don't need to increase the scope of tool protection to armour items anyway, since the haste effect no longer makes sense."
+2425041466,631,okx-code,2024-10-20T15:20:10Z,Merged
+2673375113,750,okx-code,2025-02-21T04:21:40Z,This PR doesn't fix the issue.
+2673438675,750,MrJeremyFisher,2025-02-21T04:50:08Z,"> This PR doesn't fix the issue.
+
+Is this because of your issue with the knockback thing or does it just not work for you? It works fine for me. A little bit jankier when it doesn't include the changes in #680 but it does correctly apply damage."
+2673439931,750,okx-code,2025-02-21T04:51:03Z,"Yes, the knockback needs to work as well. The issue is not fixed if another issue is introduced."
+2673440807,750,MrJeremyFisher,2025-02-21T04:51:54Z,Ok. I can fix that I think.
+2673441930,750,okx-code,2025-02-21T04:52:46Z,"Paper already fixes this in 1.21.3 anyway, I'd rather we updated to that."
+2673446574,750,MrJeremyFisher,2025-02-21T04:56:40Z,Are we not already on 1.21.3?
+2673447306,750,okx-code,2025-02-21T04:57:19Z,"Ah yeah we are, but the knockback issue remains"
+2673449280,750,okx-code,2025-02-21T04:58:25Z,See https://github.com/PaperMC/Paper/pull/11599
+2673452687,750,MrJeremyFisher,2025-02-21T05:01:10Z,Hm. I kind of doubt any paper changes here would necessarily help us as we completely override the vanilla (or paper) method that handles this. I'll take a better look at it and the knockback issue when I have the time.
+2617261723,746,Protonull,2025-01-28T00:33:13Z,"Immediate concerns here are:
+
+- Are you absolutely certain there'll always be >1 array elements when split?
+
+- ~~How will this effect commands like `/nlcreategroup`? Will group names be lowercased?~~"
+2617266418,746,MrJeremyFisher,2025-01-28T00:37:42Z,Thanks. I may be stupid. Commands with arguments are fine as that's the purpose of the split.
+2633271930,746,Diet-Cola,2025-02-04T09:00:22Z,Only long term concern with this is how future civ servers will 100% not realise this is a thing 
+2634069155,746,MrJeremyFisher,2025-02-04T14:04:42Z,I think that's par for the course for much of SAH
+2634523576,746,Protonull,2025-02-04T16:46:52Z,"Honestly, I'm surprised this isn't an option somewhere in Minecraft/Bukkit/Spigot/Paper"
+2673389351,746,okx-code,2025-02-21T04:32:14Z,"I don't think we should be rewriting how commands work like this. If mojang changed it, let it be"
+2673488149,746,MrJeremyFisher,2025-02-21T05:18:18Z,I agree but consider that it'd be nice to have and we already override a bunch of Mojang changes
+2190295825,552,Protonull,2024-06-26T00:37:17Z,"It's only ""not actually necessary"" because the tests that need it have been commented out. If you uncomment them, you'll see why it's necessary, but PseudoServer actually needs to be updated, which is why drafted #393."
+2190297435,552,Protonull,2024-06-26T00:38:44Z,Perhaps a better solution would be moving it over to the test source set. It's otherwise just taking up space in the production jar when nothing other than the [commented out] tests need it.
+2190299936,552,okx-code,2024-06-26T00:41:27Z,I'm not extending internal Bukkit classes
+2190301896,552,okx-code,2024-06-26T00:44:07Z,FakePlayer from HiddenOre also needs to go but it's a mess to keep it while also keeping cave ore generation a thing
+2190316288,552,Protonull,2024-06-26T00:59:23Z,"> I'm not extending internal Bukkit classes
+
+Yeah, PseudoServer has the Minestom approach [of only adding what you need], whereas extending CraftServer would be the PaperMC approach [of disabling what you don't want]. PseudoServer was added back in the 1.16.4 days (before even the move to Gradle) to avoid spinning up a whole server (and figuring out where the server files should go and when they should be cleaned up) just to test some item stuff. Now that we have [:runServer](https://github.com/jpenilla/run-task), this is *far* less of an issue."
+2190321696,552,okx-code,2024-06-26T01:05:15Z,mockbukkit btw
+2190323343,552,Protonull,2024-06-26T01:06:47Z,"btw, mockbukkit != craftbukkit"
+2251866756,552,Protonull,2024-07-26T02:53:23Z,"If you intend to go through with this, you should probably remove junit and the test source set altogether too. We simply do not have well any enough managed or organised projects for it, and the stuff we need to test for, like item matching, requires a minimum level of server bootstrapping. It would probably be better to move any test stuff to `civmodcore-test` with a custom run command that starts a short-lived server instead."
+1965978787,334,Protonull,2024-02-27T07:59:42Z,"While it's not really necessary, it might be worth using [PersistentDataTypes.BOOLEAN](https://github.com/CivMC/Civ/blob/4527f032f8fe78a00a25780cba16a7d47eafd25f/plugins/civmodcore-paper/src/main/java/vg/civcraft/mc/civmodcore/pdc/PersistentDataTypes.java#L15) instead of PersistentDataType.INTEGER. The code will be a little longer but will be more readable and will require less storage (though is a micro-optimisation)."
+1966454622,334,MrJeremyFisher,2024-02-27T12:38:02Z,"Ah, thanks. I was unaware that CMC had that. "
+1966871825,334,MrJeremyFisher,2024-02-27T15:51:59Z,"The Natural spawn reason is called when the server loads an entity and when an entity is spawned, so no. "
+1966875220,334,okx-code,2024-02-27T15:53:22Z,"ok, what about [getTicksLived](https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/Entity.html#getTicksLived())?"
+1967104754,334,MrJeremyFisher,2024-02-27T16:53:35Z,"Because the horse is spawned every time the riding player logs out and back in, its age at that instant is 0. At least that's what I saw when I tried that as an option"
+1974705577,353,Diet-Cola,2024-03-02T08:28:52Z,Implements #320 
+1974770858,353,RedDevel2,2024-03-02T11:29:57Z,Omg bless you
+2130768062,398,Protonull,2024-05-25T04:57:54Z,"After the most recent commits, compacted items no longer contain the ""Compacted Item"" lore. That lore is instead added just prior to the item being sent over the network. This doesn't contaminate the original item, see screenshot of using `/debugging rawheld`:
+
+![image](https://github.com/CivMC/Civ/assets/52572989/f4460f61-73ed-4215-bbd6-3ed03966724b)
+
+
+"
+2131418838,398,okx-code,2024-05-25T20:02:17Z,"I like the way you've approached this, it makes it look like compacted items should've always been done this way. I'll give it a proper review when I have the time."
+2131423477,398,Protonull,2024-05-25T20:08:10Z,"Thanks :) I've just noticed a few little things to clean up like [this](https://github.com/Protonull/CivPlugins/blob/9f3a17d1400e1e67ac5a297a2e587cb2d5c9dbde/plugins/civmodcore-paper/src/main/java/vg/civcraft/mc/civmodcore/inventory/items/compaction/CompactionTestCommands.java#L77) and [this](https://github.com/Protonull/CivPlugins/blob/9f3a17d1400e1e67ac5a297a2e587cb2d5c9dbde/plugins/civmodcore-paper/src/main/java/vg/civcraft/mc/civmodcore/inventory/items/compaction/Compaction.java#L19), but other than that it *should* be good to go, pending some verification testing."
+2133601118,398,Protonull,2024-05-27T14:29:35Z,"Just tested this with FactoryMod. I used `/fmtest give recipe INGREDIENTS adv_xp_1` to give me all the inputs that XP 1 of the Advanced Cauldron and ran it, and it successfully produced 2 compacted emerald blocks. I then ran those through a decompactor and got 2 stacks of emerald blocks."
+2134441766,398,Protonull,2024-05-28T06:30:31Z,Just realised that this'll need to include a new ItemExchange rule modifier since items wont have the lore anymore to match against.
+2135259375,398,walkersgaming,2024-05-28T13:45:42Z,Will this also affect wordbank recipes that use compacted items?
+2135563857,398,Protonull,2024-05-28T15:39:09Z,"> Will this also affect wordbank recipes that use compacted items?
+
+Yeah, it probably would as it changes the hash of the item, though keep in mind that the 1.20.5 update will *probably* break most, if not all wordbank recipes, for the same reason."
+2466810093,656,okx-code,2024-11-10T17:02:52Z,"Does 1 Health = 1 Essence? If so we should show it as ""Essence:"" rather than ""Health:"""
+2466810756,656,awoo-civ,2024-11-10T17:04:59Z,"1. Health and Cost per day lines should be next to each other
+2. Show ""(days remaining: 200)"", to spare the need for the player to count
+3. It seems unreasonable for the cost to be able to be 75 with the health at 336, that requires refueling every 4.5 days"
+2466811179,656,AngrySoundTech,2024-11-10T17:06:13Z,"> Does 1 Health = 1 Essence? If so we should show it as ""Essence:"" rather than ""Health:""
+
+Not currently. Right now, one essence repairs 12 health, and 24 health is consumed per day (one every hour).
+
+As the pearl ages, essence repairs less and less health during crafting. Moving that part to when the fuel is consumed instead of refueled is part of my next goal of uncapping pearl health."
+2466811783,656,awoo-civ,2024-11-10T17:07:44Z,"> Not currently.
+
+Oh! That is extremely confusing then. I don't see how it's possible for a player to figure out what they're supposed to do given the tooltip as-is."
+2466812485,656,AngrySoundTech,2024-11-10T17:09:57Z,"> 1. Health and Cost per day lines should be next to each other
+> 
+>     2. Show ""(days remaining: 200)"", to spare the need for the player to count
+> 
+>     3. It seems unreasonable for the cost to be able to be 75 with the health at 336, that requires refueling every 4.5 days
+
+1. I agree, I'll move that in this PR.
+
+2. Days remaining is planned in a follow-up PR
+
+3. It's strange yes, but that's math works with the cost multiplier."
+2466817281,656,AngrySoundTech,2024-11-10T17:26:06Z,"Health moved above cost, days left will be there too in that grouping.
+
+![image](https://github.com/user-attachments/assets/13d4c26a-25f5-481f-b6e7-d373b828cdd4)
+"
+1958145359,275,RedDevel2,2024-02-21T22:27:04Z,Now that I think about it. The name is probably why ItemExchange didn't recognize it. 💀 
+1958146765,275,okx-code,2024-02-21T22:27:34Z,Yep it broke for me as well
+1958185405,275,Protonull,2024-02-21T22:40:21Z,"> Now that I think about it. The name is probably why ItemExchange didn't recognize it. 💀
+
+That could be the cause of some unintended plugin-load ordering, but it should NOT cause the error. JukeAlert is supposed to be a soft-dependency; ItemExchange is suppose to work even if JukeAlert isn't there.
+
+The error is also completely baffling, it's a `NoClassDefFoundError`, which means a class is being used in a non-reflective manner (eg: an instance is being constructed with `new`), but the class isn't present.
+
+The missing class is `LoggableAction`, right?. That by itself is bizarre because nothing in ItemExchange references `LoggableAction`: the class `ShopPurchaseAction` extends `LoggablePlayerAction` and *that* implements `LoggableAction`, so... why is the missing class `LoggableAction` and not `LoggablePlayerAction`? Those are both JukeAlert classes.
+
+Also, `ShopPurchaseAction` is only interacted with in two places:
+
+1. Inside a lambda that's registered as an action-factory to JukeAlert, something that only happens if JukeAlert is enabled.
+
+2. Inside an event listener that's only registered if JukeAlert is enabled.
+
+So how in the hell is this class being used?!"
+1958263617,275,Protonull,2024-02-21T23:06:31Z,"Ohhhh, okay, just figured out what's happening: the action-factory lambda gets hoisted by javac into a sibling method:
+![image](https://github.com/CivMC/Civ/assets/52572989/431a770f-5be8-4f62-a321-c1032d5b7e4d)
+
+So when the class is evaluated, it finds the method and tries to evaluate its return type, LoggableAction, which isn't loaded. The only fix to this is to deliberately avoid the lambda-isation and turn it into a sibling class."
+2452610047,654,okx-code,2024-11-01T21:22:45Z,Could we disable canStorageTeleport instead?
+2452660824,654,drekamor,2024-11-01T22:14:55Z,I don't know why we have it so I've made a solution that wouldn't affect it in any way :man_shrugging: 
+2452662308,654,okx-code,2024-11-01T22:16:37Z,"It should be safe to removed based on the commit history  https://github.com/CivMC/Civ/commit/0a9b5b4568b65cb3083ef24fc26fb4135f98f381
+"
+2452676179,654,drekamor,2024-11-01T22:34:20Z,"Well, then you can do that. Discovering the cause of the bug was the hard part here. Took 5 minutes to write that code anyway"
+2452676714,654,okx-code,2024-11-01T22:35:03Z,Alright
+2452676940,654,okx-code,2024-11-01T22:35:20Z,Thanks for pointing us in the right direction
+1949587049,2,RedDevel2,2024-02-17T01:49:10Z,Really? Then why is there an interval time in the config? 
+1949587916,2,okx-code,2024-02-17T01:51:47Z,"Oh it's just the inital delay, not the interval. Still weird but ok I guess"
+2111337561,2,Protonull,2024-05-14T23:47:05Z,Is there anything in particular preventing this from being merged since it's missed two assigned milestones?
+2111338584,2,okx-code,2024-05-14T23:48:22Z,The current dog facts config would need to be changed
+2113734088,2,Protonull,2024-05-16T01:23:21Z,"> The current dog facts config would need to be changed
+
+Done"
+2111278384,538,Protonull,2024-05-14T22:51:45Z,"Question, to what extent, if at all, do ancient snitch logs (logs older than 30 days) play into this?"
+2111280804,538,okx-code,2024-05-14T22:52:49Z,"I don't think snitch log creation time would have any impact on the query planner. Perhaps insertion order could, but I doubt it."
+2113586957,538,AngrySoundTech,2024-05-15T22:27:23Z,"@RedDevel2 Code looks good and logic is sound, moved to ready for testing although testing may be somewhat difficult."
+2113588325,538,okx-code,2024-05-15T22:28:49Z,I've been able to manually test this by querying the bugged snitches directly with the old and new statements. Not on the server itself but it should be good enough to deploy straight to production @AngrySoundTech 
+2113598605,538,Protonull,2024-05-15T22:39:58Z,"The only thing, you may want to add a comment about specifically using STRAIGHT_JOIN to force a specific order of joining."
+2673370400,745,okx-code,2025-02-21T04:18:16Z,Safebreak is only for silk touched blocks
+2673449436,745,MrJeremyFisher,2025-02-21T04:58:34Z,Why? 
+2673451420,745,okx-code,2025-02-21T05:00:18Z,Safe ore break exists so that you can be el cheapo and use a non-silk pickaxe for vein mining because FactoryMod requires ores. It's not there to stop you accidentally mining bookshelves or whatever
+2673454329,745,MrJeremyFisher,2025-02-21T05:02:15Z,"I'd agree except bookshelves (and sea lanterns, and glowstone) are already included in the config on live. "
+2673455225,745,okx-code,2025-02-21T05:02:58Z,Mistake imo
+2673459747,745,MrJeremyFisher,2025-02-21T05:06:11Z,Then why not let people just add whatever they want? That way you don't have to think about the horrors of people adding glass or whatever
+1962144843,257,okx-code,2024-02-23T23:49:19Z,What is the use case for this?
+1962145719,257,Protonull,2024-02-23T23:50:56Z,"> What is the use case for this?
+
+Being able to code in Kotlin?"
+1962146387,257,okx-code,2024-02-23T23:52:13Z,What specifically do you want to use this for?
+1962148024,257,AngrySoundTech,2024-02-23T23:55:27Z,"This should be added with something that uses it, not on it's own"
+1962282437,257,Protonull,2024-02-24T07:11:36Z,"> What specifically do you want to use this for?
+
+1. For when Kira gets added.
+
+2. While I know there was a discussion about not mixing Java and Kotlin within the same plugin, I nonetheless think converting the `NBTTagCompoundExtensions` class (and its ilk) over to Kotlin's extension methods is the only sensible option. Very little will change from Java's perspective, but it'll be all the better for any plugin that has Kotlin code and needs to use those utilities.
+
+3. I wanna refactor ItemExchange into Kotlin :) I know this is kind of a meme, but if we can't mix Java and Kotlin within the same plugin, and refactoring a plugin into Kotlin is a meme, then is Kotlin support only being added for Kira and that's it?"
+1974189037,351,MrJeremyFisher,2024-03-02T01:53:29Z,"Yeah, I tried some testing on a large area of grass & dirt and didn't see too much performance impact. Unsure how it would perform on live though obviously"
+2593962059,729,RedDevel2,2025-01-15T21:21:44Z,"Should simulation distance be bumped to 4 then? because despawn ranges don't work in the case of mob groups spawning on the edge of the chunk, causing some being beyond the chunk-border and getting stuck in limbo. "
+2593963692,729,okx-code,2025-01-15T21:22:44Z,"no, we can make simulation distance of 3 work. Changing it to 4 would also increase the number of loaded chunks a lot and therefore lag."
+2593965506,729,RedDevel2,2025-01-15T21:23:49Z,3 it is then. 
+2585311437,713,okx-code,2025-01-11T15:58:44Z,Can we simplify the copper workshop creation recipe in the same way? Requiring people to manually oxidise copper doesn't quite work the same now that it can be done with rails
+2585313909,713,okx-code,2025-01-11T16:03:56Z,"You might also want to reformat the YAML, there's a lot of lines where there is. trailing whitespice. Also, you use ""a"" in a few places instead of ""an"""
+2571348486,676,AngrySoundTech,2025-01-04T16:28:12Z,"Build failure is not your fault probably, Working on a fix on our end"
+2571498725,676,okx-code,2025-01-05T04:38:38Z,Can you make this PR against the oldfinale branch?
+2571705519,676,MrJeremyFisher,2025-01-05T18:02:07Z,oldfinale doesn't compile as is. Should I fix that as well?
+2571706037,676,okx-code,2025-01-05T18:03:55Z,Yes if you'd like
+2571710170,676,MrJeremyFisher,2025-01-05T18:19:34Z,Moved to #680
+2189591073,547,MrJeremyFisher,2024-06-25T17:40:58Z,The underlying issue here is resolved by 1.20.6 as far as I can tell so this shouldn't be necessary anymore.
+2212526707,547,ZeroQLi,2024-07-07T18:08:24Z,So the plan to fix this is now to update to 1.20.6?
+2212528297,547,MrJeremyFisher,2024-07-07T18:14:01Z,"Yeah, though I'm not sure how 1.20.6 will handle items that were created before the update. Hoping any issues regarding that will crop up in testing so I can fix them before they happen on live."
+2415102816,570,okx-code,2024-10-15T20:53:46Z,"@Huskydog9988 seems like this change is broken so I reverted https://github.com/CivMC/Civ/actions/runs/11354153170/job/31580752772
+
+This issue looks related and might help to fix https://github.com/peter-evans/find-comment/issues/172"
+2415483567,570,Huskydog9988,2024-10-16T01:11:34Z,"The issue is related to how the workflow gets the pr number from github actions. You can see the failure in the step before.
+```log
+Previous Job ID: 11354132682
+Previous Suite ID: 29662588586
+Artifact ID: 
+Pull request Number: null
+Head SHA: null
+```
+ I might be able to figure out a fix for this, but github actions is like black magic to me, so we'll see. "
+2251185695,568,AngrySoundTech,2024-07-25T18:49:53Z,"`.\gradlew :ansible:build` doesn't always work on windows, only in powershell which is isn't fully POSIX compliant. should use `gradlew.bat`"
+2251231837,568,MrJeremyFisher,2024-07-25T19:16:03Z,"Does it not work for you in cmd? 
+![image](https://github.com/user-attachments/assets/a359b49d-36f6-45ea-a3e6-784e6f5bacc3)
+"
+2414726535,568,okx-code,2024-10-15T18:28:04Z,gradlew.bat would be preferable here since it's what Gradle recommends https://docs.gradle.org/current/userguide/gradle_wrapper.html
+1955996656,262,Diet-Cola,2024-02-21T06:46:26Z,Fixes #253 
+2241900376,574,COSMOJYNX,2024-07-22T01:55:21Z,Yoahtl mentioned?
+2241912036,574,VilyanZ,2024-07-22T02:10:02Z,Lmao? Yoahtl based enough to be mentioned in the Civ Github
+2242749429,574,ZeroQLi,2024-07-22T11:40:14Z,"First official Admin crime of civmc incoming?, is this the end of yoahtl"
+2614120608,740,RedDevel2,2025-01-25T22:32:49Z,"https://github.com/CivMC/Civ/actions/runs/12968937413/job/36172455818
+
+Need to fix this though
+"
+1958169009,276,okx-code,2024-02-21T22:34:57Z,"I'm not really reviewing the 1.20 PRs right now, we will test them all together later anyway, I just want to get them in one place. Would you be able to resolve the merge conflicts?"
+1958198227,276,MrJeremyFisher,2024-02-21T22:44:06Z,"I figured, was just commenting on it. Resolved."
+1958231629,276,okx-code,2024-02-21T22:55:36Z,Thanks
+2297907432,602,Protonull,2024-08-20T03:47:14Z,"It may be worth just updating the Slot class to hold a UUID instead of the most and least, then accessing that UUID when needed."
+2297931533,602,MrJeremyFisher,2024-08-20T04:16:09Z,Yeah. I can do that when I get a chance
+2299899973,602,okx-code,2024-08-20T22:59:38Z,"Using UUIDs in AttributeModifiers is a deprecated API, I'm going to update it to use NamespacedKeys instead."
+2564092111,675,Protonull,2024-12-27T23:32:42Z,"This should be configurable rather than hard coded, so that it can be changed similarly to RandomSpawn cities"
+2564117491,675,Zalvvv,2024-12-28T00:33:21Z,"I totally, agree but i don't know how to do it :c"
+2564772566,675,AngrySoundTech,2024-12-29T16:21:05Z,"Rejecting this. Admins will not enforce or endorse any one routing system over the other, as they are player made constructs/concepts within the game"
+2305267643,585,Huskydog9988,2024-08-22T17:19:14Z,Via /config?
+2305268889,585,okx-code,2024-08-22T17:19:54Z,Yes
+2403355039,630,Tuomasz,2024-10-09T20:18:41Z,you may want to fix the spelling
+1958536192,240,MrJeremyFisher,2024-02-22T02:15:07Z,"Whoops, deleted the branch"
+2614002564,240,RedDevel2,2025-01-25T15:28:41Z,I think this can be closed as this feature is now possible via the finale reinforcement cooldown feature.
+1959375642,242,RedDevel2,2024-02-22T12:39:34Z,Throws an error when trying to open /ja gui snitch logs. 😢 
+1960422311,242,RedDevel2,2024-02-22T22:21:41Z,Works now 👍 
+1962423985,329,okx-code,2024-02-24T17:04:32Z,Can you explain what this does
+1962425218,329,AngrySoundTech,2024-02-24T17:09:44Z,"> Can you explain what this does
+
+This PR Enables checks automatically to run on all PRs, which will run `gradle check`, and `yamllint` (errors currently ignored until we fix them all).
+
+You can see the checks ran on this PR as a requirement before merging, taking 1 minute to ensure that the project builds, tests pass, and yaml files are formatted correctly (which will be more important especially when plugin config gets moved here). If we add code style checks and such to gradle, that will also be part of the check task
+
+It also adds a workflow that comments with an easy link to the built artifact on the pr for testing, the output of which can be seen here: https://github.com/CivMC/CivModCore/pull/98#issuecomment-1849098604. Once this is merged that will start working, since the workflow needs to be on `main`"
+1974157824,345,okx-code,2024-03-02T01:16:25Z,Yep you're right
+2001785875,375,Protonull,2024-03-16T05:54:39Z,Semi-duplicate of #339 
+2001798964,375,okx-code,2024-03-16T06:02:19Z,I missed that one
+2008021978,374,okx-code,2024-03-19T20:03:47Z,"You're right, exploding anchors needs to be disabled, but it doesn't defeat the point of the hack as it would still work in the nether."
+2415063940,580,okx-code,2024-10-15T20:47:17Z,What is this for?
+2433051998,580,MrJeremyFisher,2024-10-23T18:13:39Z,The pearl error SoundTech posted in dev-nook a while ago. https://discord.com/channels/912074050086502470/919348449407815680/1267289915415330910. Was hoping to catch whatever pearl is causing the issue.
+1975001634,354,MrJeremyFisher,2024-03-03T02:55:19Z,"Guess so, not sure what happened. Thanks."
+2176901832,393,Protonull,2024-06-18T20:21:18Z,"This does make junit testing more [Maven-like](https://github.com/CivMC/CivGradle/pull/2), but the item tests fail due to changes to all the server internals. Will convert this to a draft until something better comes along."
+2285382281,393,Protonull,2024-08-13T05:44:13Z,Closing this in favour of this: https://github.com/CivMC/Civ/pull/552#issuecomment-2251866756
+2305219708,604,okx-code,2024-08-22T16:53:05Z,What is the use case for adding copper
+2305228686,604,kickylol,2024-08-22T16:57:58Z,personally I use copper ore as a compact way to store it since using fortune on it can give you up to 20 raw copper at a time. 
+2305222020,577,okx-code,2024-08-22T16:54:27Z,Could you resolve the merge conflicts and I will merge
+2306062611,577,Protonull,2024-08-23T02:20:40Z,Done
+2321320896,615,okx-code,2024-08-30T13:48:23Z,"Why do we have so many random utility classes wtf
+"
+2321361790,615,Protonull,2024-08-30T14:02:05Z,"These `More*` classes are entirely my fault :P it's a mixture of me being younger and dumber, Minecraft/Paper having fewer useful shaded dependencies, and Java having fewer static utilities. For example, [`java.lang.Math.clamp()`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#clamp\(double,double,double\)) was only added in Java 21. [`java.util.List.of()`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html#of\(E...\)) was added in Java 9, but we only stopped compiling against Java 8 in [December 2020](https://github.com/CivClassic/style-guide/pull/10)."
+2532750867,671,okx-code,2024-12-10T20:03:18Z,"This would be much better served as a LuckPerms context, not a permission imo"
+2564771465,671,AngrySoundTech,2024-12-29T16:16:21Z,"Rejecting this. We review and accept changes from humans who have put in the effort, not ethically dubious untested and unreviewed changes generated with AI."
+2195998757,392,Protonull,2024-06-28T02:35:02Z,"Hmmm, starting to wonder whether this refactor is moot: the server is just the compiled output of this monorepo; there'll *NEVER* be a question over whether NameLayer, or Citadel, or JukeAlert, is missing, unless we delete those plugins from the monorepo... which is unlikely. In addition, Okx has said that we should stop pretending that we aren't the only ones who consume our APIs ([reference](https://discord.com/channels/912074050086502470/919348449407815680/1244821453707280445)), and SoundTech has said that all changes must be tested with a local docker instance ([reference](https://discord.com/channels/912074050086502470/952314898317189120/1243925834755084389)) because it replicates the server as closely as possible. With these things in mind, I'm wondering whether it'd be better to yeet this boilerplate altogether and convert all our soft-dependencies into hard-dependencies."
+2331545819,392,Protonull,2024-09-05T12:46:26Z,Closing due to a [lack](https://discord.com/channels/912074050086502470/919348449407815680/1255421346608054345) of [interest](https://discord.com/channels/912074050086502470/919348449407815680/1280813608875589717).
+2103534933,497,AngrySoundTech,2024-05-09T22:26:19Z,"This should be good, but I didn't want to hijack the test server from 1.20 to test it too hard. We can merge it, merge it up to 1.20, and then test it and make any fixes as needed."
+2109108206,535,Protonull,2024-05-14T01:32:06Z,"Given how fraught with bugs combat loggers have been, it might be worth looking into custom Paper patches. These issues all stem from CombatTagPlus being a plugin, and so its approach can only be to duplicate the player entity upon logout. But this has led to many, *many* bugs, including dupes, because combat-loggers are consequential: they're meant to *be* the player.
+
+Whereas, if combat loggers were implemented through patches (or mixins), you wouldn't need to create a duplicate entity. You could just prevent the server from deleting the player-entity when they logout. There'd likely still be issues to iron out, but having the same entity to work with would be a lot easier than playing Whack-A-Mole with these combat-logger bugs."
+2425171355,645,RedDevel2,2024-10-20T18:33:43Z,This just updates the /chunklimits list. You'll have to change it in the Insights config too.
+2429403467,649,RedDevel2,2024-10-22T14:11:38Z,Also change /g ! dogfact to more understandable /global command
+2408029049,635,Protonull,2024-10-11T19:45:40Z,"This would force `gradlew.bat` to use LF endings, making it unusable on Windows."
+2408034488,635,Huskydog9988,2024-10-11T19:50:05Z,"forgot about that, will add an exemption"
+2114321810,396,Protonull,2024-05-16T07:54:02Z,"> This is somewhat hacky though since the client has no idea about this and wont show a durability bar.
+
+This'll be resolved with 1.20.5 with the help of item components. It only currently means displaying an durability bar on the item stack, but hopefully Mojang will expand support so that combat damages any item with a damageable component, rather than just predefined items.
+![image](https://github.com/CivMC/Civ/assets/52572989/b9573087-5a22-40b1-9884-53a40c916e18)
+![image](https://github.com/CivMC/Civ/assets/52572989/f2e61ac9-4465-44cb-a558-2a7ad1db2694)
+"
+2306103036,396,Protonull,2024-08-23T03:15:01Z,"Now that CivMC is on >=1.21, I've switched this from using PDCs to using `Damageable`, though this should be switched out for [item data-components](https://github.com/PaperMC/Paper/pull/10845) at the earliest opportunity."
+2585389792,719,AngrySoundTech,2025-01-11T19:52:29Z,"Outline of development process, need feedback before tidying the writing."
+2632391657,752,okx-code,2025-02-03T23:15:34Z,"Actually it should be more like 16 -> 20, this is still net negative with the charcoal cost"
+2405279274,611,RedDevel2,2024-10-10T14:37:16Z,Already done
+2644129671,735,okx-code,2025-02-07T21:07:14Z,"I don't think this is the right direction to go for working around rules limitations, it's better to change the rules."
+2644134081,735,Protonull,2025-02-07T21:10:09Z,"The problem is that, in my opinion, it's very difficult if not impossible to reword the rules to include these things but also don't accidentally include Baritone."
+2644126936,670,okx-code,2025-02-07T21:05:24Z,Make this disabled by default and I'll merge it
+2644304434,670,Protonull,2025-02-07T23:17:26Z,"> Make this disabled by default and I'll merge it
+
+Done"
+1957889522,272,okx-code,2024-02-21T20:51:46Z,Good enough
+1958451280,279,okx-code,2024-02-22T00:34:34Z,Thanks!
+1952545406,235,RedDevel2,2024-02-19T14:17:51Z,Very nice 👍 
+2016604915,388,okx-code,2024-03-23T21:15:48Z,I don't think either of your race conditions will happen because `getChunkCoord`also has a `synchronised (metas)` before interacting with the `metas` map.
+2021216587,362,Huskydog9988,2024-03-26T18:44:35Z,superseded by #387 

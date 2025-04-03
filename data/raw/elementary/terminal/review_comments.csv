@@ -1,0 +1,1084 @@
+id,pr_number,user,created_at,body
+1305967069,737,Marukesu,2023-08-25T17:46:29Z,this will break having the first window be created by the action when we enable DBus activation (the only thing that was stopping us of doing that was the duplicate tab). so the `active_window == null` is necessary here.
+1305967517,737,Marukesu,2023-08-25T17:46:50Z,"please, keep the separate callback, it makes easier to breakpoint it during debug after."
+1305967789,737,Marukesu,2023-08-25T17:47:07Z,"no need for the default value here, options.lookup() will always set a value."
+1305968505,737,Marukesu,2023-08-25T17:47:58Z,"this commentary doesn't make sense any more. Before, launching with one of `-x`, `-e`, or with a command didn't restored tabs. But now the behaviour is to always restore if `-n` is not used too."
+1305969380,737,Marukesu,2023-08-25T17:49:01Z,"keep the options.lookup() inline here, it's not only getting the value of `new-window` option, but validating that it's a boolean value too."
+1305969715,737,Marukesu,2023-08-25T17:49:27Z,"if this is the first window, we aren't restoring. is that expected? i don't see a why `-n` won't restore the last session if it's the first window."
+1305970529,737,Marukesu,2023-08-25T17:50:23Z,"this cannot even happen, because we are always creating a tab above."
+1305971317,737,Marukesu,2023-08-25T17:51:21Z,I believe the agreement in the files PR was that we always save the last closed window state. Not the first opened one.
+1305972264,737,Marukesu,2023-08-25T17:52:28Z,"this is in the wrong callback no? here we aren't creating a new window, so you are actually checking the restored tabs."
+1306379862,737,jeremypw,2023-08-26T08:41:39Z,I think is is cleaner and more predictable if `-n` always creates a fresh new window.  If the user wants restored tabs then omit the `-n`.
+1306380186,737,jeremypw,2023-08-26T08:44:45Z,It can happen if the `execute` option is used without any command.
+1306386907,737,jeremypw,2023-08-26T09:16:56Z,"Yes, I was checking something - not needed now."
+1306623175,737,jeremypw,2023-08-27T08:25:19Z,Done
+1306624829,737,jeremypw,2023-08-27T08:36:11Z,That will not work.  We need a value for `new_window` when `window` is `null`.  If `window` is `null` and the lookup is inline then `new_window` will be undefined because of lazy evaluation of OR expression.
+1306692410,737,Marukesu,2023-08-27T16:40:13Z,"you can use `window != null` in the restore_tabs argument, that has the same meaning of `new_window` being true."
+1306693248,737,Marukesu,2023-08-27T16:47:15Z,"keep in mind that `-n` will also mean a hard ""drop tabs"" when used in the first launch, because there's no way to not restore the tabs in any other case that isn't the first launch.
+
+if you fine with that behaviour, i won't oppose the change."
+1306702544,737,jeremypw,2023-08-27T18:08:24Z,On reflection I have left restoring tabs to MainWindow and not dependent on options as it is simpler.
+1306702964,737,jeremypw,2023-08-27T18:11:44Z,Not sure what this means :disappointed: as I am not sure how DBus activation works.  Could you give more details or suggested code?
+1306719337,737,Marukesu,2023-08-27T20:34:30Z,"as explained, working-directory isn't meant to be a real option, also assert here isn't right, as it will force quit the primary instance."
+1306719370,737,Marukesu,2023-08-27T20:34:50Z,this won't respect the current working directory as the others.
+1306719954,737,Marukesu,2023-08-27T20:40:24Z,"```suggestion
+            if (app.get_windows ().length () == 1) {
+```
+
+then you can drop both the `window_number` and `is_first_window` properties."
+1306719963,737,Marukesu,2023-08-27T20:40:30Z,Unnecessary comment.
+1306720003,737,Marukesu,2023-08-27T20:40:50Z,This doesn't need to be public.
+1306720458,737,Marukesu,2023-08-27T20:45:37Z,"it's better to keep any ""current directory"" concept exclusive to the application class. because of the local/primary instance logic."
+1306720568,737,Marukesu,2023-08-27T20:46:43Z,"this test was made to assert that we always create a new tab when requested, so this change is wrong."
+1306720582,737,Marukesu,2023-08-27T20:46:54Z,"now that we aren't creating the extra tab, this should be 4."
+1307271179,737,jeremypw,2023-08-28T10:50:54Z,I'll remove the assert before merge - that is for testing. So far I havent been able to trigger it so probably do not need a fallback?
+1307273991,737,jeremypw,2023-08-28T10:54:08Z,"Whether or not it respects the current working directory depends on the ""follow-last-tab"" setting (that is what the *default* tab does) since it uses the action-new-tab. This is for consistency with other situations where there is no specified tab."
+1307274683,737,jeremypw,2023-08-28T10:55:00Z,That does not work.  The number of windows in the app may change after construction of the window.
+1307276490,737,jeremypw,2023-08-28T10:57:12Z,Debatable but I'll remove it.
+1307277214,737,jeremypw,2023-08-28T10:58:06Z,"Oh yes, I was going to call it directly but opted for activate_action instead. Will revert."
+1307278429,737,jeremypw,2023-08-28T10:59:27Z,So what do you suggest?
+1307279514,737,jeremypw,2023-08-28T11:00:43Z,It is necessary for the test to pass.  If the original test is correct then the app is wrong
+1307281475,737,jeremypw,2023-08-28T11:02:49Z,Hmm then it should be failing - will investigate.
+1307514692,737,jeremypw,2023-08-28T14:36:53Z,"So what I *think* is happening is that the test environment opens a window without restoring tabs *before* processing the option.  So there is already a default tab in the window and the execute option creates 4 more, one for each command, giving a total of 5.  However this does not seem to be the case for the `-t` option test so tbh I am not on what exactly happening in the test environment.
+
+If you manually execute multiple commands before any window is opened e.g. with a commandline `io.elementary.terminal -e ""true"" -e ""echo Hi""` then no extra default tab appears."
+1307534896,737,jeremypw,2023-08-28T14:52:58Z,"If you run `io.elementary.terminal -t` manually without a Terminal window open you get one tab (as expected). If you run the same command with the primary window open (but no restored tabs) then you get 2 tabs - the original default one and the requested additional one.
+
+I am not exactly sure what happens in the test environment - does a window get created before the options are processed or not?"
+1307552403,737,jeremypw,2023-08-28T15:06:42Z,After some investigation it seems like before processing the commandline in `option ()` there is 1 window with 1 tab. So I would have expected `-t` true to create a new tab like when used manually.  But it doesn't in the test environment for some reason.
+1307575458,737,jeremypw,2023-08-28T15:26:30Z,"OK, so it is race - the callback is executed before the window terminal list is updated in the `on_tab_added` signal handler.  Need to get a more immediate count of true number of tabs in the notebook.  I'll review whether the terminals list is needed or not."
+1307623682,737,jeremypw,2023-08-28T16:07:25Z,Note: Environment.get_current_dir () is already in use in TerminalWidget
+1307632234,737,jeremypw,2023-08-28T16:12:59Z,This also replaces functionality removed from MainWindow so I want to keep the behaviour the same.
+1307636979,737,jeremypw,2023-08-28T16:16:01Z,Apologies - I see that is now only called during construct so we can replace with a direct call now.  Previously it was called later (e.g. while saving tabs).
+1307652346,737,jeremypw,2023-08-28T16:26:19Z,Further investigation indicates that 5 tabs are added during this test including one due to a restore-saved-tabs attempt that should not be happening.
+1307736406,737,Marukesu,2023-08-28T17:54:52Z,"so, what's happening here is that `add_tab_with_working_directory()` is matching the already existent tab (from the first launch), and `add_default_tab()` is not creating one because `window.terminals.length () == 1`."
+1307742059,737,Marukesu,2023-08-28T18:00:36Z,"simillary as the new-tab test, there's 1 tab from first launch, and 4 from the commands, the sixty one seems strange."
+1307755647,737,Marukesu,2023-08-28T18:16:06Z,"> So what do you suggest?
+
+Only the Application class known the real working directory for the current invocation, so either action-new-tab is updated to take a path, or we don't try  to use the action in the command line context, where is the only place that a concept of working directory exists.
+
+> Note: Environment.get_current_dir () is already in use in TerminalWidget
+
+It actually isn't, the only place that we call activate_shell() without a location is in the case that we call new_tab() with a empty location, what isn't possible.
+"
+1307761902,737,Marukesu,2023-08-28T18:22:36Z,"this is already being inconsistent with the others command line options handling, where the current working directory is always respected. the code in the action-new-tab won't respect it either, it will either use the last tab directory or the current working directory of the first invocation."
+238356714,330,jeremypw,2018-12-03T17:09:55Z,Do you mean `if (current_terminal != null) {`? Otherwise this is redundant since you check for null uri later.
+238356767,330,jeremypw,2018-12-03T17:10:03Z,Should not use underscores in action names (I know the existing ones need changing) although only affects certain functions.
+238357627,330,jeremypw,2018-12-03T17:12:12Z,Gtk.show_uri is deprecated.  Use Gtk.show_uri_on_window
+238358206,330,jeremypw,2018-12-03T17:13:41Z,"Spelling:  ""lunch"" -> ""launch"""
+238359155,330,jeremypw,2018-12-03T17:16:09Z,This relies on a certain menu order.  I would just disable the linked action and not hide the option.
+238360202,330,jeremypw,2018-12-03T17:18:53Z,Why do you need this? You reset uri and the action in the following code.
+238364597,330,Mohelm97,2018-12-03T17:31:15Z,"Yeah so this is an old not current behaviour, if you make the context menu on top of uri you will got the copy enabled, but if you close it and open it somewhere else no one changes the copy state so it will stay enabled, but It should not be enabled as there's nothing selected and we are not on top of uri"
+238365052,330,Mohelm97,2018-12-03T17:32:38Z,"I hide it because I thought the I would be annoying to have an almost always disabled menu item, so it's just the first one if you have a link, or it won't appear"
+238383302,330,jeremypw,2018-12-03T18:25:57Z,"I'll flag this for @elementary/ux  comment.  If the item is to be hidden, is there a way of doing it that is not dependent on a particular order?"
+238389394,330,Mohelm97,2018-12-03T18:43:45Z,I don't know they only idea I came up with is storing this menu item but it's not a good idea too :(
+238672986,330,jeremypw,2018-12-04T14:02:26Z,"Sorry yes, you are right. The first clause could be true and the second false (or vice versa) so both are needed."
+238674483,330,jeremypw,2018-12-04T14:06:23Z,"In Files this problem is solved by building the context menu on the fly each time it is required since the context varies a lot. I'd have to study the code in more detail to see whether that is appropriate here though.
+
+I note the elementary HIG says that it is *usually* better to make a widget insensitive than hide it although there are exceptions (like when certain hardware conditions will never be met).
+
+Another suggestion would be for the ""Show in File Browser"" option to change to ""Show in Web Browser"" when the context menu relates to a web address."
+238699836,330,Mohelm97,2018-12-04T15:06:22Z,"I think editing the ""Show in File Browser"" is a better idea, I will just wait for the UX team to comment on this as I won't be able to edit anything today :D "
+364873841,330,danirabbit,2020-01-09T17:41:56Z,"I see how this is technically just a URI, but I don't think it's clear that the location will open in Files when this menuitem is triggered the majority of the time. This label feels like optimizing for the less-likely case that we're opening a web URL
+
+I think this might be better off waiting for a version of Granite where we can easily update this label based on the URI scheme"
+364892430,330,jeremypw,2020-01-09T18:25:47Z,"OK, seems like a plan."
+370329016,330,cassidyjames,2020-01-23T20:07:14Z,"No, the ""Show in File Browser"" item relates to the whole view and not what's being clicked on specifically; that's why it's separated below the text items. An ""Open in Browser"" item should probably be grouped along with the text-related items up above. I'm not super picky about whether it's insensitive or hidden when it's irrelevant; I feel like for context menus when you're clicking on a specific item it makes sense to only show items relevant to that item, i.e. not showing the ""Open in Browser"" item at all unless a link is being clicked. But if it greatly simplifies things to always show it and only toggle sensitivity, I think we'd want it to be at the bottom of the text-related items, at least.
+
+@danrabbit thoughts?"
+370531654,330,jeremypw,2020-01-24T09:09:10Z,"There is precedent for the same menuitem applying to either an item or the background depending on the context - e.g. the ""Open in"" menuitem in Files."
+430643621,330,danirabbit,2020-05-26T19:09:02Z,"This is kind of a mess. Should probably be
+```suggestion
+            open_in_browser_menuitem_label = new Granite.AccelLabel.from_action_name (
+                """", open_in_browser_menuitem.action_name
+            );
+```
+```suggestion
+            open_in_browser_menuitem_label = (new Granite.AccelLabel.from_action_name (
+                                                      """", open_in_browser_menuitem.action_name
+                                                  )
+                                             );
+```"
+430644156,330,danirabbit,2020-05-26T19:10:02Z,"If this is moved (Which is fine, this is probably more consistent with menuitem placement elsewhere), we probably need to add a separator beneath it"
+430644740,330,danirabbit,2020-05-26T19:11:09Z,"It doesn't seem intentional to remove this. If it is, then `update_context_menu_cb` should also be removed since it is now never used"
+430645533,330,danirabbit,2020-05-26T19:12:40Z,"Should probably avoid breaking translations here
+
+```suggestion
+                open_in_browser_menuitem_label.label = _(""Show in File Browser"");
+```"
+434014980,330,jeremypw,2020-06-02T16:32:21Z,"OK, done.  It was moved to match the position of the ""Open In"" item in Files."
+436181822,330,danirabbit,2020-06-05T21:57:05Z,This is now never used right?
+436182314,330,danirabbit,2020-06-05T21:58:38Z,Looks like an extra blank line snuck in
+436184687,330,danirabbit,2020-06-05T22:03:01Z,Can you explain what case this covers? I'm unsure what this is intended to do
+436185629,330,danirabbit,2020-06-05T22:05:25Z,"```suggestion
+        private void action_open_in_browser () {
+```"
+436361622,330,jeremypw,2020-06-07T13:09:11Z,"This covers everything that 
+* does not have an explicit scheme and/or
+* Does not have a recognisable extension (i.e. the content type cannot be guessed)
+
+For example, the pwd is opened through this fallback.  This is a simple, low code alternative to creating a GLib.File and trying to read the file attributes (which is what Files does).  We use `Gtk.open_uri_on_window ()` to actually open the uri and we do not specify the app to use so we have to make sure that the label matches what will actually happen. So I think we will either have to specify the app or use the longer method of getting the default app :-(  
+Also I found that, at the moment `.` and `~` are not being interpreted in the selection so there is a bit more work to be done.  Setting back to draft."
+436361773,330,jeremypw,2020-06-07T13:10:50Z,Removed
+436361797,330,jeremypw,2020-06-07T13:11:03Z,Oops
+436361833,330,jeremypw,2020-06-07T13:11:22Z,Fixed
+436375595,330,jeremypw,2020-06-07T15:39:30Z,"After latest commits, no longer guess content.  Also interpret ""~"" and "".."" in path. Needs testing with unusual characters in filename."
+637952633,584,felix-andreas,2021-05-24T13:40:21Z,"This gets called ""whenever the visible appearance of the terminal has changed"". This means it is called on every keystroke and also when a program which outputs a log messages or graphical program like htop changes the contents of the terminal. So this means it is called approximately 50-500 times per minute for normal terminal usage. So it should be made sure that this calls are not too expensive.
+
+At the moment this callback eventually calls `save_opened_terminals`, which is relatively expensive operation. For my machine the CPU usage more than doubled when using vim.
+
+On counter measure would be to check if the terminal has a running foreground process and return immediately if this is the case."
+637954899,584,felix-andreas,2021-05-24T13:43:29Z,Maybe this should also only be run on user input and not if the contents of the terminal are changed by a program. 
+638068546,584,felix-andreas,2021-05-24T15:49:56Z,Denouncing the `contents_changed` by ~500ms could probably also help.
+638069791,584,felix-andreas,2021-05-24T15:51:44Z,Another idea: Doesn't changing the directory always require to press <kbd>Enter</kbd>? Wouldn't be the simplest solution to schedule the name_check every time <kbd>Enter</kbd> is pressed and no foreground process is running?
+638157073,584,felix-andreas,2021-05-24T17:56:50Z,"```suggestion
+            t.cwd_changed.connect (check_for_tabs_with_same_name);
+```
+
+Could this be simplified?"
+638161396,584,felix-andreas,2021-05-24T18:04:47Z,Would it be possible to move this to `TerminalWidget` and make use of `bind_property` to automatically update the tooltip?
+638165339,584,felix-andreas,2021-05-24T18:12:49Z,"Or, just move this to the `check_cwd_changed` function."
+638168174,584,felix-andreas,2021-05-24T18:18:14Z,why do you have to check here? To my understanding a child process shouldn't be able to change the cwd of the parent.
+638168478,584,felix-andreas,2021-05-24T18:18:54Z,if you call check_cwd_changed in active_shell you can remove it here.
+638668900,584,jeremypw,2021-05-25T10:39:14Z,"OK, I'll move it to `check_cwd_changed` it doesn't need to be here."
+638684384,584,jeremypw,2021-05-25T11:03:05Z,Tried `bind_property` but doesnt work because `Granite.Widgets.Tab` resets the tooltip_text everytime the label text is reassigned - which may happen even when the cwd has not changed.  So I think its better to leave it as it is tbh. We do not want to reassign it on every call to `check_cwd_changed`
+638691401,584,jeremypw,2021-05-25T11:14:07Z,"OK, I wasnt sure so I played safe.  Removing."
+638692053,584,jeremypw,2021-05-25T11:15:02Z,Well spotted.
+638702226,584,jeremypw,2021-05-25T11:30:58Z,"The cwd can be changed by scripts, which are not foreground processes(? I think). If there is a way of detecting when a bash script is running (or detecting when a script inserts `Enter`) then that would be more efficient"
+638785005,584,felix-andreas,2021-05-25T13:25:49Z,"```suggestion
+            if (t != current_terminal) { // Otherwise current_terminal will change triggering a name check
+```
+
+Is the `closing_current_terminal` variable necessary?"
+638805352,584,felix-andreas,2021-05-25T13:48:28Z,Why do you have introduced the check here? how can changing the tabs change the names?
+638817462,584,felix-andreas,2021-05-25T14:01:23Z,"
+As the loop goes over all permutations instead of all combinations, I think this can be simplified to:
+
+```suggestion
+                    if (terminal2 != terminal && term2_name == term_label && term2_path != term_path) {
+                        terminal.tab_label = disambiguate_label (term_path, term2_path)
+```
+
+sorry github doesn't makes it possible to make suggestions for deleted lines, so I had to split this up in to."
+638817984,584,felix-andreas,2021-05-25T14:01:55Z,"```suggestion
+                        // Overwrite tooltip_text set by changing tab_label
+                        terminal.tooltip_text = term_path;
+```"
+638825266,584,felix-andreas,2021-05-25T14:09:58Z,"The only thing that still bother me a little bit, is that this is also triggered for foreground processes. Guarding it with a `has_foreground_process` check probably doesn't make sense, because I assume they are comparatively expensive. 
+
+Anyway it probably doesn't matter so much, I didn't see any performance differences on my machine."
+638826740,584,felix-andreas,2021-05-25T14:11:34Z,"One solution would be to unregistered the callback when a foreground process is running and re-register it on `child_exited`. But this is probably a unnecessary micro optimizations, just came to my mind."
+638835166,584,jeremypw,2021-05-25T14:20:50Z,I thought `current_terminal` may have already changed by that point so this seemed safer. I guess the check is only needed when the current_terminal is not closed in which it will not have changed so your way may work - I'll try it.
+638837610,584,jeremypw,2021-05-25T14:23:24Z,Because pages are switched when a tab is closed or dragged out of the window - but it would probably be better to deal with those cases directly.
+638842801,584,jeremypw,2021-05-25T14:29:02Z,With these changes I find that closing a tab and then re-opening it only disambiguates one of the tabs - the other keeps the basename. I don't think this is what is wanted.
+638849947,584,jeremypw,2021-05-25T14:36:33Z,"This is because when first terminal has already been disambiguated, the basename of the second terminal no longer matches it so the second term is never disambiguated."
+638860266,584,jeremypw,2021-05-25T14:47:46Z,"Yes, that seems to work OK - thanks."
+638864208,584,jeremypw,2021-05-25T14:51:48Z,"Yes, if foreground processes cannot change the cwd then this check is unnecessary. But I doubt whether the extra complexity of code is worth the (undetectable) performance gain."
+638864952,584,felix-andreas,2021-05-25T14:52:36Z,"If the script is run in a sub-process (which is in my understanding equivalent to foreground process) like this
+```
+bash script.sh or ./script.sh
+```
+it shouldn't be able to change the CWD. But if somebody sources a script which changes the cwd script like this
+
+```
+source script.sh
+```
+yes then it could the change the CWD. This is probably really rare so you have to decide if it is worth taking into acount..
+
+Also there is already some kind of precedent set with the `remember_position` which relies on the <kbd>Enter</kbd> key being pressed. Using the `contents_changed` signal introduces a second mechanism for similar issue: Both want to check if a command was executed. IMO, ideally both should rely on the same mechanism."
+638866935,584,felix-andreas,2021-05-25T14:54:41Z,ok makes sense. I don't have an opinion what is better here. 
+638869500,584,felix-andreas,2021-05-25T14:57:24Z,"hmm ok, still I think it should be possible to somehow to get away with doing half the work as the loop runs over all the permutations. Anyway this is a different issue."
+638895225,584,felix-andreas,2021-05-25T15:16:14Z,"Codestyle
+```suggestion
+        public string current_working_directory { get; private set; default = """"; }
+```"
+320552595,386,felix-andreas,2019-09-04T02:49:48Z,both variables are unused
+325431997,386,felix-andreas,2019-09-17T23:51:44Z,"Could be simplified to:
+
+```vala                                                    
+if (clicked_symbol == 0U) {
+    return Gdk.EVENT_STOP;
+}
+
+long delta_cells = clicked_col - current_col + (clicked_row - current_row) * get_column_count ();
+```"
+325583649,386,jeremypw,2019-09-18T09:50:26Z,"OK, done."
+325609165,386,felix-andreas,2019-09-18T10:56:24Z,"I think there is no reason to increment. You could simplify further:
+‘‘‘
+long delta_cells = clicked_col - current_col + (clicked_row - current_row) * get_column_count ();
+‘‘‘"
+326214512,386,felix-andreas,2019-09-19T14:43:19Z,`clicked_symbol` is unused now
+326279041,386,felix-andreas,2019-09-19T16:51:54Z,I think it should be `Gdk.EVENT_PROPAGATE`
+326279186,386,felix-andreas,2019-09-19T16:52:17Z,I think it should be `Gdk.EVENT_PROPAGATE`
+326279351,386,felix-andreas,2019-09-19T16:52:41Z,I think it should be `Gdk.EVENT_STOP`
+329355759,386,felix-andreas,2019-09-29T14:27:39Z,"Just a minor suggestion: As the functions of the `Vte.Terminal` also use ""absolute"" row-values, would it maybe better to return ""absolute"" values in the `get_cell_clicked_function`?
+```vala
+row = (long)(event.y / get_char_height () + get_vadjustment ().get_value ());
+```
+Or is there a reason to prefer ""relative"" values?"
+334246315,386,jeremypw,2019-10-12T17:17:48Z,"OK, I have now used absolute values consistently."
+341363922,386,felix-andreas,2019-10-31T21:01:39Z,"just add 
+```vala
+remember_command_start_position ();
+```
+here to fix the scrolling problem"
+341378759,386,felix-andreas,2019-10-31T21:44:20Z,"Wouldn't it be better to use the `cursor_moved` signal here? This should cover all cases.
+```vala
+cursor_moved.connect (remember_position);
+```"
+341808516,386,jeremypw,2019-11-02T11:49:58Z,"I don't think so.  We only want to remember the cursor position after the last key press, not when the cursor is moved for other reasons (e.g. due to output from a process)."
+427508619,505,cassidyjames,2020-05-19T18:21:34Z,"I don't think we should add this to be honest. It's such a specific, finicky setting. We should just ensure the default behavior makes sense. :smile: 
+
+```suggestion
+```"
+427508808,505,cassidyjames,2020-05-19T18:21:53Z,"See previous comment.
+```suggestion
+```"
+427509414,505,cassidyjames,2020-05-19T18:22:56Z,"```suggestion
+```"
+427509866,505,cassidyjames,2020-05-19T18:23:48Z,"```suggestion
+```"
+427510108,505,cassidyjames,2020-05-19T18:24:14Z,"```suggestion
+```"
+427510269,505,cassidyjames,2020-05-19T18:24:30Z,"```suggestion
+```"
+517599793,505,cassidyjames,2020-11-04T20:04:29Z,"I think something like this would more closely follow our whitespace conventions and is much easier to read:
+
+```suggestion
+            menu_button.pressed.connect (() => {
+                zoom_default_button.label = font_scale_to_zoom (current_terminal.font_scale);
+                var binding = current_terminal.bind_property (
+                    ""font-scale"",
+                    zoom_default_button,
+                    ""label"",
+                    BindingFlags.DEFAULT,
+
+                    (binding, from_val, ref to_val) => {
+                        to_val.set_string (font_scale_to_zoom (from_val.get_double ()));
+                        return true;
+                    }
+                );
+
+                menu_popover.set_data<Binding> (""zoom-binding"", binding);
+            });
+```"
+517600500,505,cassidyjames,2020-11-04T20:05:47Z,"Similar to above, I think this more closely follows our modern conventions:
+
+```suggestion
+                    term.font_scale = double.parse (zooms[index]).clamp (
+                        TerminalWidget.MIN_SCALE,
+                        TerminalWidget.MAX_SCALE
+                    );
+```"
+518285417,505,cassidyjames,2020-11-05T18:52:19Z,"```suggestion
+      <default>['1.0']</default>
+```"
+518866831,505,jeremypw,2020-11-06T16:34:39Z,"Hmm, that is not the intended behaviour - there is already a separate ""zoom"" setting for the fallback zoom for new tabs.  I expected that to be used where a tab did not have a corresponding ""tab-zoom"" value (which cannot guaranteed as the settings could be manually sent to an empty or invalid array regardless of the default value).  I'll look at this part of the code more closely."
+518922507,505,jeremypw,2020-11-06T18:15:01Z,"OK, recent commits should fix the problem."
+520136763,505,cassidyjames,2020-11-09T21:38:32Z,"```suggestion
+    <key name=""zoom"" type=""d"">
+    <range min=""0.25"" max=""4.0"" />
+```"
+520840450,505,meisenzahl,2020-11-10T20:03:21Z,"What effect do these values have?
+
+I tested in Terminal with 3 tabs: 25% (min), 100% (default) and 400% (max)
+
+These were the values in the settings: `['0,2', '1,0', '4,0']`"
+521446702,505,jeremypw,2020-11-11T15:40:50Z,"These values prevent manual entering of out of range default zoom values into the settings using dconf-editor or otherwise.  They are not essential as the code clamps the values it reads in from the settings anyway, but they inform the user."
+522243076,505,meisenzahl,2020-11-12T16:31:46Z,"Yes, but do the values make sense if I can bypass them via the UI?
+
+`['0,2', '1,0', '4,0']`
+
+From my point of view it would then have to be changed as follows:
+
+```suggestion
+    <range min=""0.2"" max=""4.0"" />
+```"
+1376581376,742,jeremypw,2023-10-30T17:28:27Z,This function appears redundant? It just calls another function with the same signature.
+1376583412,742,jeremypw,2023-10-30T17:29:50Z,I don't think this call is necessary - the function is called by the `window_title_changed` signal handler anyway.
+1376587598,742,jeremypw,2023-10-30T17:32:50Z,I think you need to save the zoom array as well - it will also be reordered.
+1376593669,742,ldrahnik,2023-10-30T17:37:21Z,"https://github.com/elementary/terminal/pull/742/commits/21c27f527972f77f0a53f89a5d79b112899bf467
+"
+1376598884,742,ldrahnik,2023-10-30T17:42:14Z,"I am sorry, I do not know. Eventually, I would suggest removing call `check_for_tabs_with_same_name` in master branch as this should be focused only on continuous saving and this line was in master in case this branch would be reverted for example in the future or as unwanted off topic change."
+1376651575,742,ldrahnik,2023-10-30T18:30:29Z,https://github.com/elementary/terminal/pull/742/commits/0a0d06c9c9f4263deddfbefa450788166df8331e
+1377636209,742,jeremypw,2023-10-31T13:58:56Z,"OK, it can be left for now."
+1377641050,742,jeremypw,2023-10-31T14:02:03Z,What is the reason for saving the tabs on `focus-in` event?
+1377657791,742,ldrahnik,2023-10-31T14:13:02Z,"Handle the situation when is opened first terminal, then second one, second one is closed and then is laptop rebooted. Without this code would be saved tabs and tab-zooms from second already closed terminal but should be saved from first one.
+"
+1377684703,742,ldrahnik,2023-10-31T14:30:38Z,"But it works only when is focus passed back to previously opened terminal, do you know what I mean, it works only when the previously opened terminal is in the layer immediately under the closed one or is focused before is laptop turned off."
+1377793096,742,jeremypw,2023-10-31T15:37:29Z,"Yes, the issue of what to do about saving settings in second and subsequent windows is not really decided. One point of view (including me) is that settings only refer to the first opened window (that is what Files implements). Others think that the last *closed* window is the one that should save the settings (which is what Terminal implements).  I think the issue you are trying to fix is also present in master because rebooting forcibly kills the process and the save on close code never runs.  I would not add this line in this PR since master does not save on focus in and there is no agreed ""right"" answer."
+1377852489,742,ldrahnik,2023-10-31T16:17:23Z,"@jeremypw I am afraid that I discovered weird behavior without added resaving `tabs` and `tab-zooms` during focus in event. Because when I close secondly opened terminal, then I return to previously opened terminal and I for example change cwd in any tab so then is saved broken state, because on cwd are saved only `tabs` and no `tab-zooms`, in other words saving GLib.Settings calls returns back attack like boomerang :D My added saving to focus in event would solve this problem, and in best way I think or this would be solved by not saving calls and call `tabs` or `tab-zooms` all time so when I return back to previously opened terminal and I start somehow interact with it broken state can not occurs. What do you think?"
+1377915546,742,ldrahnik,2023-10-31T17:06:33Z,"@jeremypw I have also an idea about adding a new bool option `continuous saving` to settings or add variant to existing one `remember tabs` option in settings, change it from bool to select with variants `continuous saving`, `only on close` and `do not save` and could be even by default `only on close` variant or disabled bool settings `remember tabs`."
+1378712495,742,jeremypw,2023-11-01T12:04:04Z,"@ldrahnik Yes, on reconsideration I think we have to save on focus-in because the settings must always reflect the state of the current window.  I think the issue of whether continuous saving should be optional should be raised separately as it needs signing off by the design team to add another setting.  In general elementary tries to avoid too many settings.  There would need to be two frequently used situations where different settings are required.  Why would users not want to continuous save?"
+1378723903,742,ldrahnik,2023-11-01T12:16:45Z,"@jeremypw I can imagine disable continous saving in my script which run when is laptop charging changed to battery. From point of view of elementary apps developers I do not know whether is possible or planned change configuration of each app depending on charging mode so this argument will be probably invalid. And I do not have another argument and it might be even confusing, I mean terminal works differently on battery mode and AC mode."
+1378746352,742,jeremypw,2023-11-01T12:37:49Z,"Yes, I think you would struggle to convince the design team that was a good idea unless the app was really draining the battery with continuous saving - in which case it would be better to throttle it (Code autosaving is throttled so that it only happens after one second of inactivity)."
+488078016,542,danirabbit,2020-09-14T16:47:26Z,"Hm, it's probably better to stick with the default button look here than hardcoding white"
+488080898,542,danirabbit,2020-09-14T16:52:07Z,"We should only have one class per file so we can do
+```suggestion
+    public class Terminal.Dialogs.ColorPreferences : Gtk.Dialog {
+```"
+488082024,542,danirabbit,2020-09-14T16:53:17Z,Is there a reason it's better to call these `01` etc instead of `color_button_black` etc?
+488082926,542,danirabbit,2020-09-14T16:54:06Z,"Since this is only ever called once, we probably don't need a separate function"
+488084499,542,danirabbit,2020-09-14T16:55:50Z,"This can be simplified to:
+```suggestion
+            var close_button = (Gtk.Button) add_button (_(""Close""), Gtk.ResponseType.CLOSE);
+            close_button.clicked.connect (destroy);
+```"
+488089840,542,danirabbit,2020-09-14T17:05:09Z,"We have prior art for using the word ""Style"" instead of ""Theme"" when referring to the dark and light styles. I'm not sure if we have anything for referring to the app chrome specifically. Maybe @cassidyjames has suggestions here.
+
+These labels should be sentence case as suffixed with "":""
+```suggestion
+            var window_theme_label = new SettingsLabel (_(""Window style:""));
+```"
+488090813,542,danirabbit,2020-09-14T17:06:55Z,"This should be 6 to align it with the action area and bottom margin of 18 so that we have a total of 24px (double space) between the content and action areas:
+```suggestion
+                margin = 6,
+                margin_bottom = 18,
+```"
+488093049,542,danirabbit,2020-09-14T17:11:04Z,"These should all be suffixed with "":"" and the more common en_US spelling is ""Gray""
+```suggestion
+            var black_color_label = new SettingsLabel (_(""Black:""));
+            var red_color_label = new SettingsLabel (_(""Red:""));
+            var green_color_label = new SettingsLabel (_(""Green:""));
+            var yellow_color_label = new SettingsLabel (_(""Yellow:""));
+            var blue_color_label = new SettingsLabel (_(""Blue:""));
+            var magenta_color_label = new SettingsLabel (_(""Magenta:""));
+            var cyan_color_label = new SettingsLabel (_(""Cyan:""));
+            var grey_color_label = new SettingsLabel (_(""Gray:""));
+            var background_label = new SettingsLabel (_(""Background:""));
+            var foreground_label = new SettingsLabel (_(""Foreground:""));
+            var cursor_label = new SettingsLabel (_(""Cursor:""));
+```"
+488095569,542,danirabbit,2020-09-14T17:15:20Z,"It seems like it would be easier to do:
+```suggestion
+            var contrast_top_label = new Gtk.Label (""┐"");
+            contrast_image = new Gtk.Image.from_icon_name (""process-completed"", Gtk.IconSize.LARGE_TOOLBAR);
+            var contrast_bottom_label = new Gtk.Label (""┘"");
+            
+            var contrast_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 3) {
+                  halign = Gtk.Align.START
+            };
+            contrast_box.pack_start (contrast_top_label);
+            contrast_box.pack_start (contrast_image);
+            contrast_box.pack_start (contrast_bottom_label);
+```"
+488096506,542,danirabbit,2020-09-14T17:16:49Z,"tooltips shouldn't have punctuation
+```suggestion
+                contrast_image.tooltip_text = _(""Contrast is very low"");
+            } else if (contrast_ratio < 4.5) {
+                contrast_image.icon_name = ""dialog-warning"";
+                contrast_image.tooltip_text = _(""Contrast is low"");
+            } else if (contrast_ratio < 7) {
+                contrast_image.icon_name = ""process-completed"";
+                contrast_image.tooltip_text = _(""Contrast is high"");
+            } else {
+                contrast_image.icon_name = ""process-completed"";
+                contrast_image.tooltip_text = _(""Contrast is very high"");
+```"
+488099440,542,danirabbit,2020-09-14T17:21:17Z,Is there a reason for changing these from clicked to button press event?
+488107799,542,danirabbit,2020-09-14T17:36:04Z,"We should make sure to use the -symbolic variant here
+```suggestion
+    -gtk-icon-source: -gtk-icontheme(""list-add-symbolic"");
+```"
+492375698,542,sebastianlay,2020-09-21T22:13:11Z,"Yeah, I used it since there does not seem to be a dark style for the ""list-add"" icon. But since we are switching to ""list-add-symbolic"" anyways this is not an issue anymore."
+492377099,542,sebastianlay,2020-09-21T22:16:29Z,"This is matching the naming in Gogh. I think it makes sense since it is generally shorter and there are a number of themes where for example ""blue"" does not actually correspond to a blue color."
+492377220,542,sebastianlay,2020-09-21T22:16:53Z,The more you know!
+492379076,542,sebastianlay,2020-09-21T22:21:37Z,When deciding on grey/grey I used the same as Tilix. But I changed it now to american spelling :)
+492379242,542,sebastianlay,2020-09-21T22:22:00Z,Definitely.
+492380961,542,sebastianlay,2020-09-21T22:26:53Z,Actually yes :) I noticed that the `clicked` event for radio buttons is triggered once when the button is activated and (more surprising) once when the button is deactivated. This prevented the updating of the radio buttons from the color preferences dialog. This wasn't an issue until now since the order of the activating/deactivating of the different buttons was just right for this to work.
+492381467,542,sebastianlay,2020-09-21T22:28:25Z,Could you elaborate on when to use which variant? Is there some documentation on this somewhere?
+496248357,542,danirabbit,2020-09-28T21:40:48Z,"Basically the `-symbolic` variant will follow the text color whereas the normal variants are full color icons. It's only kind of a historical coincidence that the normal variant for `list-add` happens to be close to the text color in the light style. This will change in a future revision of the icon set. So in this context where we want a simple shape icon that follows the UI text color, `symbolic` is the way to go"
+496248508,542,danirabbit,2020-09-28T21:41:11Z,That makes sense to me! 
+148354989,160,jeremypw,2017-11-01T19:07:38Z,"This needs to be a property and the setter clause needs to contain code that will change the size of the font when the factor changes (with proper checks).  The increment, decrement and set_default zoom functions need to be modified accordingly (they only need change the zoom_factor)."
+148355334,160,jeremypw,2017-11-01T19:09:12Z,This function is not needed - it is better that it inside the zoom_factor setter to ensure the two remain in sync (zoom_factor should be clamped to sensible levels).
+148359975,160,jeremypw,2017-11-01T19:28:20Z,Some sanity checking of zoom_factor would be a good idea.
+148360296,160,jeremypw,2017-11-01T19:29:22Z,Maybe better to connect to the realize signal to set the font size at the correct time. 
+148361632,160,Thalexander,2017-11-01T19:35:05Z,"That sounds more like another issue, as that problem would have existed before these changes."
+148518206,160,jeremypw,2017-11-02T12:33:33Z,"At the moment you are duplicating some code in the increment, decrement and restore_default zoom functions and these also contain some range checking.  If you simplify these functions to just change the zoom factor then the range checking can be consolidated in the zoom factor setter.
+
+Also, by binding this property to a setting, you are exposing it directly to the user so sanitizing is more important."
+148669546,160,Thalexander,2017-11-02T21:48:03Z,"I have simplified the increment, decrement and default zoom functions, I think it makes sense to only test the zoom_factor for the range when increment or decrementing as the functions exist and there is no reason to test it otherwise. What do you think a sane range would be? Currently the limits are a maximum of 590% and a minimum of 10%; I think from my testing 40% and 250% seem better limits for what a user is likely to want although I am not sure about the behaviour on HiDPI screens."
+148959881,160,jeremypw,2017-11-05T15:09:05Z,Backing variables for properties should be private
+148960074,160,jeremypw,2017-11-05T15:15:43Z,Conventionally a blank line between get and set clauses (after closing brace).
+148960085,160,jeremypw,2017-11-05T15:15:47Z,"Because ""zoom_factor"" property is bound to a setting, it feels better to test value and assign _zoom_factor accordingly rather than assign _zoom_factor and then maybe immediately reassign it - i.e.
+
+```
+                if (value < 0.19) {
+                    _zoom_factor = 0.2;
+                } else if (value > 5.01) {
+                    _zoom_factor = 5;
+                } else {
+                    _zoom_factor = value;
+                }
+```
+
+(Although no adverse effects were noticed your way)"
+129398830,125,donadigo,2017-07-25T19:13:31Z,Wouldn't `term.destroy ()` work here?
+129440395,125,UladRH,2017-07-25T22:18:40Z,"Sorry, I don't know what you meant. If after this line add `term.destroy ()`, then all term signals will be disconnected"
+129440814,125,donadigo,2017-07-25T22:21:18Z,"@LightSunrider ah yes, you're right here."
+133510906,125,donadigo,2017-08-16T17:13:53Z,"Make this `else if` on the same line as the above `}`:
+
+```
+...
+} else if (...) {
+
+}
+```"
+133511010,125,donadigo,2017-08-16T17:14:15Z,Add a space between the `handle_paste_event` and `()`.
+133511286,125,donadigo,2017-08-16T17:15:11Z,"Could this be called also here?
+https://github.com/LightSunrider/terminal/blob/97fbeeb5949e907b988fc0f20534a1fd41d62180/src/PantheonTerminalWindow.vala#L309
+
+This is the same code as in this method."
+141103412,125,jeremypw,2017-09-26T16:02:20Z,Unnecessary use of ****this****.  There is no ambiguity and rest of this class does not use this form for `searchbar`.
+1650609903,760,leolost2605,2024-06-24T08:49:42Z,"I think this will cause a memory leak since the lambda keeps a reference on us and the terminal widget so neither of them will be freed :(
+
+See https://gitlab.gnome.org/GNOME/vala/-/issues/1548
+And https://github.com/elementary/appcenter/pull/2193#discussion_r1650046265"
+1664868591,760,Marukesu,2024-07-03T22:16:20Z,Duplicated line.
+1664868758,760,Marukesu,2024-07-03T22:16:40Z,Wrong indentation.
+979390503,687,jeremypw,2022-09-25T10:55:13Z,"```suggestion
+                window.get_simple_action (MainWindow.ACTION_SEARCH_NEXT).set_enabled (found);
+```"
+979390565,687,jeremypw,2022-09-25T10:55:43Z,"```suggestion
+                window.get_simple_action (MainWindow.ACTION_SEARCH_NEXT).set_enabled (true);
+```"
+979390594,687,jeremypw,2022-09-25T10:55:55Z,"```suggestion
+
+            return found;
+```"
+979390668,687,jeremypw,2022-09-25T10:56:31Z,"```suggestion
+                window.get_simple_action (MainWindow.ACTION_SEARCH_PREVIOUS).set_enabled (found);
+```"
+979390684,687,jeremypw,2022-09-25T10:56:46Z,"```suggestion
+                window.get_simple_action (MainWindow.ACTION_SEARCH_PREVIOUS).set_enabled (true);
+```"
+979390713,687,jeremypw,2022-09-25T10:57:05Z,"```suggestion
+            return found;
+```
+```suggestion
+
+            return found;
+```"
+979413803,687,hollyschilling,2022-09-25T14:22:52Z,What is this change? 
+979415135,687,lenemter,2022-09-25T14:34:38Z,A blank line before return
+979433181,687,jeremypw,2022-09-25T17:10:00Z,"As `initial_found` is only used once we can omit it:
+```suggestion
+                     /* Search immediately - not after ENTER pressed */
+                    if (!next_search () && !cycle_button.active) {
+```"
+254505662,265,donadigo,2019-02-07T00:17:12Z,It seems that we should stop using `GLib.List` which forces us to use `@foreach` which doesn't support `return` or `break`. I would change `terminals` to use `Gee.ArrayList` or `Gee.LinkedList` and then immedietely return here if we found an identical tab.
+254677099,265,jeremypw,2019-02-07T13:18:52Z,"If the `foreach (TerminalWidget t in terminals {}` construction is used it is possible breakout of the loop without changing from GList and saving a local variable.   This is what I have done in the latest commit.  Changing to a Gee Collection requires more extensive and unrelated changes and should be a separate PR, I think.  It would also be possible to use a Vala.ArrayList at the expense of adding another dependency.  At some point it should be possible to replace the Gee dependency with a libvala dependency?
+"
+307932704,265,donadigo,2019-07-26T22:51:41Z,Why do we need this `allow_duplicate` here? I do not see any calls to this function overriding this argument with `true`.
+307958997,265,jeremypw,2019-07-27T09:00:43Z,I cannot remember tbh.  Maybe I was just unsure whether there might be a future need to add a duplicate tab from the commandline e.g. with a new flag.  I guess we can remove this parameter for now.
+363509619,265,donadigo,2020-01-06T22:16:58Z,"```suggestion
+            string? location = null;
+```"
+363710366,265,jeremypw,2020-01-07T11:41:21Z,Duh! How did I miss that?
+914062603,662,danirabbit,2022-07-05T18:07:35Z,Does this need to be public?
+914063787,662,danirabbit,2022-07-05T18:09:05Z,"Since we have `get_string_palette` now, should this not be a constant and have `get_rgba_palette` use `get_string_palette (prefer_dark ? DARK : LIGHT)` for its fallback?"
+914065341,662,danirabbit,2022-07-05T18:10:39Z,"```suggestion
+* Copyright 2022 elementary, Inc. (https://elementary.io)
+```"
+914108491,662,jeremypw,2022-07-05T18:46:43Z,"This is possible only if we replace the *whole* of the palette if *any* of the custom colors is invalid.  Is that OK? At the moment, we only replace individual colors."
+914174227,662,danirabbit,2022-07-05T20:24:04Z,"Couldn't we do this?
+
+```suggestion
+                critical (""Color %i '%s' is not valid - replacing with default"", i, string_palette[i]);
+                settings_valid = false;
+
+                var fallback_palette = get_string_palette (
+                    Application.settings.get_boolean (""prefer-dark-style"") ? DARK : LIGHT
+                );
+                string_palette[i] = fallback_palette[i];
+                new_color.parse (fallback_palette[i]);
+```"
+914176338,662,danirabbit,2022-07-05T20:27:14Z,I don't think this was meant to be removed. This overwrites the setting with the sanitized palette if we detect that any of the values are invalid
+915097228,662,jeremypw,2022-07-06T17:35:04Z,Reinstated
+388236504,486,jeremypw,2020-03-05T11:30:56Z,"Missing words: Should be e.g. ""Are you sure you want to kill this process?"""
+388236970,486,jeremypw,2020-03-05T11:31:55Z,Superfluous blank line
+388237820,486,jeremypw,2020-03-05T11:33:57Z,No need to repeat `d.destroy ()` - move after the if clause and remove else clause.
+390407602,486,danirabbit,2020-03-10T15:36:40Z,"I feel like we should avoid the word ""Kill"". ""Terminate"" is probably better language"
+390410427,486,danirabbit,2020-03-10T15:40:27Z,"The settings menu probably isn't the right place for this. All of the other menu items here effect all of your tabs.
+
+A more appropriate location is probably either the tab menu or the context menu"
+390503780,486,cassidyjames,2020-03-10T17:55:02Z,"@danrabbit even ""Terminate"" seems a little… excessive. Couldn't it just be “End”?"
+390508550,486,jeremypw,2020-03-10T18:02:23Z,"There are technical differences between ""Kill"" and ""End / Terminate"" although we may not need trouble the user with them.  I presume the intended use of the option would be to forcibly end (kill) a process that could not be ended normally."
+115126836,87,danirabbit,2017-05-06T19:05:38Z,"Can we not use variable names like `t`? I feel like this makes the code more difficult to read, especially if it ever gets more complex. `terminal_widget` would be more clear"
+115126866,87,danirabbit,2017-05-06T19:06:57Z,I don't feel like these are good variable names and it makes the code very unclear.
+115126894,87,danirabbit,2017-05-06T19:08:05Z,Why are you creating a new string `pth` instead of just using the existing string `path`?
+115126902,87,danirabbit,2017-05-06T19:08:44Z,Same question here. It seems like `conflict_path` is a better variable name than `pth2`
+115126909,87,danirabbit,2017-05-06T19:09:30Z,Let's use `string_builder` instead of `sb`
+115126960,87,danirabbit,2017-05-06T19:13:24Z,Seems like it would be more in keeping with Gtk to call this `tab_label`
+115150547,87,jeremypw,2017-05-07T18:34:12Z,"Personally, I find it easier to read (& write) complex code with short variable names otherwise I cannot see the wood for the trees.  However, I can easily replace the short variables with longer names in keeping with the preferred style."
+115150573,87,jeremypw,2017-05-07T18:35:32Z,I meant the above to refer to short functions and local variables only.  
+115150608,87,jeremypw,2017-05-07T18:37:37Z,"To quote ric*tz on Slack: ""using a function parameter as local-variable is not a good idea and leads to such problems parameters are unowned""."
+115150987,87,jeremypw,2017-05-07T18:54:43Z,"When duplicates were being distinguished by numbers, the tab label was different from the tab name; but now I agree there is no need to distinguish."
+1827036435,798,danirabbit,2024-11-03T18:12:49Z,"maybe something like this? I don’t think we need to say “dialog”. Since there’s multiple ways to enter text from somewhere else, maybe we focus on the copying instead of the pasting/dragging. And the kind of person who needs this probably doesn’t understand what “sudo” or “doas” means so try to use language they would understand. Not sure if “administrative” or “advanced” or something else is better here. Might need to look at language from like Polkit agent or something else to see what we usually use here 
+
+```suggestion
+            description = _(""Warn when pasted text contains administrative commands or multiple lines""),
+```"
+1827037295,798,jeremypw,2024-11-03T18:18:31Z,"Agree about ""dialog"". ""Copied text"" is a bit ambiguous as you can also copy *from* the terminal.  Again not sure what ""advanced"" means in this context (and what it might be translated to).  It is difficult to be precise, unambiguous and succinct all at the same time!"
+1827037828,798,danirabbit,2024-11-03T18:22:02Z,"Okay updated my suggestion to use ""administrative commands"" and stick to ""paste"" here"
+1827037854,798,teamcons,2024-11-03T18:22:08Z,"""Warn when pasted text contains multiple or administrative commands""
+
+short. May be of the vague."
+1827038419,798,jeremypw,2024-11-03T18:25:44Z,I think that is good - short and clear!
+1827038829,798,danirabbit,2024-11-03T18:27:15Z,I think that's pretty good. In combination with seeing/interacting with the actual warning dialog I think folks should be able to work out what this setting refers to
+1827042523,798,teamcons,2024-11-03T18:44:20Z,"Yes. By default it is ""on"". So if they disable it, theyll likely have already interacted with it in the past and connected the dots with the dialog and pasting ""doas""
+
+(unrelated but does it also react to Wget outputted to bash ? Ive seen too ""oh heres a one liner to download and run this script that fixes your problem"")"
+1827466681,798,jeremypw,2024-11-04T09:56:43Z,"At present it just looks for the words ""sudo"" or ""doas"" so it is pretty dumb. Maybe raise an issue if you feel there is a further security threat not covered."
+1451531913,743,Marukesu,2024-01-13T14:16:35Z,"instead of keeping ""working-directory"", add ""new-tab"" to the options, the working directory is sent via platform data."
+1451532455,743,Marukesu,2024-01-13T14:17:56Z,"i believe we still want to restore tabs if a working directory is set.
+
+also, this change is invalidating the commentary above, it should be removed if this change is to stay."
+1451534641,743,Marukesu,2024-01-13T14:25:16Z,"you can lookup for ""new-tab"" earlier and then do:
+```suggestion
+            window = new MainWindow (this, restore_tabs, !new_tab);
+```"
+1451534732,743,Marukesu,2024-01-13T14:25:38Z,"keep using `command_line.get_cwd()` it's already set to be the directory passed in ""working-directory"" or the directory of the current invocation."
+1451535078,743,Marukesu,2024-01-13T14:26:43Z,"you won't need this block if you change ""woking-directory"" to be ""new-tab"" in `handle_local_options()`."
+1451535126,743,Marukesu,2024-01-13T14:26:50Z,"`Environment.get_current_dir()` here (and amost everywhere in the code) is wrong.
+
+the only places we can be sure it's correct is in `main()`, `new Application()`, `construct`, `local_command_line()`, and `handle_local_options()`. "
+1451535343,743,Marukesu,2024-01-13T14:27:37Z,"this is wrong, `Environment.get_current_dir()` is the directory of the first invocation (in most of cases, $HOME), not of the current invocation.
+
+for example, assuming terminal was already opened via dock or wingpanel, if the user is in `/home/user/projects/terminal/build` and run `io.elementary.terminal -t --working-directory=../src`, this will try to open `/home/src` not `/home/user/projects/terminal/src`.
+
+ps: `-tw ../src` and `--working-directory ../src` will work as expected because they are handled by the shell, so i don't think there's much value on this change."
+1451535372,743,Marukesu,2024-01-13T14:27:47Z,"this is wrong too, this test is ensuring that we respect the working directory of the remote invocation, `Environment.get_current_dir()` isn't it."
+1451767785,743,jeremypw,2024-01-14T16:50:22Z,I have simplified and clarified this - Tabs are always restored for first created window (subject to privacy settings);
+1451767901,743,jeremypw,2024-01-14T16:50:53Z,I have removed the third parameter for window construction now
+1451773820,743,jeremypw,2024-01-14T17:30:22Z,OK i'll revert this for now - it can be addressed later if needed.
+1451778291,743,jeremypw,2024-01-14T18:00:04Z,"I now add ""new-tab"" to the options if ""-w"" option is present."
+649735728,595,JoseExposito,2021-06-11T06:56:03Z,This 2 blocks of code (the if...else) are duplicated. I think we could refactor them since the only bit that changes is the string literal.
+649818071,595,jeremypw,2021-06-11T09:06:39Z,Extraneous white space
+649820028,595,jeremypw,2021-06-11T09:09:44Z,"Strictly speaking, the word ""sudo"" might be inside quotes in the pasted text (which may not be a command). Maybe rethink this text?"
+649820650,595,jeremypw,2021-06-11T09:10:36Z,Blank line after if clause recommended.
+650576150,595,cassidyjames,2021-06-13T20:53:09Z,"@jeremypw what's extraneous here? I removed this comment because it was self-evident from the line below, and there's no extra line here."
+650576279,595,cassidyjames,2021-06-13T20:54:23Z,"This copy is exactly as-is from master, but I can rephrase to `may` to match the multi-line paste text."
+650577375,595,cassidyjames,2021-06-13T21:05:37Z,"Thanks! I suspected it could be cleaned up but hadn't thought about how. I refactored it now, let me know if that makes more sense."
+650578146,595,Marukesu,2021-06-13T21:13:15Z,Isn't the space on the end of the if clasule?
+650654627,595,JoseExposito,2021-06-14T05:21:03Z,"Looking much better, thanks!!"
+651146210,595,danirabbit,2021-06-14T17:37:06Z,Am I missing something here? It looks like we destroy no matter what and the `return` would only stop us from calling the destroy that we call anyways before returning?
+651146798,595,danirabbit,2021-06-14T17:37:59Z,"Nvm, I was indeed missing the rest of the function :sweat_smile: "
+651147876,595,danirabbit,2021-06-14T17:39:43Z,"If we're changing these anyways, we should probably remove the forced space and make this a single translatable string
+```suggestion
+            _(""Copying commands into Terminal can be dangerous. Be sure you understand what each part of the pasted text does before continuing."");
+```"
+651342705,595,cassidyjames,2021-06-14T23:28:58Z,"These strings were separated in master and I have no idea why, so I left them as-is. But I can combine them."
+317356536,397,tintou,2019-08-24T12:37:36Z,"```suggestion
+        /* Everything after ""--"" or ""-x"" is to be  treated as a single command to be executed (maybe with its own options)
+```"
+317366039,397,Philip-Scott,2019-08-24T15:55:40Z,"You should check here that `build_cmdline` is also false, as it currently is a second -x here would not get parsed as a new tab/shell arg :) "
+317366058,397,Philip-Scott,2019-08-24T15:56:17Z,"You should add a description of `-x, --` here as well, right? :) "
+317392472,397,jeremypw,2019-08-25T10:52:57Z,Well spotted - thanks!  Now fixed.
+317392477,397,jeremypw,2019-08-25T10:53:08Z,Done
+317455492,397,Philip-Scott,2019-08-26T05:31:11Z,"I actually meant to add another entry for -x, that way the new argument will show up when you type `--help` :)"
+317556886,397,jeremypw,2019-08-26T11:11:48Z,"Oh, I see. This causes some complications as you then have to support a long form option (I note that gnome-terminal does not document the -x or -- flag in the --help output).  However, I have implemented this now."
+352517413,397,tintou,2019-12-02T10:21:42Z,"```suggestion
+        foreach (unowned string s in args) {
+```"
+352517703,397,tintou,2019-12-02T10:22:14Z,"```suggestion
+                const string WARNING = ""Usage: --commandline=[COMMANDLINE] without spaces around '='\n\n"";
+```"
+658888583,602,jeremypw,2021-06-25T16:22:26Z,"We need to show the path in as the window title, if not overridden.
+```suggestion
+                title = current_terminal.window_title != """" ? current_terminal.window_title
+                                                            : current_terminal.current_working_directory;
+```"
+658889683,602,jeremypw,2021-06-25T16:24:17Z,"We need to show the path in as the window title, if not overridden.
+```suggestion
+            title = current_terminal.window_title != """" ? current_terminal.window_title
+                                                        : current_terminal.current_working_directory;
+```"
+658906741,602,jeremypw,2021-06-25T16:52:51Z,This causes a regression when there *isn't* a custom prompt set in `.bashrc`.  In that case the terminal label is the same as the terminal prompt (and window title) which is not what is wanted.  The label should always show the terminal path (disambiguated).
+658907090,602,jeremypw,2021-06-25T16:53:31Z,See above comment re tab label regression.
+658963919,602,Marukesu,2021-06-25T18:35:32Z,"that's because `.bashrc` set a title by default:
+```bash
+# If this is an xterm set the title to user@host:dir
+case ""$TERM"" in
+xterm*|rxvt*)
+    PS1=""\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1""
+    ;;
+*)
+    ;;
+esac
+```
+elementary use a patch to set the title as `dir: last_cmd` or `actual_cmd`, see: https://github.com/elementary/os-patches/blob/712e7a310b32c205fde0c73025c54f1be9181e3e/debian/skel.bashrc#L114-L171"
+409004740,504,jeremypw,2020-04-15T17:16:13Z,"This is not elementary code style -  should be:
+```
+                    if (clicked_row < remembered_command_start_row  || 
+                       (clicked_row == remembered_command_start_row &&
+                       clicked_col < remembered_command_start_col)) {
+
+                            return Gdk.EVENT_PROPAGATE
+                    }
+```"
+409005930,504,jeremypw,2020-04-15T17:18:09Z,I think you can use a single sequence to move the cursor `<N>` places.  Either `\033[<N>C` or `\033[<N>D`
+409210406,504,felix-andreas,2020-04-16T00:27:47Z,"I also thought so, but I did not have the desired effect. Instead it moves only one position and deletes the last character. Maybe I am doing something wrong... 
+
+There is also a sequence to move the cursor to a fixed position `Esc[Line;ColumnH`. But I was also not able to make it work ... "
+409443714,504,felix-andreas,2020-04-16T10:16:27Z,"@jeremypw  Do you understand why on https://valadoc.org/vte-2.91/Vte.Terminal.feed_child.html the `feed_child` has a diffenerent signature (in comparison to `feed_child (string, int)`)"
+550649894,556,cassidyjames,2020-12-31T18:59:20Z,"Rather than just say it was blocked, we should offer a _why_ here. This is also more consistent with the UnsafePasteDialog.
+
+```suggestion
+        primary_text = _(""The pasted text may execute multiple commands"");
+```
+"
+646022309,556,jeremypw,2021-06-05T18:38:04Z,Needs updating
+646023186,556,jeremypw,2021-06-05T18:46:49Z,"Shouldn't construct translatable text like this, if possible.  Suggest using `printf`.  Also there is a grammar error.
+```
+        secondary_text =  ""%s\n%s"".printf (
+              _(""The text you want to paste may be treated as a command and could unintentionally be executed.""),
+              _(""Be sure your paste doesn't contain newline characters."")
+        );
+```"
+646023577,556,jeremypw,2021-06-05T18:50:43Z,"Distinguish from unsafe paste alert setting.
+`""Show multi-line paste warning""`"
+646023976,556,jeremypw,2021-06-05T18:55:08Z,"The two if statements can be merged.
+```
+if (Application.settings.get_boolean (""block-multiline-paste-alert"") &&
+    intext.contains (""\n"")) {
+
+        var d = ......
+```"
+1421499251,753,Marukesu,2023-12-09T17:55:39Z,"you can make this query the window state, that matches the behaviour of Gtk.Window.fullscreened in Gtk4.
+
+```suggestion
+        private bool is_fullscreen {
+            get {
+                if (!get_realized ()) {
+                    return false;
+                }
+                
+                return FULLSCREEN in get_window ().get_state ();
+            }
+
+            set {
+                if (value) {
+                    fullscreen ();
+                } else {
+                    unfullscreen ();
+                }
+            }
+        }
+```
+
+then you can do `bind_property (""is-fullscreen"", header, ""decoration-layout-set"", INVERT_BOOLEAN)`.  "
+1421499285,753,Marukesu,2023-12-09T17:55:57Z,"this could be set at construction, no?"
+1421561055,753,jeremypw,2023-12-09T19:30:19Z,"Yes, that's better - thanks.  I was aware that fullscreen () cannot be guaranteed to actually fullscreen the window.  That is a nice solution if it works.  I am not sure that `bind_property` works with a property that is not backed by a private variable though - `notify` doesn't."
+1421561147,753,jeremypw,2023-12-09T19:31:06Z,Sure.
+1421571871,753,Marukesu,2023-12-09T21:15:44Z,"GLib.Binding uses notify underneath, so yeah, i believe you will need to call `notify_property()` in a window_state_event handler for that."
+1421737035,753,jeremypw,2023-12-10T12:00:18Z,I tried getting this to work but there seems to be some weird timing issues where changing `decoration_layout_set` in `configure-event` has no effect.  As this is all going to have to be rewritten for Gtk4 anyway I do not want to spend more time on it.  Is it OK to go with the current solution?
+1421770935,753,Marukesu,2023-12-10T15:31:05Z,Fine for me.
+1446503631,753,danirabbit,2024-01-09T19:18:56Z,"Make sure to style this the same as other title buttons
+
+```suggestion
+            );
+            unfullscreen_button.get_style_context ().remove_class (""image-button"");
+            unfullscreen_button.get_style_context ().add_class (""titlebutton"");
+```"
+1446504225,753,danirabbit,2024-01-09T19:19:33Z,"Title buttons don't receive keyboard focus
+
+```suggestion
+                action_name = ACTION_PREFIX + ACTION_FULLSCREEN,
+                can_focus = false,
+```"
+642856325,590,jeremypw,2021-06-01T07:38:14Z,Might as well follow current style and use `var keymap = ...` here.
+642856723,590,jeremypw,2021-06-01T07:38:49Z,Might as well use `var geometry = .....` here.
+642950079,590,felix-andreas,2021-06-01T09:44:25Z,done
+642950181,590,felix-andreas,2021-06-01T09:44:32Z,"done
+"
+1829480600,794,ryonakano,2024-11-05T14:43:34Z,I think we should call `var stripped_text = text.strip ();` here instead of L529 for lesser scope.
+1829485791,794,ryonakano,2024-11-05T14:46:26Z,This return should be no longer necessary due to changes in this PR.
+1831379144,794,jeremypw,2024-11-06T16:39:31Z,Removed var altogether
+1831379404,794,jeremypw,2024-11-06T16:39:40Z,Removed
+331449841,390,jlnr,2019-10-04T11:06:58Z,"This color is still being referenced in `io.elementary.terminal.gschema.xml`, as part of ""palette"", and in the method `TerminalWidget.restore_settings`. Should these be replaced as well, or should the palette be left untouched by this PR? (Not sure why there is both a palette, and default fg/bg colors.)"
+331450102,390,jlnr,2019-10-04T11:07:50Z,"The `.color-dark radio` in Application.css still uses this color (with 100% opacity), should probably be changed to the gray color as well?"
+331566190,390,cassidyjames,2019-10-04T15:41:52Z,"@jlnr good catch, addressed."
+331566311,390,cassidyjames,2019-10-04T15:42:10Z,"@jlnr hm, I'm not sure. I believe the palette is used by the VTE itself for things like curses. I'm not sure if it should be updated."
+331691909,390,jlnr,2019-10-04T21:25:33Z,"Fair enough. If it looks odd in real-world use cases, we can open another PR to fix things."
+250015115,349,Philip-Scott,2019-01-23T00:30:11Z,Why did you move the Namespace out of the class name? I think we are using the previous method in the rest of the apps :) 
+250015891,349,Philip-Scott,2019-01-23T00:34:13Z,This will crash if the setting schema is not installed (Maybe in a different OS). See main review comment :)  
+250149183,349,jeremypw,2019-01-23T11:08:10Z,Not sure - I guess there was a reason at the time ...
+250149238,349,jeremypw,2019-01-23T11:08:22Z,Good point
+307023385,349,cassidyjames,2019-07-24T21:11:30Z,"Left a comment in here?
+
+```suggestion
+```"
+223489504,299,cassidyjames,2018-10-08T20:35:22Z,"If this is bound to the setting, does it need to be explicitly marked as active?"
+223490830,299,cassidyjames,2018-10-08T20:40:35Z,"I tested locally and it appears to still properly check itself when bound to the setting, so I believe this should be removed."
+223497439,299,neur0manc,2018-10-08T21:06:39Z,"I added it so the dialog still has the same default behaviour: Showing the dialog if the CheckButton is untouched by the user. The old phrasing requires the user to act to mute the dialog. The new phrasing should still require the user to act.
+
+I think this is required to fulfill the requirement ""and have it checked by default."" that your made in the issues description.
+
+Sorry in advance if maybe I don't get what your mean."
+223498149,299,cassidyjames,2018-10-08T21:09:44Z,"@ls42 No worries, it's kind of confusing! But by using a binding to the setting, the check will automatically check itself if that underlying setting is active. The setting is already active by default (controlled by the default GSchema), and it must be active to show the dialog in the first place, so this line is just unnecessary. "
+223499794,299,neur0manc,2018-10-08T21:17:00Z,Alright! Very interesting. I remove the line and it's still working.
+355028020,431,tintou,2019-12-06T20:59:41Z,"```suggestion
+            unowned string text = intext._strip ();
+```
+That way no copy of the input string (which can potentially be huge :man_shrugging:)"
+364343953,431,jeremypw,2020-01-08T17:10:54Z,Why not just remove any trailing new line(s)?
+410965287,431,cassidyjames,2020-04-19T18:42:24Z,"Leading newlines could also unintentionally execute commands, but if it feels safer to only trim newlines and only trailing ones, then this could be adapted to do that as well."
+415041174,431,jeremypw,2020-04-25T11:15:46Z,We really need to know if we are pasting into the commandline or not.  If we are pasting into e.g. vim or an interactive interpreter (?) then we do not want to strip.
+415234663,431,cassidyjames,2020-04-26T06:52:01Z,"@jeremypw that makes sense to me, but I'm unsure if/how we can do that."
+416022102,431,jeremypw,2020-04-27T17:48:39Z,"@cassidyjames  I have pushed a commit that only processes the pasted text if there is no foreground process. This fixes pasting into terminal editors like nano or vim.  Also, I noticed that just stripping the string is insufficient to prevent command execution when pasting into the shell as it does not remove embedded newlines.  If you really want to prevent this, you have to make sure you only paste one line (without the newline).  My commit also does this. The UnsafePasteDialog (and setting) then becomes redundant as it is only triggered if there is a newline."
+416033338,431,cassidyjames,2020-04-27T18:04:15Z,"@jeremypw yeah I was wondering about embedded newlines as well… but I wonder if this would be too aggressive/different from what people expect. I wonder if we could combine the checking with `sudo` and checking for newlines under the unsafe paste protection? I'll have to think about this a bit. But my initial thought is maybe:
+
+- Treat newlines similar to how we treat `sudo` for paste protection, i.e.
+  - Warn with an unsafe paste dialog (with modified copy) if a pasted command contains a newline
+  - Turning unsafe paste protection off also turns off any special handling with newlines
+- Maybe offer a way to paste one line without newlines in the dialog, i.e. as an alternate action? If that seems useful, we could also maybe strip `sudo` out from the sudo version, but idk if that's getting too complicated now."
+416465946,431,jeremypw,2020-04-28T09:26:02Z,Maybe better to take an incremental approach and deal with single line pastes first (probably 99% of cases?) and think about how to deal with embedded newlines at leisure.
+1242449869,699,jeremypw,2023-06-26T16:23:13Z,"This gives two new compile warnings with valac 0.56.7 
+```
+../src/Widgets/SettingsPopover.vala:180.13-180.32: warning: Use of possibly unassigned parameter `css_provider'
+  180 |         if (css_provider == null) {
+      |             ^~~~~~~~~~~~~~~~~~~~   
+../src/Widgets/SettingsPopover.vala:186.9-186.90: warning: Use of possibly unassigned parameter `css_provider'
+  186 |         style_context.add_provider (css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+```
+Do you know if later versions of Vala will support it? I tend to avoid this pattern though it is useful. "
+1242458799,699,jeremypw,2023-06-26T16:31:09Z,"You are potentially providing a `null` or uninitialised parameter to these functions, contrary to their signature."
+748756581,638,Marukesu,2021-11-13T19:28:24Z,"should be using `Gtk.get_current_event_time ()`
+```suggestion
+                        window.present_with_time (Gtk.get_current_event_time ());
+```"
+748756586,638,Marukesu,2021-11-13T19:28:32Z,"```suggestion
+            get_last_window ().present_with_time (Gtk.get_current_event_time ());
+```"
+756074255,638,igordsm,2021-11-24T13:27:44Z,"@Marukesu Does this work on your end? It doesn't for me. From what I've read, the  timestamp that `present_with_time` receives must be a X11 server timestamp and the only way I was able to get it was using this Gdk.X11 call. I've tried `Gdk.CURRENT_TIME` and many types of datetime functions returning the current time as well. 
+
+I'm not a fan of adding this dependency too, but it was literally the only timestamp that worked for me. "
+1739904893,638,jeremypw,2024-08-31T18:54:58Z,"I can confirm that `current_event_time` does not work on X11 or Wayland, probably because the event did not occur on the Terminal window but was received over DBus.  I have suggested a hack to get it work on X11 at least with that extra dependency."
+125173752,119,cassidyjames,2017-07-02T05:15:32Z,"Is this HiDPI-safe? I.e. if I have a 3200x1800 display with a scaling factor of 2, does `Gdk.Screen.width()` return 3200 or 1600?"
+125173769,119,cassidyjames,2017-07-02T05:17:05Z,I'm also curious how this behaves with multiple displays.
+125173837,119,vjr,2017-07-02T05:20:43Z,Works on my hidpi display. For multiple screen maybe it needs work but existing move x y code might already have this issue anyway.
+162584023,196,jeremypw,2018-01-19T10:17:42Z,Missing space before bracket
+162584357,196,jeremypw,2018-01-19T10:19:14Z,Missing space before bracket
+162588227,196,jeremypw,2018-01-19T10:35:04Z,"Can the tab be focussed here only? i.e. tabs all created unfocussed and then `var t = notebook.get_tab_by_index (focus.clamp (0, notebook.n_tabs - 1)` etc."
+162589492,196,jeremypw,2018-01-19T10:40:32Z,"This is rather unclear and may not compile with older versions of valac. At least add a comment to explain the effect.
+
+Consider using `focus = PantheonTerminal.saved_state.focused_tab.clamp (0, tabs.length - 1)`. This is clearer and means that a negative setting focusses the first tab.  As this situation is likely to be a rare corner case the exact behaviour is not that important."
+162780684,196,jeremypw,2018-01-20T11:39:37Z,I am not sure about this.  Normally if `notebook.n_tabs` is greater than 0 then terminal is being launched with a specified working directory in which case focus_restored_tabs is false and `focus` is not used anyway.  Is there a case when this not so?  Not that it does any harm.
+162780978,196,Thalexander,2018-01-20T11:59:37Z,"No there is no case where this happens, I have included this so if the behaviour changes it will still work."
+530011404,477,danirabbit,2020-11-24T23:37:28Z,I guess this was not intentional :)
+530014649,477,danirabbit,2020-11-24T23:40:56Z,"Is there a reason this isn't inside the conditional below? It seems like if `option_help` or `option_version` are true, then this wouldn't be relevant would it?"
+535397101,477,jeremypw,2020-12-03T16:42:44Z,I usually take a comment to refer to the code following it but in this case it could be inside the conditional - I'll move it.
+535534870,477,danirabbit,2020-12-03T19:44:07Z,"Sorry I meant the whole code block, not just the comment. It seems like we don't need to get the current working directory if the user is just printing the help or version right?"
+536008542,477,jeremypw,2020-12-04T10:47:47Z,I'll rethink it. 
+739277995,633,jeremypw,2021-10-29T14:22:45Z,Elementary code style is ` } else if () {`
+739280345,633,jeremypw,2021-10-29T14:25:34Z,Double blank line
+739286128,633,jeremypw,2021-10-29T14:32:14Z,"This is a good idea but I think it will cause the switch clause
+```
+            switch (Application.settings.get_string (""background"")) {
+                case HIGH_CONTRAST_BG:
+                    color_button_white.active = true;
+                    break;
+                case SOLARIZED_LIGHT_BG:
+                    color_button_light.active = true;
+                    break;
+                case DARK_BG:
+                    color_button_dark.active = true;
+                    break;
+            }
+```
+in `setup_ui ()` to fail on first run because the setting will still be in rgb form.  You need to do the check earlier."
+863098445,658,jeremypw,2022-05-02T18:53:11Z,"```suggestion
+
+            close ();
+```"
+863104912,658,SkiF12,2022-05-02T19:02:26Z,"Ok, thanks"
+1900282969,836,ryonakano,2024-12-31T22:28:07Z,Is there any reason you explicitly cast to int here? The return type of `Hdy.TabView.get_page_position ()` seems to be int: https://valadoc.org/libhandy-1/Hdy.TabView.get_page_position.html
+1900283096,836,ryonakano,2024-12-31T22:28:56Z,"Maybe we can calculate this instead of conditions like this:
+
+```vala
+pos %= n_pages;
+```"
+1900406964,836,jeremypw,2025-01-01T14:17:15Z,You're right - its not needed. Removed
+1900408638,836,jeremypw,2025-01-01T14:27:04Z,Nice idea but it doesn't work for negative values of `pos` (-1 % n_pages = -1).  You can use `pos = (pos + (int) n_pages ) % ((int) n_pages)`   but at least the current solution is clear what is going on.
+1900486916,836,ryonakano,2025-01-02T00:48:25Z,"> You can use `pos = (pos + (int) n_pages ) % ((int) n_pages)`
+
+Sorry, this is what I wanted to suggest. :bow: Plus `n_pages` is actually typeof int because its value come from `Hdy.TabView.n_pages`, so we might be able to make it simpler by removing casts:
+
+```suggestion
+        pos = (pos + tab_view.n_pages) % tab_view.n_pages;
+```
+
+> but at least the current solution is clear what is going on.
+
+Yes, I'm also a fan of readable codes. However, I don't think choosing calculation instead of the condition here decreases readability of the code because this formula is simple. Also, I think it's often used elsewhere e.g. when calculating next index in ring buffers. Conditions sometimes causes bugs so I think we should avoid it when it's possible and avoiding it doesn't lose readability."
+1900758689,836,jeremypw,2025-01-02T10:57:36Z,"OK, I am persuaded. I noticed that the TerminalView.n_pages does not need to be a `uint` anyway. I presume there was some reason in the past that was done but making it an `int` does not cause any problems and removes the need for several other casts."
+159240503,185,jeremypw,2018-01-02T14:54:12Z,This duplicates Widget.application - is it advantageous to have a separate property as well as set_application (app) in construct {}?
+159240846,185,jeremypw,2018-01-02T14:55:48Z,Can be made read-only with { get; private set; }
+159240884,185,jeremypw,2018-01-02T14:56:04Z,Can be made read-only with { get; private set; }
+159240908,185,jeremypw,2018-01-02T14:56:12Z,Can be made read-only with { get; private set; }
+159240961,185,jeremypw,2018-01-02T14:56:27Z,Can be made private
+159241844,185,jeremypw,2018-01-02T15:00:44Z,Can be made private
+159305392,185,danirabbit,2018-01-02T20:09:18Z,"I'd like to chase this down in a follow-up PR, but there seems to be some conflict between `Gtk.Application` and `PantheonTerminalApp`. Trying to use `Widget.Application` is giving me errors about setting shortcut accelerators and some other issues."
+228438701,262,tintou,2018-10-26T08:08:21Z,Do not keep commented code
+228438777,262,tintou,2018-10-26T08:08:36Z,Keep it lowercase for consistency
+228438852,262,tintou,2018-10-26T08:08:55Z,"```suggestion
+        public const string ACTION_COPY_LAST_OUTPUT = ""action_copy_last_output"";
+```"
+298800364,375,donadigo,2019-06-29T14:02:49Z,"`clamp` returns you a new int here, so currently, you are clamping and then immediately discarding the result.
+```suggestion
+            focus = focus.clamp (0, tabs.length - 1);
+```"
+298800538,375,donadigo,2019-06-29T14:09:50Z,"You could use the already available `rect` instead of defining new window x and y.
+```suggestion
+                PantheonTerminal.TerminalApp.saved_state.get (""window-position"", ""(ii)"", out rect.x, out rect.y);
+```"
+298800581,375,donadigo,2019-06-29T14:11:47Z,It looks like something went wrong here. Shouldn't `NORMAL` be `0`?
+299210136,375,donadigo,2019-07-01T20:44:16Z,You could get the window state once here by caching it.
+1405197930,749,jeremypw,2023-11-25T18:39:38Z,Best not use the name of a command as a variable name.  Cannot insert `warning ()` commands into the code when this variable is in scope.
+1405198093,749,jeremypw,2023-11-25T18:40:19Z,This does not work for some reason.  No dialog is shown when `sudo` is included (shown in master).
+1405199504,749,jeremypw,2023-11-25T18:46:56Z,This alters the logic of the test compared to the original causing the warning to not show if there is no newline.  Was this the intention? Probably best to push a separate PR for changes in the logic and keep this one purely for moving code.
+1405201468,749,jeremypw,2023-11-25T18:54:57Z,I would remove this space.
+1405456885,749,Marukesu,2023-11-26T18:31:59Z,"No, it was not a intended change, thanks for catching it."
+1704386131,769,danirabbit,2024-08-05T16:42:01Z,Can you add a comment here maybe?
+1705929197,769,danirabbit,2024-08-06T18:05:57Z,"Hm so I get a warning here about:
+```
+../src/Widgets/TerminalWidget.vala:45.9-45.39: warning: Terminal.TerminalWidget.context_menu_model hides inherited property `Vte.Terminal.context_menu_model'. Use the `new' keyword if hiding was intentional
+   45 |         private Menu context_menu_model {
+```
+
+I'm actually not sure what is the purpose of this property? it seems to only be used in a single private function"
+1705930254,769,danirabbit,2024-08-06T18:06:56Z,"This should probably not be `Gtk.PopoverMenu` in Gtk3, but instead `Gtk.Menu` and we can change it to `PopoverMenu` in Gtk4"
+1705930841,769,danirabbit,2024-08-06T18:07:33Z,I think `show_all` and `popup` are redundant here. I'm not sure `show_all` is necessary when using a menu from a model
+1706954925,769,jeremypw,2024-08-07T12:57:09Z,Now removed.
+1706955123,769,jeremypw,2024-08-07T12:57:18Z,Fixed
+1706956621,769,jeremypw,2024-08-07T12:58:11Z,It does not work in Gtk3 without these.  Revisit in Gtk4
+1869823092,813,jeremypw,2024-12-04T15:45:37Z,"Adding 
+```
+        if (terminal == terminal.main_window.current_terminal) {
+            terminal.tab.icon = null;
+        }
+```
+fixes the icon issue."
+1869858439,813,danirabbit,2024-12-04T16:04:38Z,I already have that on line #230?
+1869888482,813,jeremypw,2024-12-04T16:23:27Z,"Sorry, I must have got confused about which branch I was running at some point :disappointed: Your PR does indeed fix that issue!"
+159646262,190,jeremypw,2018-01-04T12:59:21Z,"I am not sure this is necessary here.  It is already being called after adding, closing and restoring a tab.  Only need to save if tab labels are changed (see below) due to disambiguation. Maybe at line 1033?
+  "
+160574464,190,Thalexander,2018-01-10T02:06:06Z,It will not in all cases update the saved tabs on a name change with that set up unfortunately.
+167077374,180,donadigo,2018-02-08T21:45:28Z,Space before `{`.
+150336148,165,donadigo,2017-11-10T20:58:18Z,"What should happen here:
+
+The `mode_changed` signal should set `settings.prefer_dark_style`.
+
+Then you connect to `settings.notify[""prefer-dark-style""]` and change the background and foreground based on that value. (You make an `update_style` or something).
+
+Then you call `update_style` on the beggining of construction."
+150337787,165,danirabbit,2017-11-10T21:06:48Z,"In the case that we add a third style (for example a high contrast black on white style), prefering the dark stylesheet does not necessarily imply what the background and foreground colors should be. I want to make sure these are kept as separate settings and applied and loaded separately to allow for custom settings in dconf as well"
+150659298,165,donadigo,2017-11-13T20:44:29Z,Can we get those strings as constants somewhere?
+150659323,165,donadigo,2017-11-13T20:44:36Z,These too.
+150659349,165,donadigo,2017-11-13T20:44:44Z,And these also.
+193212730,253,danirabbit,2018-06-05T20:34:17Z,"Instead of doing this, we should set `action_name` on the menuitems. This will handle sensitivity"
+193654142,253,ryonakano,2018-06-07T07:48:11Z,"I think the line 143 should be `action_accelerators[ACTION_SELECT_ALL] = ""<Control><Shift>a"";`.
+Because after this update was installed to my environment, pressing `Shift + a` selects all in the terminal and pressing `Ctrl + Shift + a` do nothing."
+193654468,253,ryonakano,2018-06-07T07:49:31Z,"I'm sorry, it fixed just now #257, please don't mind these comment"
+476445160,533,jeremypw,2020-08-25T13:24:35Z,"Shouldn't `<Ctrl>Tab` navigate to *next* tab?  And `<Shift><Ctrl>Tab` navigate to the previous tab?  Problem is, Vte-91 captures `Tab` && `<Ctrl>Tab` for triggering autocompletion."
+476485399,533,rafaelcorsi,2020-08-25T14:18:26Z,"Hi there,
+
+1. I will change to *next tab* 
+1. here it works nice and don't trig autocomplete 
+
+![Peek 2020-08-25 11-14](https://user-images.githubusercontent.com/1039615/91185498-498a4b80-e6c4-11ea-9e98-eaaa1eb76353.gif)
+"
+476502477,533,jeremypw,2020-08-25T14:40:28Z,"Hmm, you are right - cloning your branch it works - previously I just amended my own repo but I used `<Control>Tab` like the rest of the code.  Not sure why that should make a difference.
+
+"
+476567119,533,rafaelcorsi,2020-08-25T16:09:31Z,"> `<Ctrl>Tab` does not _seem_ to do anything different from `Tab` in Vte.Terminal, but I am not sure.
+
+fix:
+
+- [ x ] using `<Control>`
+- [ x ] `<Control>Tab`  for next tab
+- [ x ] `<Control><Shift>Tab` for previous tab"
+466861818,527,lainsce,2020-08-07T07:09:28Z,"How about this? Makes it look more uniform and less lopsided. :smile: 
+
+```suggestion
+    padding: 12px 12px 0 12px;
+```"
+488856251,527,cassidyjames,2020-09-15T17:51:04Z,@lainsce so this still has the weird scrolling problem. I think just applying to the sides for now is fine unless/until we can sort out the undershoot.
+488857123,527,cassidyjames,2020-09-15T17:52:27Z,"@danrabbit I think 0 and 12px feels too lopsided, so unless/until we can sort out some sort of undershoot or other way to handle that, how about `0 9px`? Still a notable improvement over master.
+
+```suggestion
+    padding: 0 9px;
+```"
+1102022725,701,danirabbit,2023-02-09T21:04:24Z,"I think this is less legible than having arguments separated into their own lines, personally"
+1102024294,701,danirabbit,2023-02-09T21:06:27Z,Can we keep these expanded on several lines as they were? I think this is a lot harder to read at a glance
+1102025255,701,danirabbit,2023-02-09T21:07:42Z,Is there a good reason to have these all separated out like this? it seems like it kind of just makes it more complicated and I'm not sure we ever want to re-use these values besides `glib_version`
+1102026114,701,danirabbit,2023-02-09T21:08:44Z,"Same as before, I think this makes things a bit harder to read at a glance. I'm not sure there's a benefit to compacting it like this"
+1102043043,701,Marukesu,2023-02-09T21:29:41Z,"i would say it make more easy to find minimal versions of dependencies, but i can inline the not re-used ones if preferred."
+1752708304,788,danirabbit,2024-09-10T20:54:00Z,It seems like these are only used inside the key press handler. Why are we setting these variables outside of that function at all?
+1755155516,788,jeremypw,2024-09-11T16:43:14Z,Because they need to maintain their state between key presses when multiple keys are held down sequentially.
+1755208970,788,danirabbit,2024-09-11T17:25:33Z,"I'm not sure I understand what you mean. Testing locally, replacing all of this with checking for CONTROL and SHIFT mask in modifiers seems to work as expected. Can you provide steps where it doesn't work?"
+1755211537,788,danirabbit,2024-09-11T17:27:37Z,"Here's what I'm testing
+
+```
+diff --git a/src/Widgets/TerminalWidget.vala b/src/Widgets/TerminalWidget.vala
+index cc779d30..eca5e5c4 100644
+--- a/src/Widgets/TerminalWidget.vala
++++ b/src/Widgets/TerminalWidget.vala
+@@ -148,8 +148,6 @@ namespace Terminal {
+         private Gtk.GestureMultiPress primary_gesture;
+         private Gtk.GestureMultiPress secondary_gesture;
+ 
+-        private bool control_pressed = false;
+-        private bool shift_pressed = false;
+         private double scroll_delta = 0.0;
+ 
+         public signal void cwd_changed (string cwd);
+@@ -196,7 +194,7 @@ namespace Terminal {
+                 propagation_phase = TARGET
+             };
+             key_controller.key_pressed.connect (key_pressed);
+-            key_controller.key_released.connect (key_released);
++            key_controller.key_released.connect (() => scroll_controller.flags = NONE);
+             key_controller.focus_out.connect (() => scroll_controller.flags = NONE);
+ 
+             primary_gesture = new Gtk.GestureMultiPress (this) {
+@@ -337,13 +335,9 @@ namespace Terminal {
+             switch (keyval) {
+                 case Gdk.Key.Control_R:
+                 case Gdk.Key.Control_L:
+-                    scroll_controller.flags = VERTICAL;
+-                    control_pressed = true;
+-                    break;
+                 case Gdk.Key.Shift_R:
+                 case Gdk.Key.Shift_L:
+                     scroll_controller.flags = VERTICAL;
+-                    shift_pressed = true;
+                     break;
+                 case Gdk.Key.Alt_L:
+                 case Gdk.Key.Alt_R:
+@@ -381,7 +375,7 @@ namespace Terminal {
+                     popup_context_menu (rect);
+                     break;
+                 default:
+-                    if (!(control_pressed || shift_pressed) || !(Gtk.accelerator_get_default_mod_mask () in modifiers)) {
++                    if (!(CONTROL_MASK in modifiers || SHIFT_MASK in modifiers) || !(Gtk.accelerator_get_default_mod_mask () in modifiers)) {
+                         remember_command_start_position ();
+                     }
+                     break;
+@@ -403,11 +397,11 @@ namespace Terminal {
+                 return false;
+             }
+ 
+-            if (control_pressed && Application.settings.get_boolean (""natural-copy-paste"")) {
++            if (CONTROL_MASK in modifiers && Application.settings.get_boolean (""natural-copy-paste"")) {
+                 if (match_keycode (Gdk.Key.c, keycode)) {
+                     if (get_has_selection ()) {
+                         copy_clipboard ();
+-                        if (!shift_pressed) { // Shift not pressed
++                        if (!(SHIFT_MASK in modifiers)) { // Shift not pressed
+                             unselect_all ();
+                         }
+                         return true;
+@@ -427,23 +421,6 @@ namespace Terminal {
+             return false;
+         }
+ 
+-        private void key_released (uint keyval, uint keycode, Gdk.ModifierType modifiers) {
+-            switch (keyval) {
+-                case Gdk.Key.Control_R:
+-                case Gdk.Key.Control_L:
+-                    control_pressed = false;
+-                    break;
+-                case Gdk.Key.Shift_R:
+-                case Gdk.Key.Shift_L:
+-                    shift_pressed = true;
+-                    break;
+-                default:
+-                    break;
+-            }
+-
+-            scroll_controller.flags = NONE;
+-        }
+-
+         private void setup_menu () {
+             // Update the ""Paste"" menu option
+             clipboard.request_targets ((clipboard, atoms) => {
+```"
+1756518748,788,jeremypw,2024-09-12T09:44:12Z,"This had to be done in the Gtk4 version because 
+> Gtk4 seems to still have a bug in the ""state"" parameter of the key controller signals in that if multiple modifiers are held down this parameter only includes one of them so we still have to track the state ourselves.
+
+I'll check again whether this fix is needed."
+1826515997,777,ryonakano,2024-11-02T07:12:06Z,"This line causes the following warning on build:
+
+```
+../src/Widgets/TerminalWidget.vala:783.71-783.93: warning: unhandled error `GLib.ShellError'
+  783 |                         file = File.new_for_uri (Utils.sanitize_path (Shell.unquote (uris[i]), """", false));
+      |                                                                       ^~~~~~~~~~~~~~~~~~~~~~~              
+```"
+1826517393,777,ryonakano,2024-11-02T07:24:21Z,"> Files sends uris that are escaped and quoted
+
+I'm not sure if this behavior is just about Files. I'm not sure about each implementation, but this branch works as expected if I open Terminal from Code, GNOME Files, and Dolphin, the file manager made for KDE.
+
+(I'm concerning this comment sounds like as if this code only supports URIs passed from Files and does not support them passed from other apps)"
+1826974795,777,jeremypw,2024-11-03T12:47:01Z,ShellError now handled
+1826975841,777,jeremypw,2024-11-03T12:52:49Z,I have amended the comment accordingly
+126832715,95,donadigo,2017-07-11T23:24:10Z,"Now, I don't know if this would work, but I think, this could be done differently by just overriding the default `button_press_event` virtual signal here."
+126832740,95,donadigo,2017-07-11T23:24:19Z,The same could be done here.
+369514245,468,jeremypw,2020-01-22T11:46:36Z,This is `true` even if other modifiers are held down in addition to `Ctrl`.  Not sure is that matters in this case.
+369955394,468,eGust,2020-01-23T06:55:40Z,"several lines below the code for scrolling is
+`if ((event.state & Gdk.ModifierType.CONTROL_MASK) > 0)`
+
+I don't mind to open links with holding Ctrl + Shift, as currently no matter what modifiers it still opens up."
+369998754,468,jeremypw,2020-01-23T09:06:13Z,"Yes, I am not too concerned, although Files code does check that only `<Ctrl>` is held down.  I guess it can be changed if an issue arises."
+425992395,468,jeremypw,2020-05-15T19:00:38Z,I dont think these two booleans should be linked they have different purposes.
+1747384209,785,jeremypw,2024-09-06T16:12:41Z,Do we need so complicated css class?  See what I did in the Gtk4 branch - one css class for each theme name.  Colors will be overwritten if they change?
+1747389098,785,jeremypw,2024-09-06T16:16:35Z,"When I did the same in the Gtk4 branch, the buttons became small so is this necessary here?"
+1747396636,785,danirabbit,2024-09-06T16:22:29Z,I just moved this to the application.css since it never changes
+1747397135,785,danirabbit,2024-09-06T16:22:54Z,Oh yeah theme name probably works fine. I definitely overthought it 😅
+1747455593,785,jeremypw,2024-09-06T17:05:31Z,Oh I see - I missed that.
+197534320,275,tintou,2018-06-22T18:38:48Z,don't case here
+197534450,275,tintou,2018-06-22T18:39:18Z,then use `this.feed_child (uris_s.data);` instead
+197534494,275,tintou,2018-06-22T18:39:28Z,don't case here
+197534536,275,tintou,2018-06-22T18:39:41Z,then use `this.feed_child (uris_s.data);` instead
+355078540,432,danirabbit,2019-12-07T00:05:04Z,I think you probably don't want to include the markup in the translatable string
+355078894,432,danirabbit,2019-12-07T00:06:52Z,I don't think this is necessary if you have the label expanding
+355079343,432,danirabbit,2019-12-07T00:09:28Z,"Instead of a regular button with style classes I think what would be better is using Gtk.ModelButton and then removing  its child like here: https://github.com/elementary/wingpanel-indicator-session/blob/master/src/Indicator.vala#L93
+
+Right now there's some weird focus style stuff and that would fix it. You also wouldn't need to then add any margin to the grid"
+357803063,435,danirabbit,2019-12-13T19:41:26Z,"If you're only interesting in `delta_y` I think you can just do 
+```suggestion
+                            var delta_y = event.delta_y;
+```"
+357925030,435,jeremypw,2019-12-14T16:00:33Z,Thanks - done
+1370685411,740,danirabbit,2023-10-24T18:55:24Z,"In system settings we call this `Event Alerts` so probably should be consistent. This can also be a screen flash so it's not always an audible alert
+```suggestion
+        var audible_bell_button = new Granite.SwitchModelButton (_(""Event Alerts"")) {
+```"
+1370692066,740,danirabbit,2023-10-24T19:00:07Z,"In the description text in System Settings we say ""notify"" here. Also use the same format we use in dialogs etc to describe System Settings locations
+
+```suggestion
+            description = _(""Notify for invalid input or multiple possible completions (subject to System Settings → Sound)""),
+```"
+162784235,200,jeremypw,2018-01-20T14:46:35Z,"Should be spaces around ""="".  Better default to ""false""."
+162784260,200,jeremypw,2018-01-20T14:47:31Z,Parameters should not be optional.
+132844005,136,matzipan,2017-08-13T14:48:59Z,"Is there a reason why the handler for search_changed, which is pretty 7 lines long was moved to an anonymous callback, but these ones which are 1 line long haven't been? "
+132845248,136,danirabbit,2017-08-13T15:41:55Z,"These methods are public, the others were private and only used once"
+132845729,136,matzipan,2017-08-13T15:59:04Z,Missed that part.
+141668193,146,donadigo,2017-09-28T16:24:43Z,"You can use a simpler syntax for this:
+`action_accelerators[ACTION_CLOSE_TAB] = ""<Control><Shift>w"";`"
+141668656,146,donadigo,2017-09-28T16:26:33Z,This could be `private`. Move construction of this MultiMap to the `static construct` block.
+141669153,146,donadigo,2017-09-28T16:28:30Z,Do we really need this constant here? We can just add the `win.` prefix to all those actions and do not care about adding this prefix everytime we use an action.
+347049157,416,alice-mkh,2019-11-15T23:19:37Z,Can't you still use `app` here though?
+347052272,416,danirabbit,2019-11-15T23:35:06Z,No because it's another class and `app` is an instance member
+347052588,416,danirabbit,2019-11-15T23:36:51Z,"Oops nevermind, I'm dumb. I was looking at something else. Fixed"
+424214768,512,tintou,2020-05-13T07:03:06Z,"```suggestion
+            foreach (unowned string hex in setting_palette) {
+```"
+424215904,512,tintou,2020-05-13T07:05:39Z,"What you want is this :slightly_smiling_face: 
+```suggestion
+                Application.settings.set_string (""palette"", string.joinv ("":"", hex_palette));
+```"
+425269073,512,jeremypw,2020-05-14T16:25:19Z,Done
+425269323,512,jeremypw,2020-05-14T16:25:34Z,Much better - thanks.

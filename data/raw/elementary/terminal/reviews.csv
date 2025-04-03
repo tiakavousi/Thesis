@@ -1,0 +1,543 @@
+id,pr_number,user,submitted_at,state,body
+1596224185,737,Marukesu,2023-08-25T17:58:07Z,COMMENTED,
+1596811994,737,jeremypw,2023-08-26T08:41:40Z,COMMENTED,
+1596812452,737,jeremypw,2023-08-26T08:44:45Z,COMMENTED,
+1596822088,737,jeremypw,2023-08-26T09:16:56Z,COMMENTED,
+1597095521,737,jeremypw,2023-08-27T08:25:19Z,COMMENTED,
+1597097212,737,jeremypw,2023-08-27T08:36:11Z,COMMENTED,
+1597162500,737,Marukesu,2023-08-27T16:40:13Z,COMMENTED,
+1597163301,737,Marukesu,2023-08-27T16:47:15Z,COMMENTED,
+1597171627,737,jeremypw,2023-08-27T18:08:24Z,COMMENTED,
+1597171920,737,jeremypw,2023-08-27T18:11:44Z,COMMENTED,
+1597186692,737,Marukesu,2023-08-27T20:47:15Z,COMMENTED,
+1598053341,737,jeremypw,2023-08-28T10:50:54Z,COMMENTED,
+1598057865,737,jeremypw,2023-08-28T10:54:08Z,COMMENTED,
+1598059004,737,jeremypw,2023-08-28T10:55:00Z,COMMENTED,
+1598061939,737,jeremypw,2023-08-28T10:57:12Z,COMMENTED,
+1598063145,737,jeremypw,2023-08-28T10:58:07Z,COMMENTED,
+1598065030,737,jeremypw,2023-08-28T10:59:28Z,COMMENTED,
+1598066765,737,jeremypw,2023-08-28T11:00:43Z,COMMENTED,
+1598069679,737,jeremypw,2023-08-28T11:02:49Z,COMMENTED,
+1598436793,737,jeremypw,2023-08-28T14:36:53Z,COMMENTED,
+1598468255,737,jeremypw,2023-08-28T14:52:59Z,COMMENTED,
+1598495803,737,jeremypw,2023-08-28T15:06:42Z,COMMENTED,
+1598532434,737,jeremypw,2023-08-28T15:26:30Z,COMMENTED,
+1598618408,737,jeremypw,2023-08-28T16:07:25Z,COMMENTED,
+1598627307,737,jeremypw,2023-08-28T16:13:00Z,COMMENTED,
+1598631980,737,jeremypw,2023-08-28T16:16:02Z,COMMENTED,
+1598647805,737,jeremypw,2023-08-28T16:26:19Z,COMMENTED,
+1598776395,737,Marukesu,2023-08-28T17:54:52Z,COMMENTED,
+1598785153,737,Marukesu,2023-08-28T18:00:36Z,COMMENTED,
+1598807038,737,Marukesu,2023-08-28T18:16:06Z,COMMENTED,
+1598816614,737,Marukesu,2023-08-28T18:22:36Z,COMMENTED,
+180878121,330,jeremypw,2018-12-03T17:19:32Z,DISMISSED,Some initial comments on the code.
+180887982,330,Mohelm97,2018-12-03T17:31:15Z,COMMENTED,
+180888559,330,Mohelm97,2018-12-03T17:32:38Z,COMMENTED,
+180911563,330,jeremypw,2018-12-03T18:25:57Z,COMMENTED,
+180919320,330,Mohelm97,2018-12-03T18:43:45Z,COMMENTED,
+181270046,330,jeremypw,2018-12-04T14:02:26Z,COMMENTED,
+181271973,330,jeremypw,2018-12-04T14:06:23Z,COMMENTED,
+181303900,330,Mohelm97,2018-12-04T15:06:22Z,COMMENTED,
+340698706,330,danirabbit,2020-01-09T17:42:01Z,DISMISSED,
+340723663,330,jeremypw,2020-01-09T18:25:47Z,COMMENTED,
+347574091,330,cassidyjames,2020-01-23T20:07:15Z,COMMENTED,
+347821780,330,jeremypw,2020-01-24T09:09:10Z,COMMENTED,
+418595475,330,danirabbit,2020-05-26T19:14:07Z,DISMISSED,"I can't confirm that this ever shows ""Open in Web Browser"", and it seems to also break opening in the File Browser.
+
+I left some other inline comments"
+422856887,330,jeremypw,2020-06-02T16:32:21Z,COMMENTED,
+425649804,330,danirabbit,2020-06-05T22:08:07Z,CHANGES_REQUESTED,Seems to work as expected now. Nice job! Left some comments/questions in line
+425818663,330,jeremypw,2020-06-07T13:09:12Z,COMMENTED,
+425818807,330,jeremypw,2020-06-07T13:10:50Z,COMMENTED,
+425818826,330,jeremypw,2020-06-07T13:11:04Z,COMMENTED,
+425818854,330,jeremypw,2020-06-07T13:11:22Z,COMMENTED,
+425830835,330,jeremypw,2020-06-07T15:39:30Z,COMMENTED,
+666746669,584,felix-andreas,2021-05-24T13:40:21Z,COMMENTED,
+666749637,584,felix-andreas,2021-05-24T13:43:29Z,COMMENTED,
+666899060,584,felix-andreas,2021-05-24T15:49:56Z,COMMENTED,
+666900666,584,felix-andreas,2021-05-24T15:51:44Z,COMMENTED,
+667018070,584,felix-andreas,2021-05-24T17:56:50Z,COMMENTED,
+667023975,584,felix-andreas,2021-05-24T18:04:47Z,COMMENTED,
+667029507,584,felix-andreas,2021-05-24T18:12:50Z,COMMENTED,
+667033189,584,felix-andreas,2021-05-24T18:18:14Z,COMMENTED,
+667033614,584,felix-andreas,2021-05-24T18:18:54Z,COMMENTED,
+667666741,584,jeremypw,2021-05-25T10:39:14Z,COMMENTED,
+667687139,584,jeremypw,2021-05-25T11:03:05Z,COMMENTED,
+667696571,584,jeremypw,2021-05-25T11:14:07Z,COMMENTED,
+667697341,584,jeremypw,2021-05-25T11:15:02Z,COMMENTED,
+667710924,584,jeremypw,2021-05-25T11:30:58Z,COMMENTED,
+667823290,584,felix-andreas,2021-05-25T13:25:50Z,COMMENTED,
+667851343,584,felix-andreas,2021-05-25T13:48:28Z,COMMENTED,
+667868070,584,felix-andreas,2021-05-25T14:01:24Z,COMMENTED,
+667868800,584,felix-andreas,2021-05-25T14:01:56Z,COMMENTED,
+667879012,584,felix-andreas,2021-05-25T14:09:59Z,COMMENTED,
+667881061,584,felix-andreas,2021-05-25T14:11:50Z,COMMENTED,
+667892745,584,jeremypw,2021-05-25T14:20:50Z,COMMENTED,
+667896008,584,jeremypw,2021-05-25T14:23:25Z,COMMENTED,
+667903383,584,jeremypw,2021-05-25T14:29:02Z,COMMENTED,
+667913149,584,jeremypw,2021-05-25T14:36:33Z,COMMENTED,
+667927026,584,jeremypw,2021-05-25T14:47:46Z,COMMENTED,
+667932156,584,jeremypw,2021-05-25T14:51:48Z,COMMENTED,
+667933165,584,felix-andreas,2021-05-25T14:52:36Z,COMMENTED,
+667935809,584,felix-andreas,2021-05-25T14:54:41Z,COMMENTED,
+667939267,584,felix-andreas,2021-05-25T14:57:24Z,COMMENTED,
+667964615,584,felix-andreas,2021-05-25T15:16:14Z,COMMENTED,
+667969170,584,felix-andreas,2021-05-25T15:19:34Z,APPROVED,"The code looks good to me! It solves both linked issues. And even though the callback of the `contents_changed` signal is called multiple times per second when using the terminal, I can't measure any performance differences."
+283352521,386,felix-andreas,2019-09-04T02:49:48Z,COMMENTED,
+289606884,386,felix-andreas,2019-09-17T23:51:44Z,COMMENTED,
+289798405,386,jeremypw,2019-09-18T09:50:26Z,COMMENTED,
+289832437,386,felix-andreas,2019-09-18T10:56:24Z,COMMENTED,
+290621413,386,felix-andreas,2019-09-19T16:54:38Z,COMMENTED,"I think you accidentally mixed up the values of the event macros. Just out of curiosity, what is the advantage to use these macros over `true/false`?"
+294686390,386,felix-andreas,2019-09-29T14:27:39Z,COMMENTED,
+301014555,386,jeremypw,2019-10-12T17:17:48Z,COMMENTED,
+310179896,386,felix-andreas,2019-10-31T21:01:39Z,COMMENTED,
+310199572,386,felix-andreas,2019-10-31T21:44:20Z,COMMENTED,
+310767513,386,jeremypw,2019-11-02T11:49:58Z,COMMENTED,
+414709881,505,cassidyjames,2020-05-19T18:26:52Z,CHANGES_REQUESTED,"I'm :-1: to add a new ""sync"" setting here. I think the new behavior will work how most people expect. For those who want a larger default zoom for all tabs, they can set it once and forget it. For someone who wants to zoom in and out on a specific tab, this will work for them as well."
+523695115,505,cassidyjames,2020-11-04T20:06:19Z,DISMISSED,Behavior-wise I think this makes sense. Just a couple of code style/readability things.
+524566641,505,cassidyjames,2020-11-05T18:52:41Z,DISMISSED,"@jeremypw hm, installing this on elementary OS 6, it defaulted to 25% zoom the next time I opened Terminal. This is reproducible by setting `/io/elementary/terminal/saved-state/tab-zooms` to the default, then re-opening Terminal.
+
+I _think_ my suggested change will resolve that by defaulting to 1.0."
+525313030,505,jeremypw,2020-11-06T16:34:39Z,COMMENTED,
+525386317,505,jeremypw,2020-11-06T18:15:02Z,COMMENTED,
+526675233,505,cassidyjames,2020-11-09T21:38:33Z,COMMENTED,
+526677246,505,cassidyjames,2020-11-09T21:41:48Z,COMMENTED,I'm generally happy with this UX-wise. I would still like to get a code review from @elementary/desktop-developers though.
+527563674,505,meisenzahl,2020-11-10T20:03:38Z,COMMENTED,
+528287817,505,jeremypw,2020-11-11T15:40:50Z,COMMENTED,
+529267626,505,meisenzahl,2020-11-12T16:31:47Z,COMMENTED,
+545604496,505,meisenzahl,2020-12-05T17:29:44Z,APPROVED,
+1703785760,742,jeremypw,2023-10-30T10:42:00Z,CHANGES_REQUESTED,"This is mostly working - thanks!  A couple of issues:
+
+ - Changing the default font with `<Control>scroll` does not change settings because at the moment the Terminal Widget changes the font directly.  You need to change the scroll handler to activate the relevant window action instead.
+
+ - I suggest you split the `save_opened_terminals` function up so that you can change the zooms and uris settings independently to save unnecessary work being done. "
+1704716761,742,jeremypw,2023-10-30T17:28:28Z,COMMENTED,
+1704719337,742,jeremypw,2023-10-30T17:29:50Z,COMMENTED,
+1704725187,742,jeremypw,2023-10-30T17:32:50Z,COMMENTED,
+1704736534,742,ldrahnik,2023-10-30T17:37:22Z,COMMENTED,
+1704740371,742,jeremypw,2023-10-30T17:39:38Z,CHANGES_REQUESTED,"You seem to have repeated a lot of code in `save_open_terminals_with_zooms`? Can you just call the split functions?
+
+Adding another signal to the terminal widget is not the best solution - you can just activate the appropriate action in the scroll handler instead of calling `increment_size` and `decrement_size`.  This can be done with code like
+`window.get_simple_action (MainWindow.ACTION_ZOOM_FONT_IN).activate (null);`  (other examples of this pattern are already used in the code)
+
+I have made a couple of other comments inline."
+1704744738,742,ldrahnik,2023-10-30T17:42:14Z,COMMENTED,
+1704828149,742,ldrahnik,2023-10-30T18:30:29Z,COMMENTED,
+1706384348,742,jeremypw,2023-10-31T13:58:56Z,COMMENTED,
+1706392058,742,jeremypw,2023-10-31T14:02:03Z,COMMENTED,
+1706419558,742,ldrahnik,2023-10-31T14:13:03Z,COMMENTED,
+1706463613,742,ldrahnik,2023-10-31T14:30:38Z,COMMENTED,
+1706639940,742,jeremypw,2023-10-31T15:37:29Z,COMMENTED,
+1706736013,742,ldrahnik,2023-10-31T16:17:23Z,COMMENTED,
+1706838111,742,ldrahnik,2023-10-31T17:06:33Z,COMMENTED,
+1708073601,742,jeremypw,2023-11-01T12:04:04Z,COMMENTED,
+1708092673,742,ldrahnik,2023-11-01T12:16:45Z,COMMENTED,
+1708134100,742,jeremypw,2023-11-01T12:37:49Z,COMMENTED,
+1708630934,742,jeremypw,2023-11-01T16:53:50Z,APPROVED,I think this is good to go now - thanks for your contribution!
+1708658939,742,jeremypw,2023-11-01T17:09:29Z,CHANGES_REQUESTED,"Sorry, missed the fact that one of the unit tests now fails  (CI was failing anyway in other PRs for an unrelated reason).  The error given is 
+```
+▶ 2/3 ERROR:../src/tests/Application.vala:155:__lambda53_: assertion failed (n_tabs == 1): (2 == 1) ERROR 
+```
+Not immediately obvious why this PR should affect the number of tabs - I'll investigate."
+1710212058,742,jeremypw,2023-11-02T13:16:08Z,APPROVED,
+487961116,542,danirabbit,2020-09-14T17:33:55Z,CHANGES_REQUESTED,"Hey thanks for working on this! This is looking really good and it's definitely a highly requested feature so I appreciate you tackling it.
+
+I left some inline comments with some minor code cleanups and copy changes alignment etc.
+
+I agree that the long combobox here is pretty unweildy. Perhaps instead of trying to include as many styles as we can find, it would be better to have some kind of import mechanism and stick with the same 3 default styles for now. Perhaps in the interest of getting this feature merged more quickly, we should reduce the scope of this branch to only supporting a single custom style and we can expand in later follow-up branches
+
+I think a major interaction issue we have here is that if you ever switch away to another style, your custom style gets wiped. This seems like it would be pretty frustrating for someone who switches between styles. I imagine we should probably persist custom styles in gsettings. Maybe with a ""styles"" child schema, even if we only support saving one custom style for now
+
+Yes I think we want to maintain the behavior of a style also setting the window chrome to dark or light. The quick style switcher should make it really easy to alternate between styles without having to fiddle with individual settings every time"
+487998882,542,danirabbit,2020-09-14T17:36:04Z,COMMENTED,
+493017104,542,sebastianlay,2020-09-21T22:13:11Z,COMMENTED,
+493018769,542,sebastianlay,2020-09-21T22:16:29Z,COMMENTED,
+493018922,542,sebastianlay,2020-09-21T22:16:53Z,COMMENTED,
+493021066,542,sebastianlay,2020-09-21T22:21:37Z,COMMENTED,
+493021246,542,sebastianlay,2020-09-21T22:22:00Z,COMMENTED,
+493023384,542,sebastianlay,2020-09-21T22:26:53Z,COMMENTED,
+493024027,542,sebastianlay,2020-09-21T22:28:25Z,COMMENTED,
+497918296,542,danirabbit,2020-09-28T21:40:48Z,COMMENTED,
+497919065,542,danirabbit,2020-09-28T21:41:11Z,COMMENTED,
+73584841,160,jeremypw,2017-11-01T19:12:05Z,DISMISSED,"Some changes are needed to make this work see comments in line.
+
+At the moment, first change of zoom factor results in a microscopic font and changes are not reflected in settings."
+73590468,160,jeremypw,2017-11-01T19:29:59Z,CHANGES_REQUESTED,A couple more suggestions but looking good :)
+73592367,160,Thalexander,2017-11-01T19:35:05Z,COMMENTED,
+73771406,160,jeremypw,2017-11-02T12:33:33Z,COMMENTED,
+73950359,160,Thalexander,2017-11-02T21:48:03Z,COMMENTED,
+74283979,160,jeremypw,2017-11-05T15:17:38Z,CHANGES_REQUESTED,Almost there ;-).  Just a couple of minor points. 
+74288717,160,jeremypw,2017-11-05T17:55:50Z,APPROVED,Looks good and works as expected :-)
+52167871,125,donadigo,2017-07-25T19:15:45Z,CHANGES_REQUESTED,"Thank you for submitting the branch! It would be ideal if you could split these 2 changes into 2 different PR's? The diff looks clean but I would still like those to be their own PRs. 
+
+I have commented on the diff, two small things. One is a question, you could answer in the diff itself."
+52213908,125,UladRH,2017-07-25T22:18:40Z,COMMENTED,
+52214355,125,donadigo,2017-07-25T22:21:19Z,COMMENTED,
+53084949,125,donadigo,2017-07-29T22:19:33Z,CHANGES_REQUESTED,I think the contents of this signal should be in a separate function like `handle_paste_event ()` that should return a boolean value since this code is now duplicated in two different places. Then you could just replace those duplicates with: `return handle_paste_event ()`.
+56700609,125,donadigo,2017-08-16T17:15:23Z,CHANGES_REQUESTED,3 things.
+65269786,125,jeremypw,2017-09-26T16:02:48Z,CHANGES_REQUESTED,"One minor code style comment, otherwise looks good."
+65603236,125,jeremypw,2017-09-27T16:19:15Z,APPROVED,
+65604612,125,donadigo,2017-09-27T16:23:50Z,APPROVED,Looks good.
+2133409334,760,danirabbit,2024-06-21T20:56:07Z,DISMISSED,"It looks like zoom controls are broken with this branch:
+
+![Screenshot from 2024-06-21 13 55 51](https://github.com/elementary/terminal/assets/7277719/4f6b316f-f33f-4dff-8034-74988ac45211)
+"
+2135109169,760,leolost2605,2024-06-24T08:53:40Z,DISMISSED,
+2157583050,760,Marukesu,2024-07-03T22:25:33Z,DISMISSED,"The tests look alright, the last fail is not consistent, and i believe there's no way to get the CI's coredumps to understand what happened there, sadily."
+2186416884,760,danirabbit,2024-07-18T16:56:58Z,DISMISSED,LGTM :tada: 
+2214188772,760,Marukesu,2024-08-01T23:02:13Z,APPROVED,
+1119398946,687,jeremypw,2022-09-25T10:57:32Z,CHANGES_REQUESTED,I have suggested some corrections to remaining lint.
+1119417050,687,hollyschilling,2022-09-25T14:22:52Z,COMMENTED,
+1119418099,687,lenemter,2022-09-25T14:34:39Z,COMMENTED,
+1119432156,687,jeremypw,2022-09-25T17:26:50Z,CHANGES_REQUESTED,"Another small bug is that if cyclic search is OFF and you navigate to the last found term so that the `next` button becomes insensitive and then toggle cyclic search ON then the sensitivity of the `next` button does not change - it should become sensitive.
+
+A fix for this would be to emit a `search-changed` signal whenever the cyclic search is toggled."
+200872214,265,donadigo,2019-02-07T00:20:42Z,DISMISSED,"One comment, otherwise it's fine."
+201080048,265,jeremypw,2019-02-07T13:18:53Z,COMMENTED,
+257194642,265,donadigo,2019-07-02T23:16:56Z,CHANGES_REQUESTED,Contains conflicts.
+267432068,265,donadigo,2019-07-26T22:52:02Z,DISMISSED,One more comment.
+267462131,265,jeremypw,2019-07-27T09:00:44Z,COMMENTED,
+338394482,265,yozachar,2020-01-05T11:21:34Z,DISMISSED,
+338922307,265,danirabbit,2020-01-06T22:00:40Z,CHANGES_REQUESTED,@jeremypw can you please add changes to AppData :)
+338929633,265,donadigo,2020-01-06T22:34:41Z,DISMISSED,One change.
+339185889,265,jeremypw,2020-01-07T11:41:21Z,COMMENTED,
+339351733,265,danirabbit,2020-01-07T16:29:24Z,APPROVED,
+1029031083,662,danirabbit,2022-07-05T18:10:58Z,CHANGES_REQUESTED,"Two small questions, but other than that totally happy with this as an initial implementation. Let's get this in and then smooth out the flow a little bit/do other features in future branches"
+1029074369,662,jeremypw,2022-07-05T18:46:44Z,COMMENTED,
+1029166130,662,danirabbit,2022-07-05T20:24:05Z,COMMENTED,
+1029169096,662,danirabbit,2022-07-05T20:27:22Z,CHANGES_REQUESTED,One suggestion and a comment
+1030474510,662,jeremypw,2022-07-06T17:35:04Z,COMMENTED,
+1030479374,662,danirabbit,2022-07-06T17:39:26Z,APPROVED,Yeah it's just a little bit less destructive. This looks good!
+369494236,486,jeremypw,2020-03-05T11:30:57Z,COMMENTED,
+369494816,486,jeremypw,2020-03-05T11:31:55Z,COMMENTED,
+369495965,486,jeremypw,2020-03-05T11:33:57Z,COMMENTED,
+372070632,486,danirabbit,2020-03-10T15:43:18Z,CHANGES_REQUESTED,"Hey thanks for looking into this issue! I've left a couple of inline comments.
+
+One other thing that I noticed is that the button is always sensitive regardless of whether a process is running or not. We probably want to make sure to set the button as insensitive unless there is a running process to terminate
+
+Also, this seems like a place where we should use [Granite.AccelLabel](https://github.com/elementary/granite/blob/master/lib/Widgets/AccelLabel.vala) and provide the keyboard shorcut"
+372190665,486,cassidyjames,2020-03-10T17:55:02Z,COMMENTED,
+372196405,486,jeremypw,2020-03-10T18:02:24Z,COMMENTED,
+36649023,87,cassidyjames,2017-05-06T17:47:09Z,CHANGES_REQUESTED,Awaiting those changes :smile: 
+36649429,87,cassidyjames,2017-05-06T18:05:55Z,DISMISSED,UX approval. Should probably have someone more experienced in Vala take a second look at the code.
+36650363,87,danirabbit,2017-05-06T19:14:26Z,DISMISSED,"I'm not super excited about these variable names. I think stuff like ""sb"" and ""t"" becomes very very unclear the further away you get from where they are defined"
+36670536,87,jeremypw,2017-05-07T18:34:12Z,COMMENTED,
+36670556,87,jeremypw,2017-05-07T18:35:32Z,COMMENTED,
+36670593,87,jeremypw,2017-05-07T18:37:37Z,COMMENTED,
+36670925,87,jeremypw,2017-05-07T18:54:43Z,COMMENTED,
+44049653,87,danirabbit,2017-06-14T15:08:51Z,APPROVED,
+2411906535,798,danirabbit,2024-11-03T18:12:49Z,COMMENTED,
+2411907318,798,jeremypw,2024-11-03T18:18:31Z,COMMENTED,
+2411907765,798,danirabbit,2024-11-03T18:22:02Z,COMMENTED,
+2411907783,798,teamcons,2024-11-03T18:22:08Z,COMMENTED,
+2411908254,798,jeremypw,2024-11-03T18:25:44Z,COMMENTED,
+2411908468,798,danirabbit,2024-11-03T18:27:15Z,COMMENTED,
+2411922057,798,teamcons,2024-11-03T18:44:20Z,COMMENTED,
+2412624387,798,jeremypw,2024-11-04T09:56:43Z,COMMENTED,
+2412625317,798,jeremypw,2024-11-04T09:57:08Z,APPROVED,Lets go!
+1820024493,743,Marukesu,2024-01-13T14:33:16Z,CHANGES_REQUESTED,
+1820269211,743,jeremypw,2024-01-14T16:50:22Z,COMMENTED,
+1820269319,743,jeremypw,2024-01-14T16:50:53Z,COMMENTED,
+1820274629,743,jeremypw,2024-01-14T17:30:22Z,COMMENTED,
+1820278398,743,jeremypw,2024-01-14T18:00:04Z,COMMENTED,
+1821696546,743,Marukesu,2024-01-15T13:33:04Z,APPROVED,LGTM.
+681506407,595,JoseExposito,2021-06-11T06:59:52Z,DISMISSED,
+681615825,595,jeremypw,2021-06-11T09:06:39Z,COMMENTED,
+681618447,595,jeremypw,2021-06-11T09:09:44Z,COMMENTED,
+681619238,595,jeremypw,2021-06-11T09:10:36Z,COMMENTED,
+682444173,595,cassidyjames,2021-06-13T20:53:10Z,COMMENTED,
+682444242,595,cassidyjames,2021-06-13T20:54:23Z,COMMENTED,
+682444965,595,cassidyjames,2021-06-13T21:05:37Z,COMMENTED,
+682445446,595,Marukesu,2021-06-13T21:13:15Z,COMMENTED,
+682522647,595,JoseExposito,2021-06-14T05:21:04Z,COMMENTED,
+683183650,595,danirabbit,2021-06-14T17:37:06Z,COMMENTED,
+683184356,595,danirabbit,2021-06-14T17:38:00Z,COMMENTED,
+683185846,595,danirabbit,2021-06-14T17:41:56Z,DISMISSED,One small string change :)
+683436770,595,cassidyjames,2021-06-14T23:28:58Z,COMMENTED,
+683632295,595,JoseExposito,2021-06-15T07:08:32Z,APPROVED,"The code is looking much better, good job! If everybody else is happy, I think we can merge it."
+683637122,595,jeremypw,2021-06-15T07:14:04Z,APPROVED,
+279277044,397,devprabal,2019-08-24T05:49:02Z,COMMENTED,works on my system!
+279301660,397,Philip-Scott,2019-08-24T15:58:54Z,CHANGES_REQUESTED,
+279330119,397,jeremypw,2019-08-25T10:52:57Z,COMMENTED,
+279330122,397,jeremypw,2019-08-25T10:53:08Z,COMMENTED,
+279404491,397,Philip-Scott,2019-08-26T05:31:11Z,COMMENTED,
+279531421,397,jeremypw,2019-08-26T11:11:48Z,COMMENTED,
+280929192,397,Philip-Scott,2019-08-28T15:48:07Z,DISMISSED,"Code wise it looks good to me, but I haven't had a chance to compile and test it (and won't be able to this week) If you can get someone else to test it as well that would be great :) but I'm removing my ""needs changes"" to not be a blocker.
+
+If no one else checks it by next week, I'll give it a look once I'm back home :) "
+279288230,397,tintou,2019-12-02T10:22:57Z,CHANGES_REQUESTED,A few bits to change
+332765899,397,tintou,2019-12-16T18:15:00Z,APPROVED,
+692993658,602,jeremypw,2021-06-25T16:27:18Z,CHANGES_REQUESTED,"This PR causes a regression in showing the path as the window title under normal conditions.
+
+I've added suggestions as to how to fix this.  I am not sure whether you need to check whether current_working_directory is something valid but it is probably safer to test this and use TerminalWidget.DEFAULT_LABEL as an ultimate fallback."
+693021472,602,jeremypw,2021-06-25T16:52:51Z,COMMENTED,
+693021965,602,jeremypw,2021-06-25T16:53:31Z,COMMENTED,
+693097539,602,Marukesu,2021-06-25T18:35:32Z,COMMENTED,
+748279666,602,jeremypw,2021-09-07T18:27:07Z,APPROVED,Allows setting window title from commandline without affecting tab labelling. Thanks!
+393976345,504,jeremypw,2020-04-15T17:20:47Z,CHANGES_REQUESTED,"As you say, it is still a bit hacky but better than the alternative ;-) Thanks. 
+
+I made a couple of comments on the code."
+394221716,504,felix-andreas,2020-04-16T00:27:47Z,COMMENTED,
+394492923,504,felix-andreas,2020-04-16T10:16:27Z,COMMENTED,
+560534993,556,cassidyjames,2020-12-31T19:01:12Z,CHANGES_REQUESTED,"Left one copy change, but it makes me wonder: should this just be part of the UnsafePasteDialog? Much of the copy and UI would be the same; the only difference would be the title and possibly the setting we bind to, if we want it to be a separate setting."
+676800855,556,jeremypw,2021-06-05T18:57:07Z,CHANGES_REQUESTED,Made a few suggestions but it would be good to progress this if possible - thanks.
+1773781882,753,Marukesu,2023-12-09T17:59:56Z,COMMENTED,"A litte suggestion with Gtk4 in mind.
+
+Also, a pior art in this case is epiphany, that `pack_end()` a Gtk.Button that trigger the fullscreen action and is only visible when fullscreened.
+
+something like this should be simple to do here too."
+1773836268,753,jeremypw,2023-12-09T19:30:19Z,COMMENTED,
+1773836354,753,jeremypw,2023-12-09T19:31:06Z,COMMENTED,
+1773851505,753,Marukesu,2023-12-09T21:15:44Z,COMMENTED,
+1774020482,753,jeremypw,2023-12-10T12:00:18Z,COMMENTED,
+1774054162,753,Marukesu,2023-12-10T15:31:06Z,COMMENTED,
+1811832685,753,danirabbit,2024-01-09T19:19:49Z,CHANGES_REQUESTED,
+1833797236,753,danirabbit,2024-01-19T21:46:32Z,APPROVED,"Works as expected, nice job!"
+672748002,590,jeremypw,2021-06-01T07:45:22Z,CHANGES_REQUESTED,Good cleanup. Just a couple of very minor comments.
+672870061,590,felix-andreas,2021-06-01T09:44:25Z,COMMENTED,
+672870187,590,felix-andreas,2021-06-01T09:44:32Z,COMMENTED,
+675362566,590,jeremypw,2021-06-03T14:42:23Z,APPROVED,Removing the gtk_menu_bar_accel override should be safe enough I guess - it isn't used elsewhere in elementary or within Terminal.  I guess it is to be sure that terminal programs like `htop` can be exited with it.
+2411206425,794,ryonakano,2024-11-02T07:08:35Z,DISMISSED,"The clipboard or dragged text are no longer pasted if we once uncheck ""Show paste protection warnings"" in the UnsafePasteDialog."
+2415840615,794,ryonakano,2024-11-05T14:48:49Z,COMMENTED,"> The clipboard or dragged text are no longer pasted if we once uncheck ""Show paste protection warnings"" in the UnsafePasteDialog.
+
+Confirmed this is fixed, thank you!
+
+Leaving another two tiny comments."
+2418882042,794,jeremypw,2024-11-06T16:39:31Z,COMMENTED,
+2418882427,794,jeremypw,2024-11-06T16:39:40Z,COMMENTED,
+2421105723,794,ryonakano,2024-11-07T14:14:27Z,APPROVED,Code looks good and fixes the linked issue. Thank you!
+267238797,390,danirabbit,2019-07-26T14:58:16Z,DISMISSED,Don't forget to update the color buttons. At the moment this gets reverted if you change the color scheme
+297405365,390,jlnr,2019-10-04T11:08:57Z,COMMENTED,"Works fine, but I think at least the color radio button should be updated to match."
+297560282,390,cassidyjames,2019-10-04T15:41:52Z,COMMENTED,
+297560454,390,cassidyjames,2019-10-04T15:42:11Z,COMMENTED,
+297725426,390,jlnr,2019-10-04T21:25:46Z,APPROVED,"LGTM, does this need more UX discussion?"
+195298189,349,Philip-Scott,2019-01-23T00:38:18Z,DISMISSED,"We are actually deprecating the use of Granite.Settings, and specially since it's just one setting you should just use Glib.Settings instead. Also make sure you check if the schema exists to prevent crashes if things change in the future or if it's used in a different OS
+ "
+195462529,349,jeremypw,2019-01-23T11:08:10Z,COMMENTED,
+195462604,349,jeremypw,2019-01-23T11:08:22Z,COMMENTED,
+266288639,349,cassidyjames,2019-07-24T21:11:30Z,COMMENTED,
+266290658,349,cassidyjames,2019-07-24T21:15:44Z,DISMISSED,Works as described. :+1: 
+266294836,349,cassidyjames,2019-07-24T21:25:00Z,APPROVED,
+162629887,299,cassidyjames,2018-10-08T20:35:22Z,COMMENTED,
+162631530,299,cassidyjames,2018-10-08T20:40:35Z,COMMENTED,
+162639840,299,neur0manc,2018-10-08T21:06:39Z,COMMENTED,
+162640746,299,cassidyjames,2018-10-08T21:09:44Z,COMMENTED,
+162642831,299,neur0manc,2018-10-08T21:17:00Z,COMMENTED,
+162646033,299,cassidyjames,2018-10-08T21:28:28Z,CHANGES_REQUESTED,"Code looks good, thanks for the contribution! 
+
+I think lastly we should drop the translation changes from this PR to prevent merge conflicts with master. It also makes this diff much easier for other contributors to review. Once this is merged, we can push the updated translations."
+162938730,299,cassidyjames,2018-10-09T14:59:28Z,APPROVED,Looks good! Thanks for the contribution. @codygarver is this safe to merge with a string change since there was a recent release?
+254210876,382,jeremypw,2019-06-25T19:05:44Z,CHANGES_REQUESTED,"There is a problem if the window scaling is > 1.   The menu is truncated.  
+
+This affects both menu.popup_at_widget () and menu.popup_at_rect ()  - but does not affect menu.popup_at_pointer ().  Not sure why.  Maybe an upstream bug?   If so, we will have to use popup_at_pointer for now."
+255371279,382,jeremypw,2019-06-27T17:26:08Z,APPROVED,
+328454609,431,tintou,2019-12-06T20:59:41Z,COMMENTED,
+340013758,431,jeremypw,2020-01-08T17:10:54Z,COMMENTED,
+396049302,431,cassidyjames,2020-04-19T18:42:24Z,COMMENTED,
+400383973,431,jeremypw,2020-04-25T11:15:47Z,COMMENTED,
+400466404,431,cassidyjames,2020-04-26T06:52:01Z,COMMENTED,
+401186160,431,jeremypw,2020-04-27T17:48:40Z,COMMENTED,
+401198044,431,cassidyjames,2020-04-27T18:04:15Z,COMMENTED,
+401656505,431,jeremypw,2020-04-28T09:26:03Z,COMMENTED,
+1498934739,699,jeremypw,2023-06-26T16:23:14Z,COMMENTED,
+1498949461,699,jeremypw,2023-06-26T16:31:09Z,COMMENTED,
+1498974460,699,jeremypw,2023-06-26T16:47:14Z,CHANGES_REQUESTED,Found a regression:  Changes in font size are not restored after closing and reopening the app.
+1545018942,699,jeremypw,2023-07-25T09:23:14Z,APPROVED,"Code looks good, no regressions or new terminal warnings seen."
+805396485,638,Marukesu,2021-11-13T19:28:48Z,COMMENTED,
+814903774,638,igordsm,2021-11-24T13:27:44Z,COMMENTED,
+2274126060,638,jeremypw,2024-08-31T18:54:58Z,COMMENTED,
+2283588639,638,jeremypw,2024-09-05T16:38:46Z,APPROVED,
+47541499,119,cassidyjames,2017-07-02T05:15:32Z,COMMENTED,
+47541517,119,cassidyjames,2017-07-02T05:17:05Z,COMMENTED,
+47541574,119,vjr,2017-07-02T05:20:43Z,COMMENTED,
+48514733,119,cassidyjames,2017-07-07T03:49:40Z,APPROVED,"Yay! This seems to work well. Tested across lodpi, HiDPI, and multiple displays. I am going to request someone else spot-checks the code, but UX-wise I'm :+1: "
+90065827,196,jeremypw,2018-01-19T10:35:36Z,DISMISSED,Couple of formatting issues and some suggested simplifications.
+90072120,196,jeremypw,2018-01-19T10:40:32Z,COMMENTED,
+90301616,196,jeremypw,2018-01-20T11:42:42Z,COMMENTED,Works OK - just one question (see inline)
+90301965,196,Thalexander,2018-01-20T11:59:37Z,COMMENTED,
+90303761,196,jeremypw,2018-01-20T13:29:20Z,APPROVED,
+334886778,423,danirabbit,2019-12-19T19:40:25Z,DISMISSED,"This seems to ""do the thing"". I think we can continue discussion about the custom font setting and whether to expose it or remove it in another issue :)"
+334889417,423,danirabbit,2019-12-19T19:45:13Z,APPROVED,
+538051716,477,danirabbit,2020-11-24T23:41:31Z,COMMENTED,"Left a question inline :)
+
+What's the best way to test this?"
+544161859,477,jeremypw,2020-12-03T16:42:44Z,COMMENTED,
+544332668,477,danirabbit,2020-12-03T19:44:07Z,COMMENTED,
+544849287,477,jeremypw,2020-12-04T10:47:48Z,COMMENTED,
+790761404,633,jeremypw,2021-10-27T14:51:30Z,CHANGES_REQUESTED,"This only works as expected after changing the settings.  This is because the settings still contain the alpha value until they are changed and these do not match the strings in code when constructing the color buttons - so the wrong color button appears active.
+
+One way round this is to test for the foreground color instead as that has not changed. Also to move the test *after* you have connected the color-button clicked handlers so that the new background colors get written to settings.
+
+In the longer term it would be better to move to methodology like Code where a named style-scheme is saved in settings rather than the actual colors.
+"
+793100964,633,jeremypw,2021-10-29T14:22:45Z,COMMENTED,
+793104218,633,jeremypw,2021-10-29T14:25:35Z,COMMENTED,
+793112003,633,jeremypw,2021-10-29T14:32:14Z,COMMENTED,
+959431910,658,jeremypw,2022-05-02T18:53:12Z,COMMENTED,
+959437136,658,jeremypw,2022-05-02T18:58:25Z,CHANGES_REQUESTED,"The code in `action_close_terminal` results in the window closing regardless of the response to the dialog.
+
+However, there is a simpler solution.  Just call `close ()` on the window which will result in the `delete_event` handler running which will correctly save the state and check for foreground processes."
+959441226,658,SkiF12,2022-05-02T19:02:26Z,COMMENTED,
+959456673,658,SkiF12,2022-05-02T19:18:41Z,COMMENTED,Make sense
+960640792,658,jeremypw,2022-05-03T16:19:58Z,APPROVED,
+1317549929,702,jeremypw,2023-02-28T13:14:57Z,APPROVED,
+2526724734,836,ryonakano,2024-12-31T22:29:47Z,COMMENTED,
+2526873126,836,jeremypw,2025-01-01T14:17:15Z,COMMENTED,
+2526874897,836,jeremypw,2025-01-01T14:27:04Z,COMMENTED,
+2526954631,836,ryonakano,2025-01-02T00:48:25Z,COMMENTED,
+2527376934,836,jeremypw,2025-01-02T10:57:36Z,COMMENTED,
+2528882757,836,ryonakano,2025-01-03T10:47:38Z,COMMENTED,"If we remove the unnecessary cast against `n_pages` here, we can remove the following places too ~~, excepting the cast against the result of `focus.clamp ()`~~ :
+
+```
+[ryo@b760m ~/work/tmp/terminal (jeremypw/cycle-tabs =)]$ git grep -n n_pages | grep -F '(int)'
+src/MainWindow.vala:485:                        notebook.selected_page = notebook.tab_view.get_nth_page ((int)notebook.n_pages - 1);
+src/MainWindow.vala:718:                var tab = notebook.tab_view.get_nth_page ((int)(focus.clamp (0, notebook.n_pages - 1)));
+src/MainWindow.vala:727:            int pos = (int)notebook.n_pages
+[ryo@b760m ~/work/tmp/terminal (jeremypw/cycle-tabs =)]$
+```"
+2530838448,836,ryonakano,2025-01-05T07:27:34Z,APPROVED,LGTM and works as expected. Thank you for your fix!
+86155965,185,jeremypw,2018-01-02T14:57:52Z,COMMENTED,See inline comments.  Some maybe without the scope of this PR.
+86157460,185,jeremypw,2018-01-02T15:00:44Z,COMMENTED,
+86232460,185,danirabbit,2018-01-02T20:09:18Z,COMMENTED,
+86326751,185,jeremypw,2018-01-03T09:48:07Z,APPROVED,
+168667921,262,cassidyjames,2018-10-26T04:27:48Z,DISMISSED,UX approval from me. This is a nice feature!
+168711960,262,tintou,2018-10-26T08:10:50Z,DISMISSED,A few things to do then it should be alright
+175950678,262,donadigo,2018-11-16T19:36:37Z,APPROVED,"Looks clean and works nicely, an approve from me."
+256038266,375,donadigo,2019-06-29T14:13:32Z,CHANGES_REQUESTED,I have a couple of comments.
+256552678,375,donadigo,2019-07-01T20:44:55Z,CHANGES_REQUESTED,One more comment.
+256587153,375,donadigo,2019-07-01T22:17:29Z,APPROVED,
+1749225842,749,jeremypw,2023-11-25T18:59:48Z,CHANGES_REQUESTED,I have left some inline comments.  Everything else seems OK but I'll test a but more later.
+1749397397,749,Marukesu,2023-11-26T18:31:59Z,COMMENTED,
+1750234802,749,jeremypw,2023-11-27T11:37:43Z,CHANGES_REQUESTED,"The ""copy last output"" and ""scroll to last command"" actions are not triggered by the keyboard (but the former is triggered by the context menu option).  Something to do with the ""key pressed"" handler I think."
+1753382925,749,jeremypw,2023-11-28T16:41:34Z,APPROVED,"Its a pity this change turned out to be less straightforward than anticipated and a somewhat non-obvious workround is required to avoid breaking some actions.  However this all seems to work now.  So I guess it can be merged.
+
+Maybe possible to refactor simplify later?"
+1347545613,710,jeremypw,2023-03-19T18:22:52Z,CHANGES_REQUESTED,There seems to be a regression in that quitting with the quit action now does not save tabs. Reopening just restores the home tab.
+1368062255,710,jeremypw,2023-04-02T10:56:48Z,CHANGES_REQUESTED,"No regressions found, but the CI is currently failing on tests"
+1375935366,710,jeremypw,2023-04-07T07:50:02Z,APPROVED,
+1453613264,730,tintou,2023-05-31T16:00:17Z,APPROVED,
+2219450306,769,danirabbit,2024-08-06T18:07:38Z,CHANGES_REQUESTED,
+2224876244,769,jeremypw,2024-08-07T12:57:09Z,COMMENTED,
+2224877031,769,jeremypw,2024-08-07T12:57:18Z,COMMENTED,
+2224882522,769,jeremypw,2024-08-07T12:58:11Z,COMMENTED,
+2230498626,769,danirabbit,2024-08-09T15:33:21Z,APPROVED,
+2298037519,786,danirabbit,2024-09-11T17:19:07Z,CHANGES_REQUESTED,"For some reason accelerators aren't working correctly here. Keypad accels work, but Ctrl + and Ctrl - do not"
+2479155062,813,jeremypw,2024-12-04T15:45:38Z,COMMENTED,
+2479212223,813,danirabbit,2024-12-04T16:04:38Z,COMMENTED,
+2479263123,813,jeremypw,2024-12-04T16:23:27Z,COMMENTED,
+2479266580,813,jeremypw,2024-12-04T16:24:28Z,APPROVED,I am going to approve this as within session functionality is still an improvement
+86627367,190,jeremypw,2018-01-04T13:01:35Z,CHANGES_REQUESTED,Works as expected but possibly excessive calls to save tabs when nothing has changed.
+87715380,190,Thalexander,2018-01-10T02:06:06Z,COMMENTED,
+89841333,190,jeremypw,2018-01-18T16:18:03Z,APPROVED,
+95244368,180,donadigo,2018-02-08T21:47:14Z,DISMISSED,"One tiny comment. Can you elaborate what this change does? I mean, what internal or external effects does this have on the execution?"
+75877992,165,donadigo,2017-11-10T20:58:30Z,CHANGES_REQUESTED,Gogo.
+75881074,165,danirabbit,2017-11-10T21:06:48Z,COMMENTED,
+76242676,165,donadigo,2017-11-13T20:45:10Z,CHANGES_REQUESTED,One thing that could be fixed I think. The rest is fine.
+76248670,165,donadigo,2017-11-13T21:05:19Z,APPROVED,
+126140719,253,danirabbit,2018-06-05T20:32:20Z,CHANGES_REQUESTED,"Nice work! This mostly works but there are some warnings in Terminal about:
+```
+[GLib-GIO] g_simple_action_set_enabled: assertion 'G_IS_SIMPLE_ACTION (simple)' failed
+```
+
+and it looks like sensitivity of these actions isn't always set correct (for example for Copy)"
+126141405,253,danirabbit,2018-06-05T20:34:17Z,COMMENTED,
+126434967,253,danirabbit,2018-06-06T15:39:57Z,APPROVED,Works for me!
+126666758,253,ryonakano,2018-06-07T07:48:11Z,COMMENTED,
+126667147,253,ryonakano,2018-06-07T07:49:31Z,COMMENTED,
+474476673,533,jeremypw,2020-08-25T13:24:35Z,COMMENTED,
+474528739,533,rafaelcorsi,2020-08-25T14:18:26Z,COMMENTED,
+474550644,533,jeremypw,2020-08-25T14:40:28Z,COMMENTED,
+474635905,533,rafaelcorsi,2020-08-25T16:09:31Z,COMMENTED,
+478824005,533,jeremypw,2020-08-31T17:58:17Z,APPROVED,"Works for me!
+
+I have not found any documented use of `<Control><Tab>` in bash or vte so :shrug: I am going to approve."
+463082789,527,lainsce,2020-08-07T07:09:38Z,COMMENTED,
+488926440,527,cassidyjames,2020-09-15T17:51:05Z,COMMENTED,
+488927525,527,cassidyjames,2020-09-15T17:52:43Z,CHANGES_REQUESTED,Let's try `0 9px` for now?
+488968343,527,cassidyjames,2020-09-15T18:47:11Z,APPROVED,
+748206398,557,jeremypw,2021-09-07T16:56:53Z,COMMENTED,Needs input from the design team as to whether the option is needed and what shortcut is appropriate
+1292016946,701,danirabbit,2023-02-09T21:10:02Z,COMMENTED,"This mostly looks good, just a few inline comments. I think generally some of these lines are a bit harder to read compared to how they were before. Having arguments separated onto different lines for some of these methods that take a bunch of arguments makes it just easier to read at a glance what's happening"
+1292045853,701,Marukesu,2023-02-09T21:29:41Z,COMMENTED,
+1292130179,701,danirabbit,2023-02-09T22:43:35Z,APPROVED,Looks solid. Nice work!
+177149248,264,tintou,2018-11-21T09:42:47Z,APPROVED,
+2248975805,772,danirabbit,2024-08-20T19:54:39Z,APPROVED,Clean! 
+2293750131,788,danirabbit,2024-09-10T20:54:00Z,COMMENTED,
+2297908241,788,jeremypw,2024-09-11T16:43:14Z,COMMENTED,
+2298060439,788,danirabbit,2024-09-11T17:25:33Z,COMMENTED,
+2298067739,788,danirabbit,2024-09-11T17:27:37Z,COMMENTED,
+2299774027,788,jeremypw,2024-09-12T09:44:12Z,COMMENTED,
+2411206777,777,ryonakano,2024-11-02T07:26:25Z,COMMENTED,
+2411848197,777,jeremypw,2024-11-03T12:47:01Z,COMMENTED,
+2411849189,777,jeremypw,2024-11-03T12:52:49Z,COMMENTED,
+2413116637,777,ryonakano,2024-11-04T13:47:23Z,APPROVED,
+49356087,95,donadigo,2017-07-11T23:30:36Z,CHANGES_REQUESTED,"I have one comment about connecting to the `button_press_signal`, nothing too serious. The change actually works well and fixes mentioned issues.
+
+I'm not sure if manually connecting / disconnecting is the right way to resolve this issue though."
+346527687,468,jeremypw,2020-01-22T11:46:36Z,COMMENTED,
+347088426,468,eGust,2020-01-23T06:55:40Z,COMMENTED,
+347143246,468,jeremypw,2020-01-23T09:06:14Z,COMMENTED,
+412896761,468,jeremypw,2020-05-15T19:00:44Z,CHANGES_REQUESTED,
+481001256,537,jeremypw,2020-09-02T16:35:36Z,CHANGES_REQUESTED,"This works, but I think we should really fix `start_terminal_with_terminal_directory (string? directory)` and/or the functions it calls so that they behave correctly with a `null` working directory.   Otherwise the parameter should be changed to `string directory` so that this function requires a non-null working directory."
+584501262,537,jeremypw,2021-02-05T16:28:44Z,CHANGES_REQUESTED,"The problem with this is that if you combine the `-w` flag with the `-n` flag, the new window reloads all the tabs from settings.  This is not the desired behaviour - the new window should only have a single tab."
+1092167761,680,danirabbit,2022-08-31T16:19:21Z,COMMENTED,"Hm, I'm not sure about the changes to the searchbar here, especially since if you've opened the searchbar it's now stuck open until the foreground process ends. It also seems like we'll get issue reports about not being able to create or switch tabs while a command is running.
+
+I wonder if we should expand the behavior of the current ""Natural Copy/Paste"" toggle to have more of a ""CLI app mode"" or have a per-tab option to disable all app shortcuts while the current tab is focused. Or just generally something that feels more deliberate."
+2286674910,785,jeremypw,2024-09-06T16:12:41Z,COMMENTED,
+2286681754,785,jeremypw,2024-09-06T16:16:35Z,COMMENTED,
+2286692654,785,danirabbit,2024-09-06T16:22:29Z,COMMENTED,
+2286693379,785,danirabbit,2024-09-06T16:22:54Z,COMMENTED,
+2286776151,785,jeremypw,2024-09-06T17:05:31Z,COMMENTED,
+2288492018,785,jeremypw,2024-09-08T09:38:32Z,APPROVED,
+87801675,189,jeremypw,2018-01-10T11:16:35Z,APPROVED,LGTM
+55039162,129,artemanufrij,2017-08-08T19:06:00Z,COMMENTED,"your screenshot looks more nicely than on my system. In my case it looks like checkbox has a margin.
+
+![bildschirmfoto von 2017-08-08 21 00 07](https://user-images.githubusercontent.com/16517095/29089690-5f67764e-7c7d-11e7-9087-cb96d40f6258.png)
+"
+55058959,129,artemanufrij,2017-08-08T20:21:23Z,APPROVED,Looks good!
+71605571,157,jeremypw,2017-10-24T17:31:10Z,COMMENTED,"Works expected, although the app accelerators only need to be set once. Files does it in the first window;  however, if there are no adverse effects in repeated setting, perhaps this is unnecessary. "
+73542709,157,jeremypw,2017-11-01T16:58:47Z,COMMENTED,"The function action_about () is no longer used. If it is not intended to reimplement this action then this function should be removed.  Otherwise, no regressions found."
+73737053,157,jeremypw,2017-11-02T10:10:06Z,APPROVED,"Looks good, no regressions found."
+131304203,275,tintou,2018-06-22T18:39:44Z,CHANGES_REQUESTED,
+131355711,275,tintou,2018-06-22T21:43:17Z,APPROVED,Wfm
+328517399,432,danirabbit,2019-12-07T00:11:02Z,CHANGES_REQUESTED,
+330129470,432,danirabbit,2019-12-10T20:39:35Z,DISMISSED,
+330129945,432,danirabbit,2019-12-10T20:40:28Z,APPROVED,
+339989052,447,jeremypw,2020-01-08T16:32:40Z,APPROVED,LGTM. Thanks!
+332077409,435,danirabbit,2019-12-13T19:42:45Z,DISMISSED,
+332220243,435,jeremypw,2019-12-14T16:00:33Z,COMMENTED,
+332224107,435,danirabbit,2019-12-14T17:39:16Z,APPROVED,Works great and nice improvement to the zoom level label syncing!
+530591564,547,jeremypw,2020-11-14T17:16:46Z,CHANGES_REQUESTED,This seems to break natural copy - `<Ctrl>C` results in `^C` appearing in the terminal.  Not immediately obvious why as you have implemented similar code.
+707678717,580,danirabbit,2021-07-15T18:09:39Z,APPROVED,Nice fix :+1: 
+672423318,589,danirabbit,2021-05-31T15:52:14Z,APPROVED,
+672424038,589,JoseExposito,2021-05-31T15:53:29Z,COMMENTED,"I can confirm it fixes the issue, thanks!!!"
+1695668432,740,danirabbit,2023-10-24T19:07:37Z,CHANGES_REQUESTED,Looks good just some minor copy adjustments
+1700268206,740,danirabbit,2023-10-26T18:17:39Z,APPROVED,Looks good :rocket: 
+88054099,193,codygarver,2018-01-11T04:18:24Z,CHANGES_REQUESTED,"Disapprove. These variables don't make porting to meson more difficult, all this is just as easily accomplishable with meson using `configuration_data` and `configuration_file`."
+90305455,200,jeremypw,2018-01-20T14:46:36Z,COMMENTED,
+90305477,200,jeremypw,2018-01-20T14:47:31Z,COMMENTED,
+90305484,200,jeremypw,2018-01-20T14:47:40Z,DISMISSED,"Since, at the moment, `Application::new_window_with_coords ()` is only called with both the optional parameters ""false"", it would make sense for them to default to false.  There is no need to make them optional in the Window constructor since only Application should create windows and take responsibility for their parameters."
+90306530,200,jeremypw,2018-01-20T15:34:55Z,APPROVED,Thanks.
+90758190,204,jeremypw,2018-01-23T09:41:26Z,CHANGES_REQUESTED,"This fixes the issue.  You might as well fix the related issue 
+ in on_switch_page () function - again, the terminal widget should grab focus, not the tab."
+91606437,204,jeremypw,2018-01-25T17:33:42Z,APPROVED,"Looks good now, thanks!"
+55967824,136,matzipan,2017-08-13T14:49:12Z,CHANGES_REQUESTED,
+55968950,136,danirabbit,2017-08-13T15:41:55Z,COMMENTED,
+55969369,136,matzipan,2017-08-13T15:59:04Z,COMMENTED,
+55969387,136,matzipan,2017-08-13T15:59:36Z,APPROVED,Approved after Dan's response.
+65919451,146,donadigo,2017-09-28T16:29:22Z,CHANGES_REQUESTED,Look at diff comments. Please make me happy.
+299099220,404,cassidyjames,2019-10-08T23:12:29Z,CHANGES_REQUESTED,"I'm not able to get this to behave as described; when Terminal is unfocused, I can still click on a link and it immediately opens."
+299580832,404,cassidyjames,2019-10-09T17:37:41Z,APPROVED,UX-wise this seems to work for me. Would like input from @elementary/desktop-developers though.
+302251432,404,cassidyjames,2019-10-15T23:27:19Z,APPROVED,I've taken another look at the code and it seems sane to me. :+1: 
+317919287,416,alice-mkh,2019-11-15T23:20:09Z,COMMENTED,
+317923180,416,danirabbit,2019-11-15T23:35:06Z,COMMENTED,
+317923589,416,danirabbit,2019-11-15T23:36:51Z,COMMENTED,
+318033518,416,jeremypw,2019-11-17T17:41:18Z,APPROVED,No regressions found when dragging tab out of window.
+338573835,446,jeremypw,2020-01-06T10:37:58Z,CHANGES_REQUESTED,"Thanks for the contribution!
+This does the immediate job, but I have a couple of comments:
+* You should update the .desktop file ""New Window"" action command line to use the new flag
+* The `get_last_window ()` function's name no longer reflects its actual action - it does not always return the last window, even if there is one.  As it is a private function I think it would be safe enough to rename it and maybe pass the option as a parameter in case the function needs to be used to get the last window anyway. You could then create the new window in this function and return it instead of the callers having to test the result and then create a new window."
+410639876,512,tintou,2020-05-13T07:03:06Z,COMMENTED,
+410641357,512,tintou,2020-05-13T07:05:39Z,COMMENTED,
+411976968,512,jeremypw,2020-05-14T16:25:19Z,COMMENTED,
+411977191,512,jeremypw,2020-05-14T16:25:34Z,COMMENTED,
+412029417,512,tintou,2020-05-14T17:25:52Z,APPROVED,

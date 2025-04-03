@@ -14,7 +14,7 @@ build/
 
 # Data and logs
 data/binary/
-data/raw/
+# data/raw/
 data/raw_data_exploration/
 data/classified/
 data/merged_voting/

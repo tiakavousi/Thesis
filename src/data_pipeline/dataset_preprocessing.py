@@ -33,7 +33,7 @@ def clean_text(text):
     return text
 
 def main():    
-    # 1) Load the dataset from Excel
+    # 1) Load the dataset
     raw_dataset_path = CONFIG["dataset"]["raw_DeepSentimentSE_dataset"]
     print(f"Loading dataset from: {raw_dataset_path}")
     df = pd.read_csv(raw_dataset_path)

@@ -13,12 +13,15 @@ build/
 *.egg-info/
 
 # Data and logs
-data/binary_classified
-data/binary_features
-data/raw
-data/raw_data_exploration
-data/processed/**/extra/
-
+data/binary/
+data/raw/
+data/raw_data_exploration/
+data/classified/
+data/merged_voting/
+data/pr_sentiment_aggregated/
+data/processed/
+report_ganarator/
+report/
 saved_models/
 datasets/raw/
 
@@ -29,7 +32,6 @@ docs/Samples/
 docs/Shared on OneDrive/
 docs/Related Papers
 docs/report/
-
 
 
 *.log

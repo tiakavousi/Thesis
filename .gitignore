@@ -24,7 +24,7 @@ data/merged_for_voting/
 report_ganarator/
 # report/
 saved_models/
-datasets/raw/
+# datasets/raw/
 
 
 # Docs related to thesis

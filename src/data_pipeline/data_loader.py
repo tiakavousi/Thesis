@@ -2,15 +2,9 @@ import pandas as pd
 import torch
 from torch.utils.data import DataLoader, Dataset
 from sklearn.model_selection import train_test_split
-import logging
 from sklearn.utils.class_weight import compute_class_weight
 import numpy as np
-
-from src.config_three_class import CONFIG_3CLASS as CONFIG  
-
-
-
-logger = logging.getLogger(__name__)
+from src.config_three_class import CONFIG_3CLASS as CONFIG
 
 class ReviewDataset(Dataset):
     def __init__(self, texts, labels, tokenizer, max_length=128):
@@ -46,7 +40,7 @@ class ReviewDataset(Dataset):
 class DataModule:
     def __init__(self, tokenizer):
         self.tokenizer = tokenizer
-        self.config = CONFIG["training"]  # Use training config section
+        self.config = CONFIG["training"]
 
         
     def load_dataset(self):
@@ -57,20 +51,17 @@ class DataModule:
         texts = df["message"].astype(str).tolist()
         labels = [(l + 1) for l in df["sentiment"].astype(int).tolist()]  # -1 → 0, 0 → 1, 1 → 2
 
-        # ✅ Compute class weights
+        # Compute class weights
         self.class_weights = compute_class_weight(
             class_weight="balanced",
             classes=np.array([0, 1, 2]),
             y=labels
         )
-
-        logger.info(f"Dataset loaded with {len(texts)} samples.")
         return texts, labels
     
     def get_class_weights(self):
         return self.class_weights
-
-
+    
     def create_dataloaders(self, texts, labels):
         # Get split ratios
         train_ratio = CONFIG["dataset"]["train_ratio"]

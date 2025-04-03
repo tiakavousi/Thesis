@@ -1,8 +1,0 @@
-id,pr_number,user,submitted_at,state,body,deberta_sentiment_label,deberta_confidence
-375284886,424,devshgraphicsprogramming,2020-03-16T14:44:05Z,COMMENTED,why does github ask me for review comments?,0,0.9792525172233582
-377250028,424,devshgraphicsprogramming,2020-03-18T21:31:21Z,COMMENTED,github being stupid again,-1,0.9927185773849487
-344968292,410,devshgraphicsprogramming,2020-01-19T00:00:29Z,COMMENTED,github is annoying,-1,0.9949892163276672
-403952502,474,devshgraphicsprogramming,2020-04-30T23:53:08Z,COMMENTED,"wtf guthub, why?",-1,0.9952430129051208
-99158583,39,devshgraphicsprogramming,2018-02-25T22:20:11Z,COMMENTED,does the original passworded zip file irrlicht archive loader work with new aes?,0,0.9946678876876831
-351746991,416,devshgraphicsprogramming,2020-01-31T20:05:37Z,COMMENTED,"this commit is huge, i can't view all the changes easily!",-1,0.75413978099823
-221013386,250,devshgraphicsprogramming,2019-04-01T09:44:44Z,CHANGES_REQUESTED,handlesrgb should be gone and assumed always true,0,0.9931932091712952

@@ -1,6 +1,5 @@
 import os
 import pandas as pd
-import json
 from src.config import CONFIG
 
 # Paths

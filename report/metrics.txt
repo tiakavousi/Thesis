@@ -1,2 +1,0 @@
-Accuracy: 0.6709
-ROC AUC Score: 0.5686

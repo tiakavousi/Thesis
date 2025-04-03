@@ -1,3 +1,0 @@
-Hosmer-Lemeshow Statistic: 7.8961
-p-value: 0.2458
-Interpretation: GOOD fit (fail to reject H0)

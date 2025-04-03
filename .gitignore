@@ -16,7 +16,7 @@ build/
 data/binary/
 # data/raw/
 data/raw_data_exploration/
-data/classified/
+# data/classified/
 # data/merged_voting/
 # data/pr_sentiment_aggregated/
 # data/processed/

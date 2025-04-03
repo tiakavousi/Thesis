@@ -1,0 +1,206 @@
+id,pr_number,user,created_at,body,codebert_sentiment_label,codebert_confidence
+2408106090,634,awoo-civ,2024-10-11T20:51:54Z,"style: - `if(limit.gettype().equals(""altitude"")){` -> `if (limit.gettype().equals(""altitude"")) {` - `public void onenable(){` -> `public void onenable() {` - `public static buildlimitsconfig generate (` -> `public static buildlimitsconfig generate(` etc.",0,0.992591142654419
+2183350524,550,MrJeremyFisher,2024-06-21T19:41:41Z,"as a semi-related side note, i have 1.21 working [a link] and will create a pr for it once paper marks 1.21 as stable.",0,0.9787816405296326
+2183356345,550,Protonull,2024-06-21T19:45:12Z,"question, why gradle 8.5 instead of 8.8?",0,0.9897518157958984
+2183358451,550,MrJeremyFisher,2024-06-21T19:47:05Z,i think because it was complaining that 8.5 was the minimum viable version so that's what i went with.,0,0.9512871503829956
+2187634388,550,Protonull,2024-06-24T23:38:18Z,might be worth going through and undoing the formatting though as this is an extremely contentful pr and it's hard to review the pr.,0,0.8088483214378357
+2187867710,550,MrJeremyFisher,2024-06-25T03:07:24Z,"managed to get rid of a lot of it, will keep at it. intellij is remarkably frustrating to deal with regarding this, i can't seem to find a way to completely disable every autoformatter that it's using.",-1,0.9916399717330933
+2187872423,550,Protonull,2024-06-25T03:11:24Z,"hmmm, try going to `settings -> tools -> actions on save` and basically unticking everything. you don't really want these things to happen unless it's your own project anyway, or the project's style is *strictly* enforced, otherwise you'll just get diff-hell :p",-1,0.7050122022628784
+2187888488,550,MrJeremyFisher,2024-06-25T03:16:01Z,never had any of them checked. i think it's that all the plugins have different styles and intellij isn't sure what to stick to. mostly it's that they use spaces vs. tabs for indentation or have different rules about line wrapping and whatnot. even forcing it to not format .java files still has it make some changes for some reason (eg removing indents on empty lines is apparently not formatting).,0,0.7188646197319031
+2239317791,550,AngrySoundTech,2024-07-19T14:32:01Z,"worth noting that github has an ""ignore whitespace changes"" in the review menu if you're not already aware",0,0.971814751625061
+2308371052,606,kickylol,2024-08-24T12:04:04Z,"all the changes listed above seem to be working fine now, but somebody testing it themselves would be appreciated",1,0.7275083661079407
+2405288277,606,RedDevel2,2024-10-10T14:39:19Z,was this ready?,0,0.9888661503791809
+2452615472,606,okx-code,2024-11-01T21:27:51Z,closing as abandoned,0,0.9571219086647034
+2014089671,383,okx-code,2024-03-22T00:13:50Z,you can use `namedtextcolor.red` instead of an rgb colour. it can also be provided as an argument in `component.text`,0,0.9947283864021301
+2014098251,383,awoo-civ,2024-03-22T00:23:59Z,:party_popper:,0,0.9849576950073242
+2014102503,383,okx-code,2024-03-22T00:29:22Z,could you do the confirmation without an underscore?,0,0.992530882358551
+2014483518,383,drekamor,2024-03-22T07:10:23Z,sure. i just wasn't sure whether the command uses greedy string or normal string arguments. i'll look into it,0,0.9164422154426575
+2015550690,383,drekamor,2024-03-22T17:19:04Z,-code i removed underscores from the message but i'm not sure whether the command takes a normal string argument or a greedy string,0,0.9398349523544312
+2015552295,383,okx-code,2024-03-22T17:19:53Z,have you tested it?,0,0.990661084651947
+2015559610,383,drekamor,2024-03-22T17:24:16Z,"not yet, need to build the plugin",0,0.9829955697059631
+2015642371,383,drekamor,2024-03-22T18:05:37Z,"-code ![a link] tested, seems to be working",0,0.9384393692016602
+2015993446,383,awoo-civ,2024-03-22T21:57:16Z,"hmm, perhaps `/nldg confirm deletion` should be enclosed in quotes, i.e. `type '/nldg confirm deletion test' within 15 seconds.` should help disambiguate between the string that is to be typed and the rest of the sentence.",0,0.993760883808136
+2015994805,383,drekamor,2024-03-22T21:58:56Z,was thinking about that as well. i'll add them,0,0.9670007824897766
+2015996777,383,MrJeremyFisher,2024-03-22T22:01:15Z,imo the message shouldn't mention snitches and bastions as citadel doesn't need to be run with bastion and jukealert and it won't necessarily be on other servers.,0,0.9924526810646057
+2016003237,383,awoo-civ,2024-03-22T22:08:21Z,"that's up to the admins i suppose, but personally i'm vehemently against supporting anything other than the needs of civmc if it requires *any* sacrifices.",-1,0.8442794680595398
+1962212294,319,RedDevel2,2024-02-24T01:56:32Z,"on testing it now never shows banned players in /ep showall the button to switch, always says ""currently turned on"" no matter if you switch it. likewise the chat message always says ""banned pearls toggled off"" whenever you click the switch. also the /ep showall command now itself has a cooldown? i doubt that's supposed to be a thing.",0,0.9774450063705444
+1962217234,319,MrJeremyFisher,2024-02-24T02:12:41Z,i think the logic for the pearl toggle is backwards,0,0.9400115013122559
+1962270492,319,okx-code,2024-02-24T06:08:34Z,should be fixed now,0,0.980797290802002
+1962341337,319,walkersgaming,2024-02-24T12:06:56Z,"i'm not sure that should've been changed, as the variable hadn't been updated with the toggle change, hence it was inverted",0,0.5913994312286377
+2229860870,564,MrJeremyFisher,2024-07-16T02:02:28Z,addresses #372,0,0.9791238307952881
+2414694252,564,okx-code,2024-10-15T18:11:07Z,could you fix the merge conflicts here please? then we can get this merged,0,0.9871388077735901
+2546894931,564,MrJeremyFisher,2024-12-16T21:51:13Z,"resolved, i think.",0,0.9804301261901855
+2585327826,564,okx-code,2025-01-11T16:37:31Z,this only seems to work the second time i get on a horse. the first time it's still at half a heart.,-1,0.7300286889076233
+2585327984,564,okx-code,2025-01-11T16:38:01Z,you're also using this.hideitemmeta instead of this.hidehealth,0,0.9892431497573853
+2585336054,564,MrJeremyFisher,2025-01-11T16:56:50Z,are you on protocollib 5.2.0?,0,0.9942446351051331
+2585339675,564,okx-code,2025-01-11T16:57:49Z,"no, i'm on protocollib 5.3.0-snapshot-732",0,0.9839696884155273
+2586069781,564,MrJeremyFisher,2025-01-13T02:34:10Z,"ok, 5.3.0 doesn't officially support 1.21.3. not sure what live is running but it should be on 5.4.0 for this and the other parts of attrhider to work correctly. i bumped the dependency to 5.3.0 because 5.4.0 isn't yet available on [a link] but everything works fine as long as you run 5.4.0. will fix merge conflicts in a sec",0,0.9755488634109497
+2586075122,564,MrJeremyFisher,2025-01-13T02:42:23Z,"wow, oops, not sure how i did that",-1,0.9886687397956848
+2070728205,397,MrJeremyFisher,2024-04-22T19:18:48Z,this also fixes the protection not applying to things like stripping copper as that doesn't fire the `blockbreakevent`.,0,0.9882017970085144
+2452614240,397,okx-code,2024-11-01T21:26:44Z,closing as abandoned,0,0.9571219086647034
+2452617084,397,MrJeremyFisher,2024-11-01T21:29:23Z,why?,0,0.8699262738227844
+2452617936,397,okx-code,2024-11-01T21:30:12Z,you didn't respond to the review comments for two weeks,0,0.8847532868385315
+2452619894,397,MrJeremyFisher,2024-11-01T21:31:51Z,"you didn't respond to the pr for 7 months. please give me at least that long, i don't have the time for civ dev right now.",0,0.6677324175834656
+2452620756,397,okx-code,2024-11-01T21:32:41Z,feel free to open a new pr when you're ready,0,0.8977879285812378
+2452661469,397,drekamor,2024-11-01T22:15:42Z,that's just mean,0,0.9580098390579224
+2452674428,397,Protonull,2024-11-01T22:31:57Z,"yup, the expectation is always on the other. they can ghost you for 7 months, but you not pushing a requested commit within a fortnight? closed. bye. try again.",1,0.39016836881637573
+2452675679,397,okx-code,2024-11-01T22:33:39Z,"it just helps me keep the prs organised, closing the pr takes it off the list",0,0.9810855388641357
+2453009122,397,Diet-Cola,2024-11-02T14:31:50Z,doesnt only checking the item in the players hand defeat the purpose of this pr?,0,0.9753333330154419
+2453009685,397,okx-code,2024-11-02T14:33:54Z,"either way this pr still looks at the item in the player's hand to see the damage, even if that's not the item actually damaged. i think we don't need to increase the scope of tool protection to armour items anyway, since the haste effect no longer makes sense.",0,0.9590222835540771
+2425041466,631,okx-code,2024-10-20T15:20:10Z,merged,0,0.9814774394035339
+2673375113,750,okx-code,2025-02-21T04:21:40Z,this pr doesn't fix the issue.,0,0.7674893736839294
+2673438675,750,MrJeremyFisher,2025-02-21T04:50:08Z,is this because of your issue with the knockback thing or does it just not work for you? it works fine for me. a little bit jankier when it doesn't include the changes in #680 but it does correctly apply damage.,0,0.5973290205001831
+2673439931,750,okx-code,2025-02-21T04:51:03Z,"yes, the knockback needs to work as well. the issue is not fixed if another issue is introduced.",0,0.9818382263183594
+2673440807,750,MrJeremyFisher,2025-02-21T04:51:54Z,ok. i can fix that i think.,0,0.9365687966346741
+2673441930,750,okx-code,2025-02-21T04:52:46Z,"paper already fixes this in 1.21.3 anyway, i'd rather we updated to that.",0,0.9890261292457581
+2673446574,750,MrJeremyFisher,2025-02-21T04:56:40Z,are we not already on 1.21.3?,0,0.9928591251373291
+2673447306,750,okx-code,2025-02-21T04:57:19Z,"ah yeah we are, but the knockback issue remains",-1,0.6993153691291809
+2673449280,750,okx-code,2025-02-21T04:58:25Z,see [a link],0,0.9869033098220825
+2673452687,750,MrJeremyFisher,2025-02-21T05:01:10Z,hm. i kind of doubt any paper changes here would necessarily help us as we completely override the vanilla (or paper) method that handles this. i'll take a better look at it and the knockback issue when i have the time.,0,0.6502546668052673
+2617261723,746,Protonull,2025-01-28T00:33:13Z,immediate concerns here are: - are you absolutely certain there'll always be >1 array elements when split? - ~~how will this effect commands like `/nlcreategroup`? will group names be lowercased?~~,0,0.9920957684516907
+2617266418,746,MrJeremyFisher,2025-01-28T00:37:42Z,thanks. i may be stupid. commands with arguments are fine as that's the purpose of the split.,-1,0.6404706239700317
+2633271930,746,Diet-Cola,2025-02-04T09:00:22Z,only long term concern with this is how future civ servers will 100% not realise this is a thing,0,0.8272014856338501
+2634069155,746,MrJeremyFisher,2025-02-04T14:04:42Z,i think that's par for the course for much of sah,0,0.697140634059906
+2634523576,746,Protonull,2025-02-04T16:46:52Z,"honestly, i'm surprised this isn't an option somewhere in minecraft/bukkit/spigot/paper",-1,0.9750987887382507
+2673389351,746,okx-code,2025-02-21T04:32:14Z,"i don't think we should be rewriting how commands work like this. if mojang changed it, let it be",0,0.8900135159492493
+2673488149,746,MrJeremyFisher,2025-02-21T05:18:18Z,i agree but consider that it'd be nice to have and we already override a bunch of mojang changes,0,0.6360246539115906
+2190295825,552,Protonull,2024-06-26T00:37:17Z,"it's only ""not actually necessary"" because the tests that need it have been commented out. if you uncomment them, you'll see why it's necessary, but pseudoserver actually needs to be updated, which is why drafted #393.",0,0.9935123324394226
+2190297435,552,Protonull,2024-06-26T00:38:44Z,perhaps a better solution would be moving it over to the test source set. it's otherwise just taking up space in the production jar when nothing other than the [commented out] tests need it.,0,0.993594229221344
+2190299936,552,okx-code,2024-06-26T00:41:27Z,i'm not extending internal bukkit classes,0,0.790048360824585
+2190301896,552,okx-code,2024-06-26T00:44:07Z,fakeplayer from hiddenore also needs to go but it's a mess to keep it while also keeping cave ore generation a thing,-1,0.9830324649810791
+2190316288,552,Protonull,2024-06-26T00:59:23Z,"yeah, pseudoserver has the minestom approach [a link], this is *far* less of an issue.",0,0.9765933752059937
+2190321696,552,okx-code,2024-06-26T01:05:15Z,mockbukkit btw,0,0.9779290556907654
+2190323343,552,Protonull,2024-06-26T01:06:47Z,"btw, mockbukkit != craftbukkit",0,0.9885602593421936
+2251866756,552,Protonull,2024-07-26T02:53:23Z,"if you intend to go through with this, you should probably remove junit and the test source set altogether too. we simply do not have well any enough managed or organised projects for it, and the stuff we need to test for, like item matching, requires a minimum level of server bootstrapping. it would probably be better to move any test stuff to `civmodcore-test` with a custom run command that starts a short-lived server instead.",0,0.9913530945777893
+1965978787,334,Protonull,2024-02-27T07:59:42Z,"while it's not really necessary, it might be worth using [a link] instead of persistentdatatype.integer. the code will be a little longer but will be more readable and will require less storage (though is a micro-optimisation).",0,0.9913825392723083
+1966454622,334,MrJeremyFisher,2024-02-27T12:38:02Z,"ah, thanks. i was unaware that cmc had that.",1,0.7897560000419617
+1966871825,334,MrJeremyFisher,2024-02-27T15:51:59Z,"the natural spawn reason is called when the server loads an entity and when an entity is spawned, so no.",0,0.9936032891273499
+1966875220,334,okx-code,2024-02-27T15:53:22Z,"ok, what about [a link]?",0,0.9905517101287842
+1967104754,334,MrJeremyFisher,2024-02-27T16:53:35Z,"because the horse is spawned every time the riding player logs out and back in, its age at that instant is 0. at least that's what i saw when i tried that as an option",0,0.9637003540992737
+1974705577,353,Diet-Cola,2024-03-02T08:28:52Z,implements #320,0,0.9899526238441467
+1974770858,353,RedDevel2,2024-03-02T11:29:57Z,omg bless you,1,0.9575501084327698
+2130768062,398,Protonull,2024-05-25T04:57:54Z,"after the most recent commits, compacted items no longer contain the ""compacted item"" lore. that lore is instead added just prior to the item being sent over the network. this doesn't contaminate the original item, see screenshot of using `/debugging rawheld`: ![a link]",0,0.989119291305542
+2131418838,398,okx-code,2024-05-25T20:02:17Z,"i like the way you've approached this, it makes it look like compacted items should've always been done this way. i'll give it a proper review when i have the time.",1,0.5499357581138611
+2131423477,398,Protonull,2024-05-25T20:08:10Z,"thanks :) i've just noticed a few little things to clean up like [a link] and [a link], but other than that it *should* be good to go, pending some verification testing.",1,0.9943101406097412
+2133601118,398,Protonull,2024-05-27T14:29:35Z,"just tested this with factorymod. i used `/fmtest give recipe ingredients adv_xp_1` to give me all the inputs that xp 1 of the advanced cauldron and ran it, and it successfully produced 2 compacted emerald blocks. i then ran those through a decompactor and got 2 stacks of emerald blocks.",0,0.9814581274986267
+2134441766,398,Protonull,2024-05-28T06:30:31Z,just realised that this'll need to include a new itemexchange rule modifier since items wont have the lore anymore to match against.,0,0.9877915978431702
+2135259375,398,walkersgaming,2024-05-28T13:45:42Z,will this also affect wordbank recipes that use compacted items?,0,0.9938108325004578
+2135563857,398,Protonull,2024-05-28T15:39:09Z,"yeah, it probably would as it changes the hash of the item, though keep in mind that the 1.20.5 update will *probably* break most, if not all wordbank recipes, for the same reason.",0,0.9852069020271301
+2466810093,656,okx-code,2024-11-10T17:02:52Z,"does 1 health = 1 essence? if so we should show it as ""essence:"" rather than ""health:""",0,0.9930404424667358
+2466810756,656,awoo-civ,2024-11-10T17:04:59Z,"1. health and cost per day lines should be next to each other 2. show ""(days remaining: 200)"", to spare the need for the player to count 3. it seems unreasonable for the cost to be able to be 75 with the health at 336, that requires refueling every 4.5 days",0,0.9899880290031433
+2466811179,656,AngrySoundTech,2024-11-10T17:06:13Z,"not currently. right now, one essence repairs 12 health, and 24 health is consumed per day (one every hour). as the pearl ages, essence repairs less and less health during crafting. moving that part to when the fuel is consumed instead of refueled is part of my next goal of uncapping pearl health.",0,0.9815312623977661
+2466811783,656,awoo-civ,2024-11-10T17:07:44Z,oh! that is extremely confusing then. i don't see how it's possible for a player to figure out what they're supposed to do given the tooltip as-is.,-1,0.9909096360206604
+2466812485,656,AngrySoundTech,2024-11-10T17:09:57Z,"1. i agree, i'll move that in this pr. 2. days remaining is planned in a follow-up pr 3. it's strange yes, but that's math works with the cost multiplier.",0,0.9693482518196106
+2466817281,656,AngrySoundTech,2024-11-10T17:26:06Z,"health moved above cost, days left will be there too in that grouping. ![a link]",0,0.9616022109985352
+1958145359,275,RedDevel2,2024-02-21T22:27:04Z,now that i think about it. the name is probably why itemexchange didn't recognize it. :skull:,-1,0.9743360877037048
+1958146765,275,okx-code,2024-02-21T22:27:34Z,yep it broke for me as well,-1,0.9577616453170776
+1958185405,275,Protonull,2024-02-21T22:40:21Z,"that could be the cause of some unintended plugin-load ordering, but it should not cause the error. jukealert is supposed to be a soft-dependency; itemexchange is suppose to work even if jukealert isn't there. the error is also completely baffling, it's a `noclassdeffounderror`, which means a class is being used in a non-reflective manner (eg: an instance is being constructed with `new`), but the class isn't present. the missing class is `loggableaction`, right?. that by itself is bizarre because nothing in itemexchange references `loggableaction`: the class `shoppurchaseaction` extends `loggableplayeraction` and *that* implements `loggableaction`, so... why is the missing class `loggableaction` and not `loggableplayeraction`? those are both jukealert classes. also, `shoppurchaseaction` is only interacted with in two places: 1. inside a lambda that's registered as an action-factory to jukealert, something that only happens if jukealert is enabled. 2. inside an event listener that's only registered if jukealert is enabled. so how in the hell is this class being used?!",-1,0.9226582646369934
+1958263617,275,Protonull,2024-02-21T23:06:31Z,"ohhhh, okay, just figured out what's happening: the action-factory lambda gets hoisted by javac into a sibling method: ![a link] so when the class is evaluated, it finds the method and tries to evaluate its return type, loggableaction, which isn't loaded. the only fix to this is to deliberately avoid the lambda-isation and turn it into a sibling class.",0,0.7982975244522095
+2452610047,654,okx-code,2024-11-01T21:22:45Z,could we disable canstorageteleport instead?,0,0.9940641522407532
+2452660824,654,drekamor,2024-11-01T22:14:55Z,i don't know why we have it so i've made a solution that wouldn't affect it in any way :man_shrugging:,-1,0.765972375869751
+2452662308,654,okx-code,2024-11-01T22:16:37Z,it should be safe to removed based on the commit history [a link],0,0.9890545606613159
+2452676179,654,drekamor,2024-11-01T22:34:20Z,"well, then you can do that. discovering the cause of the bug was the hard part here. took 5 minutes to write that code anyway",0,0.9576135873794556
+2452676714,654,okx-code,2024-11-01T22:35:03Z,alright,0,0.9672891497612
+2452676940,654,okx-code,2024-11-01T22:35:20Z,thanks for pointing us in the right direction,0,0.5152090787887573
+1949587049,2,RedDevel2,2024-02-17T01:49:10Z,really? then why is there an interval time in the config?,0,0.97488933801651
+1949587916,2,okx-code,2024-02-17T01:51:47Z,"oh it's just the inital delay, not the interval. still weird but ok i guess",-1,0.9858210682868958
+2111337561,2,Protonull,2024-05-14T23:47:05Z,is there anything in particular preventing this from being merged since it's missed two assigned milestones?,0,0.986456036567688
+2111338584,2,okx-code,2024-05-14T23:48:22Z,the current dog facts config would need to be changed,0,0.9764875173568726
+2113734088,2,Protonull,2024-05-16T01:23:21Z,done,0,0.8974218964576721
+2111278384,538,Protonull,2024-05-14T22:51:45Z,"question, to what extent, if at all, do ancient snitch logs (logs older than 30 days) play into this?",0,0.99112468957901
+2111280804,538,okx-code,2024-05-14T22:52:49Z,"i don't think snitch log creation time would have any impact on the query planner. perhaps insertion order could, but i doubt it.",0,0.8882444500923157
+2113586957,538,AngrySoundTech,2024-05-15T22:27:23Z,"code looks good and logic is sound, moved to ready for testing although testing may be somewhat difficult.",1,0.9188963770866394
+2113588325,538,okx-code,2024-05-15T22:28:49Z,i've been able to manually test this by querying the bugged snitches directly with the old and new statements. not on the server itself but it should be good enough to deploy straight to production,0,0.9716370701789856
+2113598605,538,Protonull,2024-05-15T22:39:58Z,"the only thing, you may want to add a comment about specifically using straight_join to force a specific order of joining.",0,0.9904714822769165
+2673370400,745,okx-code,2025-02-21T04:18:16Z,safebreak is only for silk touched blocks,0,0.9822898507118225
+2673449436,745,MrJeremyFisher,2025-02-21T04:58:34Z,why?,0,0.8699262738227844
+2673451420,745,okx-code,2025-02-21T05:00:18Z,safe ore break exists so that you can be el cheapo and use a non-silk pickaxe for vein mining because factorymod requires ores. it's not there to stop you accidentally mining bookshelves or whatever,0,0.9230461120605469
+2673454329,745,MrJeremyFisher,2025-02-21T05:02:15Z,"i'd agree except bookshelves (and sea lanterns, and glowstone) are already included in the config on live.",0,0.9816135168075562
+2673455225,745,okx-code,2025-02-21T05:02:58Z,mistake imo,-1,0.7695854902267456
+2673459747,745,MrJeremyFisher,2025-02-21T05:06:11Z,then why not let people just add whatever they want? that way you don't have to think about the horrors of people adding glass or whatever,0,0.6395866870880127
+1962144843,257,okx-code,2024-02-23T23:49:19Z,what is the use case for this?,0,0.9884325861930847
+1962145719,257,Protonull,2024-02-23T23:50:56Z,being able to code in kotlin?,0,0.9925423860549927
+1962146387,257,okx-code,2024-02-23T23:52:13Z,what specifically do you want to use this for?,0,0.9780264496803284
+1962148024,257,AngrySoundTech,2024-02-23T23:55:27Z,"this should be added with something that uses it, not on it's own",0,0.9926989674568176
+1962282437,257,Protonull,2024-02-24T07:11:36Z,"1. for when kira gets added. 2. while i know there was a discussion about not mixing java and kotlin within the same plugin, i nonetheless think converting the `nbttagcompoundextensions` class (and its ilk) over to kotlin's extension methods is the only sensible option. very little will change from java's perspective, but it'll be all the better for any plugin that has kotlin code and needs to use those utilities. 3. i wanna refactor itemexchange into kotlin :) i know this is kind of a meme, but if we can't mix java and kotlin within the same plugin, and refactoring a plugin into kotlin is a meme, then is kotlin support only being added for kira and that's it?",1,0.9922915101051331
+1974189037,351,MrJeremyFisher,2024-03-02T01:53:29Z,"yeah, i tried some testing on a large area of grass & dirt and didn't see too much performance impact. unsure how it would perform on live though obviously",-1,0.7915326952934265
+2593962059,729,RedDevel2,2025-01-15T21:21:44Z,"should simulation distance be bumped to 4 then? because despawn ranges don't work in the case of mob groups spawning on the edge of the chunk, causing some being beyond the chunk-border and getting stuck in limbo.",0,0.9820811152458191
+2593963692,729,okx-code,2025-01-15T21:22:44Z,"no, we can make simulation distance of 3 work. changing it to 4 would also increase the number of loaded chunks a lot and therefore lag.",0,0.9901700615882874
+2593965506,729,RedDevel2,2025-01-15T21:23:49Z,3 it is then.,0,0.990282416343689
+2585311437,713,okx-code,2025-01-11T15:58:44Z,can we simplify the copper workshop creation recipe in the same way? requiring people to manually oxidise copper doesn't quite work the same now that it can be done with rails,0,0.9904995560646057
+2585313909,713,okx-code,2025-01-11T16:03:56Z,"you might also want to reformat the yaml, there's a lot of lines where there is. trailing whitespice. also, you use ""a"" in a few places instead of ""an""",0,0.9856976270675659
+2571348486,676,AngrySoundTech,2025-01-04T16:28:12Z,"build failure is not your fault probably, working on a fix on our end",0,0.8730245232582092
+2571498725,676,okx-code,2025-01-05T04:38:38Z,can you make this pr against the oldfinale branch?,0,0.9943867921829224
+2571705519,676,MrJeremyFisher,2025-01-05T18:02:07Z,oldfinale doesn't compile as is. should i fix that as well?,0,0.9447903037071228
+2571706037,676,okx-code,2025-01-05T18:03:55Z,yes if you'd like,0,0.9694405794143677
+2571710170,676,MrJeremyFisher,2025-01-05T18:19:34Z,moved to #680,0,0.9917962551116943
+2189591073,547,MrJeremyFisher,2024-06-25T17:40:58Z,the underlying issue here is resolved by 1.20.6 as far as i can tell so this shouldn't be necessary anymore.,0,0.9908400177955627
+2212526707,547,ZeroQLi,2024-07-07T18:08:24Z,so the plan to fix this is now to update to 1.20.6?,0,0.9928960204124451
+2212528297,547,MrJeremyFisher,2024-07-07T18:14:01Z,"yeah, though i'm not sure how 1.20.6 will handle items that were created before the update. hoping any issues regarding that will crop up in testing so i can fix them before they happen on live.",-1,0.6452165842056274
+2415102816,570,okx-code,2024-10-15T20:53:46Z,seems like this change is broken so i reverted [a link] this issue looks related and might help to fix [a link],0,0.9501758813858032
+2415483567,570,Huskydog9988,2024-10-16T01:11:34Z,"the issue is related to how the workflow gets the pr number from github actions. you can see the failure in the step before. [code block] i might be able to figure out a fix for this, but github actions is like black magic to me, so we'll see.",-1,0.553713321685791
+2251185695,568,AngrySoundTech,2024-07-25T18:49:53Z,"`.\gradlew :ansible:build` doesn't always work on windows, only in powershell which is isn't fully posix compliant. should use `gradlew.bat`",0,0.9819075465202332
+2251231837,568,MrJeremyFisher,2024-07-25T19:16:03Z,does it not work for you in cmd? ![a link],0,0.9770859479904175
+2414726535,568,okx-code,2024-10-15T18:28:04Z,gradlew.bat would be preferable here since it's what gradle recommends [a link],0,0.9807295203208923
+1955996656,262,Diet-Cola,2024-02-21T06:46:26Z,fixes #253,0,0.9810661673545837
+2241900376,574,COSMOJYNX,2024-07-22T01:55:21Z,yoahtl mentioned?,0,0.9868687987327576
+2241912036,574,VilyanZ,2024-07-22T02:10:02Z,lmao? yoahtl based enough to be mentioned in the civ github,0,0.8899100422859192
+2242749429,574,ZeroQLi,2024-07-22T11:40:14Z,"first official admin crime of civmc incoming?, is this the end of yoahtl",-1,0.8141669034957886
+2614120608,740,RedDevel2,2025-01-25T22:32:49Z,[a link] need to fix this though,0,0.9819307923316956
+1958169009,276,okx-code,2024-02-21T22:34:57Z,"i'm not really reviewing the 1.20 prs right now, we will test them all together later anyway, i just want to get them in one place. would you be able to resolve the merge conflicts?",0,0.9758294820785522
+1958198227,276,MrJeremyFisher,2024-02-21T22:44:06Z,"i figured, was just commenting on it. resolved.",0,0.9557161331176758
+1958231629,276,okx-code,2024-02-21T22:55:36Z,thanks,0,0.5400217771530151
+2297907432,602,Protonull,2024-08-20T03:47:14Z,"it may be worth just updating the slot class to hold a uuid instead of the most and least, then accessing that uuid when needed.",0,0.9887551069259644
+2297931533,602,MrJeremyFisher,2024-08-20T04:16:09Z,yeah. i can do that when i get a chance,0,0.9502121806144714
+2299899973,602,okx-code,2024-08-20T22:59:38Z,"using uuids in attributemodifiers is a deprecated api, i'm going to update it to use namespacedkeys instead.",0,0.9771102666854858
+2564092111,675,Protonull,2024-12-27T23:32:42Z,"this should be configurable rather than hard coded, so that it can be changed similarly to randomspawn cities",0,0.9935494065284729
+2564117491,675,Zalvvv,2024-12-28T00:33:21Z,"i totally, agree but i don't know how to do it :c",-1,0.6774505376815796
+2564772566,675,AngrySoundTech,2024-12-29T16:21:05Z,"rejecting this. admins will not enforce or endorse any one routing system over the other, as they are player made constructs/concepts within the game",0,0.941152811050415
+2305267643,585,Huskydog9988,2024-08-22T17:19:14Z,via /config?,0,0.9914101958274841
+2305268889,585,okx-code,2024-08-22T17:19:54Z,yes,0,0.9659429788589478
+2403355039,630,Tuomasz,2024-10-09T20:18:41Z,you may want to fix the spelling,0,0.9791143536567688
+1958536192,240,MrJeremyFisher,2024-02-22T02:15:07Z,"whoops, deleted the branch",-1,0.8201002478599548
+2614002564,240,RedDevel2,2025-01-25T15:28:41Z,i think this can be closed as this feature is now possible via the finale reinforcement cooldown feature.,0,0.9678223729133606
+1959375642,242,RedDevel2,2024-02-22T12:39:34Z,throws an error when trying to open /ja gui snitch logs. :crying_face:,0,0.7338206171989441
+1960422311,242,RedDevel2,2024-02-22T22:21:41Z,works now :thumbs_up:,0,0.6896066665649414
+1962423985,329,okx-code,2024-02-24T17:04:32Z,can you explain what this does,0,0.9630710482597351
+1962425218,329,AngrySoundTech,2024-02-24T17:09:44Z,"this pr enables checks automatically to run on all prs, which will run `gradle check`, and `yamllint` (errors currently ignored until we fix them all). you can see the checks ran on this pr as a requirement before merging, taking 1 minute to ensure that the project builds, tests pass, and yaml files are formatted correctly (which will be more important especially when plugin config gets moved here). if we add code style checks and such to gradle, that will also be part of the check task it also adds a workflow that comments with an easy link to the built artifact on the pr for testing, the output of which can be seen here: [a link] once this is merged that will start working, since the workflow needs to be on `main`",0,0.9872978925704956
+1974157824,345,okx-code,2024-03-02T01:16:25Z,yep you're right,0,0.7843468189239502
+2001785875,375,Protonull,2024-03-16T05:54:39Z,semi-duplicate of #339,0,0.9908720850944519
+2001798964,375,okx-code,2024-03-16T06:02:19Z,i missed that one,0,0.8386161923408508
+2008021978,374,okx-code,2024-03-19T20:03:47Z,"you're right, exploding anchors needs to be disabled, but it doesn't defeat the point of the hack as it would still work in the nether.",0,0.9504130482673645
+2415063940,580,okx-code,2024-10-15T20:47:17Z,what is this for?,0,0.9780064821243286
+2433051998,580,MrJeremyFisher,2024-10-23T18:13:39Z,the pearl error soundtech posted in dev-nook a while ago. [a link] was hoping to catch whatever pearl is causing the issue.,-1,0.6170076727867126
+1975001634,354,MrJeremyFisher,2024-03-03T02:55:19Z,"guess so, not sure what happened. thanks.",1,0.873623788356781
+2176901832,393,Protonull,2024-06-18T20:21:18Z,"this does make junit testing more [a link], but the item tests fail due to changes to all the server internals. will convert this to a draft until something better comes along.",0,0.9609087109565735
+2285382281,393,Protonull,2024-08-13T05:44:13Z,closing this in favour of this: [a link],0,0.9834370613098145
+2305219708,604,okx-code,2024-08-22T16:53:05Z,what is the use case for adding copper,0,0.9830797910690308
+2305228686,604,kickylol,2024-08-22T16:57:58Z,personally i use copper ore as a compact way to store it since using fortune on it can give you up to 20 raw copper at a time.,0,0.9662061929702759
+2305222020,577,okx-code,2024-08-22T16:54:27Z,could you resolve the merge conflicts and i will merge,0,0.9869133830070496
+2306062611,577,Protonull,2024-08-23T02:20:40Z,done,0,0.8974218964576721
+2321320896,615,okx-code,2024-08-30T13:48:23Z,why do we have so many random utility classes wtf,-1,0.95682293176651
+2321361790,615,Protonull,2024-08-30T14:02:05Z,"these `more*` classes are entirely my fault :p it's a mixture of me being younger and dumber, minecraft/paper having fewer useful shaded dependencies, and java having fewer static utilities. for example, [a link] was only added in java 21. [a link] was added in java 9, but we only stopped compiling against java 8 in [a link].",-1,0.9825134873390198
+2532750867,671,okx-code,2024-12-10T20:03:18Z,"this would be much better served as a luckperms context, not a permission imo",0,0.9843235611915588
+2564771465,671,AngrySoundTech,2024-12-29T16:16:21Z,"rejecting this. we review and accept changes from humans who have put in the effort, not ethically dubious untested and unreviewed changes generated with ai.",-1,0.77735835313797
+2195998757,392,Protonull,2024-06-28T02:35:02Z,"hmmm, starting to wonder whether this refactor is moot: the server is just the compiled output of this monorepo; there'll *never* be a question over whether namelayer, or citadel, or jukealert, is missing, unless we delete those plugins from the monorepo... which is unlikely. in addition, okx has said that we should stop pretending that we aren't the only ones who consume our apis ([a link], and soundtech has said that all changes must be tested with a local docker instance ([a link] because it replicates the server as closely as possible. with these things in mind, i'm wondering whether it'd be better to yeet this boilerplate altogether and convert all our soft-dependencies into hard-dependencies.",0,0.793973982334137
+2331545819,392,Protonull,2024-09-05T12:46:26Z,closing due to a [a link] of [a link].,0,0.9890639185905457
+2103534933,497,AngrySoundTech,2024-05-09T22:26:19Z,"this should be good, but i didn't want to hijack the test server from 1.20 to test it too hard. we can merge it, merge it up to 1.20, and then test it and make any fixes as needed.",0,0.8570647835731506
+2109108206,535,Protonull,2024-05-14T01:32:06Z,"given how fraught with bugs combat loggers have been, it might be worth looking into custom paper patches. these issues all stem from combattagplus being a plugin, and so its approach can only be to duplicate the player entity upon logout. but this has led to many, *many* bugs, including dupes, because combat-loggers are consequential: they're meant to *be* the player. whereas, if combat loggers were implemented through patches (or mixins), you wouldn't need to create a duplicate entity. you could just prevent the server from deleting the player-entity when they logout. there'd likely still be issues to iron out, but having the same entity to work with would be a lot easier than playing whack-a-mole with these combat-logger bugs.",0,0.9706470966339111
+2425171355,645,RedDevel2,2024-10-20T18:33:43Z,this just updates the /chunklimits list. you'll have to change it in the insights config too.,0,0.9930290579795837
+2429403467,649,RedDevel2,2024-10-22T14:11:38Z,also change /g ! dogfact to more understandable /global command,0,0.922758162021637
+2408029049,635,Protonull,2024-10-11T19:45:40Z,"this would force `gradlew.bat` to use lf endings, making it unusable on windows.",0,0.9817952513694763
+2408034488,635,Huskydog9988,2024-10-11T19:50:05Z,"forgot about that, will add an exemption",0,0.7975690364837646
+2114321810,396,Protonull,2024-05-16T07:54:02Z,"this'll be resolved with 1.20.5 with the help of item components. it only currently means displaying an durability bar on the item stack, but hopefully mojang will expand support so that combat damages any item with a damageable component, rather than just predefined items. ![a link] ![a link]",0,0.9869857430458069
+2306103036,396,Protonull,2024-08-23T03:15:01Z,"now that civmc is on >=1.21, i've switched this from using pdcs to using `damageable`, though this should be switched out for [a link] at the earliest opportunity.",0,0.9921884536743164
+2585389792,719,AngrySoundTech,2025-01-11T19:52:29Z,"outline of development process, need feedback before tidying the writing.",0,0.9756982922554016
+2632391657,752,okx-code,2025-02-03T23:15:34Z,"actually it should be more like 16 -> 20, this is still net negative with the charcoal cost",0,0.9127626419067383
+2405279274,611,RedDevel2,2024-10-10T14:37:16Z,already done,0,0.9538565278053284
+2644129671,735,okx-code,2025-02-07T21:07:14Z,"i don't think this is the right direction to go for working around rules limitations, it's better to change the rules.",0,0.817996084690094
+2644134081,735,Protonull,2025-02-07T21:10:09Z,"the problem is that, in my opinion, it's very difficult if not impossible to reword the rules to include these things but also don't accidentally include baritone.",-1,0.5596858859062195
+2644126936,670,okx-code,2025-02-07T21:05:24Z,make this disabled by default and i'll merge it,0,0.989453911781311
+2644304434,670,Protonull,2025-02-07T23:17:26Z,done,0,0.8974218964576721
+1957889522,272,okx-code,2024-02-21T20:51:46Z,good enough,1,0.8245988488197327
+1958451280,279,okx-code,2024-02-22T00:34:34Z,thanks!,1,0.9051083922386169
+1952545406,235,RedDevel2,2024-02-19T14:17:51Z,very nice :thumbs_up:,1,0.9957548379898071
+2016604915,388,okx-code,2024-03-23T21:15:48Z,i don't think either of your race conditions will happen because `getchunkcoord`also has a `synchronised (metas)` before interacting with the `metas` map.,0,0.9895575642585754
+2021216587,362,Huskydog9988,2024-03-26T18:44:35Z,superseded by #387,0,0.9890366196632385

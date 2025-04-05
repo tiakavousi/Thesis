@@ -36,36 +36,3 @@ odds_df.to_csv(os.path.join(
     REPORT_DIR, 
     "odds_ratios_and_confidence_intervals.csv"
     ))
-
-# Predict probabilities for Hosmer-Lemeshow test
-y_pred_proba = result.predict(X)
-# Hosmer-Lemeshow Test 
-def hosmer_lemeshow_test(y_true, y_prob, g=10):
-    df_hl = pd.DataFrame({"y_true": y_true, "y_prob": y_prob})
-    df_hl["decile"] = pd.qcut(df_hl["y_prob"], q=g, duplicates="drop")
-    grouped = df_hl.groupby("decile")
-
-    obs = grouped["y_true"].agg(["sum", "count"])
-    obs.columns = ["observed_events", "total"]
-    obs["observed_nonevents"] = obs["total"] - obs["observed_events"]
-    obs["expected_events"] = grouped["y_prob"].sum()
-    obs["expected_nonevents"] = obs["total"] - obs["expected_events"]
-
-    chisq = (
-        ((obs["observed_events"] - obs["expected_events"]) ** 2 / obs["expected_events"]) +
-        ((obs["observed_nonevents"] - obs["expected_nonevents"]) ** 2 / obs["expected_nonevents"])
-    ).sum()
-
-    df_ = len(obs) - 2
-    p_value = 1 - chi2.cdf(chisq, df_)
-
-    return chisq, p_value
-
-hl_stat, hl_pval = hosmer_lemeshow_test(y, y_pred_proba)
-
-with open(os.path.join(REPORT_DIR, "hosmer_lemeshow_test.txt"), "w") as f:
-    f.write(f"Hosmer-Lemeshow Statistic: {hl_stat:.4f}\n")
-    f.write(f"p-value: {hl_pval:.4f}\n")
-    f.write("Interpretation: " + (
-        "GOOD fit (fail to reject H0)\n" if hl_pval > 0.05 else "POOR fit (reject H0)\n"
-    ))
